@@ -36,3 +36,12 @@ Vytvořte týmy po dvou lidech, po jednom z každé skupiny. Tým pro GitHub naz
 - [ ] Návrh mechanik a herních systémů
 - [ ] Vytvoření příběhu
 - [ ] Vytvoření a příprava grafiky
+
+**Náměty na další mechaniky**
+- pasti
+- nepřátelé
+- logické hádanky a rébusy
+- sbírání předmětů
+- zámky a klíče
+- náhodné předměty
+- vylepšování postavy
