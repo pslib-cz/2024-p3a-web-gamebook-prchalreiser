@@ -15,3 +15,24 @@ Vytvořte týmy po dvou lidech, po jednom z každé skupiny. Tým pro GitHub naz
 - [ ] Vlastní příběh hry
 - [ ] Herní logiku a herní mechaniky
 - [ ] Vlastní grafiku - můžete použít DALL-E, StableDiffusion, MidJourney nebo jiný generátor 
+
+### Backend - ASP.NET API
+- [ ] Návrh databáze
+- [ ] Připojení databáze do aplikace ASP.NET
+- [ ] Návrh struktury API - tedy controllery a REST endpointy
+- [ ] Přihlašování uživatelů do aplikace
+- [ ] Nahrávání, zpracování a získávání souborů (= obrázků)
+
+### Frontend - React
+- [ ] Založení aplikace
+- [ ] Architektura aplikace
+- [ ] Zpracování dat z formuláře
+- [ ] Ukládání dat do storage
+- [ ] Získávání dat z REST API
+- [ ] Manipulace s URL pomocí routeru
+- [ ] Centralizace akcí a dat pomocí Contextu a Reduceru
+
+### Herní obsah 
+- [ ] Návrh mechanik a herních systémů
+- [ ] Vytvoření příběhu
+- [ ] Vytvoření a příprava grafiky
