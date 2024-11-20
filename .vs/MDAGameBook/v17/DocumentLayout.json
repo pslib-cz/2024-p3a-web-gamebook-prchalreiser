@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\steveruu\\source\\repos\\MDAGameBook\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{378E0EE7-8EC0-484B-836B-09072C3D6955}|mdagamebook.client\\mdagamebook.client.esproj|c:\\users\\steveruu\\source\\repos\\mdagamebook\\mdagamebook.client\\.vscode\\launch.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{378E0EE7-8EC0-484B-836B-09072C3D6955}|mdagamebook.client\\mdagamebook.client.esproj|solutionrelative:mdagamebook.client\\.vscode\\launch.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{378E0EE7-8EC0-484B-836B-09072C3D6955}|mdagamebook.client\\mdagamebook.client.esproj|c:\\users\\steveruu\\source\\repos\\mdagamebook\\mdagamebook.client\\package.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{378E0EE7-8EC0-484B-836B-09072C3D6955}|mdagamebook.client\\mdagamebook.client.esproj|solutionrelative:mdagamebook.client\\package.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "launch.json",
+              "DocumentMoniker": "C:\\Users\\steveruu\\source\\repos\\MDAGameBook\\mdagamebook.client\\.vscode\\launch.json",
+              "RelativeDocumentMoniker": "mdagamebook.client\\.vscode\\launch.json",
+              "ToolTip": "C:\\Users\\steveruu\\source\\repos\\MDAGameBook\\mdagamebook.client\\.vscode\\launch.json",
+              "RelativeToolTip": "mdagamebook.client\\.vscode\\launch.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-11-20T10:58:01.242Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "package.json",
+              "DocumentMoniker": "C:\\Users\\steveruu\\source\\repos\\MDAGameBook\\mdagamebook.client\\package.json",
+              "RelativeDocumentMoniker": "mdagamebook.client\\package.json",
+              "ToolTip": "C:\\Users\\steveruu\\source\\repos\\MDAGameBook\\mdagamebook.client\\package.json",
+              "RelativeToolTip": "mdagamebook.client\\package.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-11-20T10:51:22.777Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

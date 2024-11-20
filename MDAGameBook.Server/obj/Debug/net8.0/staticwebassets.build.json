@@ -1,0 +1,24 @@
+{
+  "Version": 1,
+  "Hash": "DlKzGtTyoq0yXgBVDwAOo8gn+4YRea9XWZ2G152gCHs=",
+  "Source": "MDAGameBook.Server",
+  "BasePath": "_content/MDAGameBook.Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\Users\\steveruu\\source\\repos\\MDAGameBook\\mdagamebook.client\\mdagamebook.client.esproj",
+      "Version": 2,
+      "Source": "mdagamebook.client",
+      "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
