@@ -3,7 +3,6 @@
 
 ### Zadání
 Vytvořte vlastní implementaci aplikace realizující Gamebook tak, aby celá hra šla hrát, aby vypadala jako gamebook stylu odpovídají tématu gamebooku a aby byla RPG - tedy, aby v ní hráč měl možnost volby, vývoj postavy, změnu stavu herního světa.
-Vytvořte týmy po dvou lidech, po jednom z každé skupiny. Tým pro GitHub nazvěte pro přehlednost svými příjmeními - Vomáčka+Novák.
 
 ### Vytvořte minimálně:
 - [ ] Backend API pro ukládání informací o hře
