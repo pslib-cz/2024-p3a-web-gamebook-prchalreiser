@@ -7,7 +7,7 @@
 
 </div>
 
-## Krátké shnrutí příběhu
+## 📜 Krátké shnrutí příběhu 
 Kdysi dávno ti tvůj starý kamarád přivezl záhadnou láhev od neznámého obchodníka. Šlo o tajemný nápoj, který vypadal jako směs čehosi fialového a duhového hvězdného prachu. Už první doušek tě katapultoval do neznámých dimenzí. Euforie, kterou vyvolával, byla nepopsatelná: cítil ses, jako bys mohl létat mezi hvězdami, procházet zdmi a rozmlouvat s dávno zapomenutými bohy. Tvůj život se najednou zdál být plný barev, melodií a nekonečných možností.
 
 Jenže pak… nápoj došel.
