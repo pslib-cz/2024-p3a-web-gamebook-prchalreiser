@@ -1,45 +1,39 @@
 # Multidimenzionální absťák
 ### a gamebook by @toncekr & @steveruu
 
-**[figma](https://www.figma.com/design/c06SWKpvasclNtKCNU2pQE/MDAGamebook?node-id=0-1&t=JM0Hsiub1j8QwFeF-1)**  
-[experiments repo](https://github.com/minjiyalabs/mda)
+**[Figma](https://www.figma.com/design/c06SWKpvasclNtKCNU2pQE/MDAGamebook?node-id=0-1&t=JM0Hsiub1j8QwFeF-1)** | [Notion]() | [Experimental branch](https://github.com/minjiyalabs/mda)
 
-### Zadání
-Vytvořte vlastní implementaci aplikace realizující Gamebook tak, aby celá hra šla hrát, aby vypadala jako gamebook stylu odpovídají tématu gamebooku a aby byla RPG - tedy, aby v ní hráč měl možnost volby, vývoj postavy, změnu stavu herního světa.
+## Krátké shnrutí příběhu
+... lorem, ipsum... dolor sit amet!! Consectetur adipiscing elit
 
-### Vytvořte minimálně:
-- [ ] Backend API pro ukládání informací o hře
-- [ ] Frontend client pro normální hraní hry ze strany hráče
-- [ ] Patrně budete potřebovat i klienta pro krmení API daty
-- [ ] Kompletně vlastní grafiku a styl nezaloženou na žádném frameworku funkční (primárně) na mobilním telefonu a (pro vášnivé hráče) i desktopu
+## Vytvořte:
+vlastní implementaci aplikace realizující Gamebook tak, aby celá hra šla hrát, aby vypadala jako gamebook stylu odpovídají tématu gamebooku a aby byla RPG - tedy, aby v ní hráč měl možnost volby, vývoj postavy, změnu stavu herního světa.
 
-### Vymyslete:
-- [ ] Vlastní příběh hry
-- [ ] Herní logiku a herní mechaniky
-- [ ] Vlastní grafiku - můžete použít DALL-E, StableDiffusion, MidJourney nebo jiný generátor 
+### Herní obsah 
+- [ ] Vytvoření vlastního příběhu
+- [ ] Návrh mechanik, herní logiky a herních systémů
+- [ ] Vytvoření a příprava grafiky (DALL-E, Flux, SD)
 
-### Backend - ASP.NET API
+### Backend API pro ukládání info o hře - ASP.NET API
 - [ ] Návrh databáze
 - [ ] Připojení databáze do aplikace ASP.NET
 - [ ] Návrh struktury API - tedy controllery a REST endpointy
 - [ ] Přihlašování uživatelů do aplikace
 - [ ] Nahrávání, zpracování a získávání souborů (= obrázků)
 
-### Frontend - React
+### Frontend (hráč) - React
 - [ ] Založení aplikace
 - [ ] Architektura aplikace
 - [ ] Zpracování dat z formuláře
-- [ ] Ukládání dat do storage
+- [ ] Ukládání dat do localStorage
 - [ ] Získávání dat z REST API
 - [ ] Manipulace s URL pomocí routeru
 - [ ] Centralizace akcí a dat pomocí Contextu a Reduceru
 
-### Herní obsah 
-- [ ] Návrh mechanik a herních systémů
-- [ ] Vytvoření příběhu
-- [ ] Vytvoření a příprava grafiky
+### Frontend (krmení API daty) - React?
+todo
 
-**Náměty na další mechaniky**
+**Náměty**
 - pasti
 - nepřátelé
 - logické hádanky a rébusy
