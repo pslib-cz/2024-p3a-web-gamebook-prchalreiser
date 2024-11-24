@@ -1,6 +1,6 @@
 # 2024-p3a-web-gamebook-prchalreiser
 ### [figma](https://www.figma.com/design/c06SWKpvasclNtKCNU2pQE/MDAGamebook?node-id=0-1&t=JM0Hsiub1j8QwFeF-1)
-[experiments repo](https://github.com/minjiyalabs/mdaexperiments)
+[experiments repo](https://github.com/minjiyalabs/mda)
 
 ### Zadání
 Vytvořte vlastní implementaci aplikace realizující Gamebook tak, aby celá hra šla hrát, aby vypadala jako gamebook stylu odpovídají tématu gamebooku a aby byla RPG - tedy, aby v ní hráč měl možnost volby, vývoj postavy, změnu stavu herního světa.
