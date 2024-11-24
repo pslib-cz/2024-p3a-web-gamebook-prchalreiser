@@ -13,10 +13,11 @@
 ## Vytvořte:
 vlastní implementaci aplikace realizující Gamebook tak, aby celá hra šla hrát, aby vypadala jako gamebook stylu odpovídají tématu gamebooku a aby byla RPG - tedy, aby v ní hráč měl možnost volby, vývoj postavy, změnu stavu herního světa.
 
-### Herní obsah 
+### Návrh hry 
 - [ ] Vytvoření vlastního příběhu
 - [ ] Návrh mechanik, herní logiky a herních systémů
 - [ ] Vytvoření a příprava grafiky (DALL-E, Flux, SD)
+- [ ] Návrh UI (ReadingUI, DecidingUI)
 
 ### Backend API pro ukládání info o hře - ASP.NET API
 - [ ] Návrh databáze 
