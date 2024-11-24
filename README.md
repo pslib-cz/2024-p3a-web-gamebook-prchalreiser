@@ -8,8 +8,13 @@
 </div>
 
 ## Krátké shnrutí příběhu
-... lorem, ipsum... dolor sit amet!! Consectetur adipiscing elit
+Kdysi dávno ti tvůj starý kamarád přivezl záhadnou láhev od neznámého obchodníka. Šlo o tajemný nápoj, který vypadal jako směs čehosi fialového a duhového hvězdného prachu. Už první doušek tě katapultoval do neznámých dimenzí. Euforie, kterou vyvolával, byla nepopsatelná: cítil ses, jako bys mohl létat mezi hvězdami, procházet zdmi a rozmlouvat s dávno zapomenutými bohy. Tvůj život se najednou zdál být plný barev, melodií a nekonečných možností.
 
+Jenže pak… nápoj došel.
+
+S každým dnem bez něj ses cítil prázdnější. A co hůř, tvůj kamarád, který ti onu kouzelnou láhev přivezl, zmizel jako pára nad hrncem. Nezanechal žádné stopy, žádné vysvětlení. Jediné, co jsi věděl, bylo, že ten nápoj nemohl pocházet z této planety. Byl to dar z hvězd.
+
+Rozhodl ses: najdeš ten nápoj, i kdybys měl procestovat celý vesmír.
 ## Vytvořte:
 vlastní implementaci aplikace realizující Gamebook tak, aby celá hra šla hrát, aby vypadala jako gamebook stylu odpovídají tématu gamebooku a aby byla RPG - tedy, aby v ní hráč měl možnost volby, vývoj postavy, změnu stavu herního světa.
 
