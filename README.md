@@ -1,7 +1,11 @@
+<div align="center">
+
 # Multidimenzionální absťák
-### a gamebook by @toncekr & @steveruu
+> a gamebook by @toncekr & @steveruu  
 
 **[Figma](https://www.figma.com/design/c06SWKpvasclNtKCNU2pQE/MDAGamebook?node-id=0-1&t=JM0Hsiub1j8QwFeF-1)** | [Notion]() | [Experimental branch](https://github.com/minjiyalabs/mda)
+
+</div>
 
 ## Krátké shnrutí příběhu
 ... lorem, ipsum... dolor sit amet!! Consectetur adipiscing elit
