@@ -1,5 +1,7 @@
-# 2024-p3a-web-gamebook-prchalreiser
-### [figma](https://www.figma.com/design/c06SWKpvasclNtKCNU2pQE/MDAGamebook?node-id=0-1&t=JM0Hsiub1j8QwFeF-1)
+# Multidimenzionální absťák
+### a gamebook by @toncekr & @steveruu
+
+**[figma](https://www.figma.com/design/c06SWKpvasclNtKCNU2pQE/MDAGamebook?node-id=0-1&t=JM0Hsiub1j8QwFeF-1)**  
 [experiments repo](https://github.com/minjiyalabs/mda)
 
 ### Zadání
