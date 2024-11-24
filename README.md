@@ -19,23 +19,36 @@ vlastní implementaci aplikace realizující Gamebook tak, aby celá hra šla hr
 - [ ] Vytvoření a příprava grafiky (DALL-E, Flux, SD)
 
 ### Backend API pro ukládání info o hře - ASP.NET API
-- [ ] Návrh databáze
-- [ ] Připojení databáze do aplikace ASP.NET
-- [ ] Návrh struktury API - tedy controllery a REST endpointy
-- [ ] Přihlašování uživatelů do aplikace
+- [ ] Návrh databáze 
+- [ ] Připojení databáze do aplikace ASP.NET 
+- [ ] Návrh struktury API - tedy controllery a REST endpointy 
+- [ ] Přihlašování uživatelů do aplikace 
 - [ ] Nahrávání, zpracování a získávání souborů (= obrázků)
 
 ### Frontend (hráč) - React
-- [ ] Založení aplikace
-- [ ] Architektura aplikace
-- [ ] Zpracování dat z formuláře
-- [ ] Ukládání dat do localStorage
-- [ ] Získávání dat z REST API
-- [ ] Manipulace s URL pomocí routeru
-- [ ] Centralizace akcí a dat pomocí Contextu a Reduceru
+- [ ] Založení aplikace 
+- [ ] Architektura aplikace 
+- [ ] Zpracování dat z formuláře 
+- [ ] Ukládání dat do localStorage 
+- [ ] Získávání dat z REST API 
+- [ ] Manipulace s URL pomocí routeru 
+- [ ] Centralizace akcí a dat pomocí Contextu a Reduceru 
 
 ### Frontend (krmení API daty) - React?
-todo
+- [ ] Založení aplikace
+- [ ] Přihlašovací formulář pro správce - login / identity
+- [ ] Správa databáze (CRUD)
+  - [ ] Vytváření nových lokací 
+  - [ ] Editace existujících lokací
+  - [ ] Mazání lokací
+- [ ] Správa obrázků 
+  - [ ] Nahrávání obrázků na server (upload)
+  - [ ] Mazání obrázků 
+  - [ ] Přiřazování obrázků k lokacím
+- [ ] Správa herních mechanik (?????)
+  - [ ] Vytváření předmětů
+  - [ ] Vytváření nepřátel
+  - [ ] Nastavení obtížnosti 
 
 **Náměty**
 - pasti
