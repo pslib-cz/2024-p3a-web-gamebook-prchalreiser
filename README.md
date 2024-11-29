@@ -22,7 +22,7 @@ vlastní implementaci aplikace realizující Gamebook tak, aby celá hra šla hr
 - [ ] Vytvoření vlastního příběhu
 - [ ] Návrh mechanik, herní logiky a herních systémů
 - [ ] Vytvoření a příprava grafiky (DALL-E, Flux, SD)
-- [ ] Návrh UI (ReadingUI, DecidingUI)
+- [x] Návrh UI (ReadingUI, DecidingUI)
 
 ### Backend API pro ukládání info o hře - ASP.NET API
 - [ ] Návrh databáze 
@@ -40,27 +40,17 @@ vlastní implementaci aplikace realizující Gamebook tak, aby celá hra šla hr
 - [ ] Manipulace s URL pomocí routeru 
 - [ ] Centralizace akcí a dat pomocí Contextu a Reduceru 
 
-### Frontend (krmení API daty) - React?
-- [ ] Založení aplikace
-- [ ] Přihlašovací formulář pro správce - login / identity
+### krmení API daty - součástí herního klienta
+- [x] Přihlašovací formulář pro správce - login / identity
 - [ ] Správa databáze (CRUD)
   - [ ] Vytváření nových lokací 
   - [ ] Editace existujících lokací
   - [ ] Mazání lokací
 - [ ] Správa obrázků 
-  - [ ] Nahrávání obrázků na server (upload)
+  - [x] Nahrávání obrázků na server (upload)
   - [ ] Mazání obrázků 
   - [ ] Přiřazování obrázků k lokacím
 - [ ] Správa herních mechanik (?????)
   - [ ] Vytváření předmětů
   - [ ] Vytváření nepřátel
   - [ ] Nastavení obtížnosti 
-
-**Náměty**
-- pasti
-- nepřátelé
-- logické hádanky a rébusy
-- sbírání předmětů
-- zámky a klíče
-- náhodné předměty
-- vylepšování postavy
