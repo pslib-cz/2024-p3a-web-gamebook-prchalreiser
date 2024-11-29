@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\MDAGameBook.Server.csproj": {}
+    "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\MDAGameBook.Server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\MDAGameBook.Server.csproj": {
+    "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\MDAGameBook.Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\MDAGameBook.Server.csproj",
+        "projectUniqueName": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\MDAGameBook.Server.csproj",
         "projectName": "MDAGameBook.Server",
-        "projectPath": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\MDAGameBook.Server.csproj",
-        "packagesPath": "C:\\Users\\prcha\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\obj\\",
+        "projectPath": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\MDAGameBook.Server.csproj",
+        "packagesPath": "C:\\Users\\steveruu\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\prcha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\steveruu\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

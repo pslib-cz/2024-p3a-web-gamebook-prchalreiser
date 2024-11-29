@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MDAGameBook.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+09f4cfd8d6f28f11dcf0432a5e1243c10c2d75b2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6a76f1e5e9056596bba94fec7a0b0f2c1c83db34")]
 [assembly: System.Reflection.AssemblyProductAttribute("MDAGameBook.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MDAGameBook.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

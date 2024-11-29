@@ -1,2 +1,3 @@
 C:\Users\steveruu\source\repos\MDAGameBook\mdagamebook.client\obj\Debug\mdagamebook.client.esproj.CoreCompileInputs.cache
 C:\Users\prcha\Desktop\coding\2024-p3a-web-gamebook-prchalreiser\mdagamebook.client\obj\Debug\mdagamebook.client.esproj.CoreCompileInputs.cache
+C:\Users\steveruu\Desktop\coding\2024-p3a-web-gamebook-prchalreiser\mdagamebook.client\obj\Debug\mdagamebook.client.esproj.CoreCompileInputs.cache

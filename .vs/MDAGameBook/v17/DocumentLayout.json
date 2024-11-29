@@ -1,25 +1,25 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\",
+  "WorkspaceRootPath": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E3D03020-6D57-4591-ABF8-595733489A66}|MDAGameBook.Server\\MDAGameBook.Server.csproj|c:\\users\\prcha\\desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E3D03020-6D57-4591-ABF8-595733489A66}|MDAGameBook.Server\\MDAGameBook.Server.csproj|c:\\users\\steveruu\\desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E3D03020-6D57-4591-ABF8-595733489A66}|MDAGameBook.Server\\MDAGameBook.Server.csproj|solutionrelative:mdagamebook.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E3D03020-6D57-4591-ABF8-595733489A66}|MDAGameBook.Server\\MDAGameBook.Server.csproj|c:\\users\\prcha\\desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.server\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{E3D03020-6D57-4591-ABF8-595733489A66}|MDAGameBook.Server\\MDAGameBook.Server.csproj|c:\\users\\steveruu\\desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.server\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{E3D03020-6D57-4591-ABF8-595733489A66}|MDAGameBook.Server\\MDAGameBook.Server.csproj|solutionrelative:mdagamebook.server\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{378E0EE7-8EC0-484B-836B-09072C3D6955}|mdagamebook.client\\mdagamebook.client.esproj|c:\\users\\prcha\\desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\src\\app\\login.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "AbsoluteMoniker": "D:0:0:{378E0EE7-8EC0-484B-836B-09072C3D6955}|mdagamebook.client\\mdagamebook.client.esproj|c:\\users\\steveruu\\desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\src\\app\\login.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
       "RelativeMoniker": "D:0:0:{378E0EE7-8EC0-484B-836B-09072C3D6955}|mdagamebook.client\\mdagamebook.client.esproj|solutionrelative:mdagamebook.client\\src\\app\\login.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{378E0EE7-8EC0-484B-836B-09072C3D6955}|mdagamebook.client\\mdagamebook.client.esproj|c:\\users\\prcha\\desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\.vscode\\launch.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{378E0EE7-8EC0-484B-836B-09072C3D6955}|mdagamebook.client\\mdagamebook.client.esproj|c:\\users\\steveruu\\desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\.vscode\\launch.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{378E0EE7-8EC0-484B-836B-09072C3D6955}|mdagamebook.client\\mdagamebook.client.esproj|solutionrelative:mdagamebook.client\\.vscode\\launch.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{378E0EE7-8EC0-484B-836B-09072C3D6955}|mdagamebook.client\\mdagamebook.client.esproj|c:\\users\\prcha\\desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\package.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{378E0EE7-8EC0-484B-836B-09072C3D6955}|mdagamebook.client\\mdagamebook.client.esproj|c:\\users\\steveruu\\desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\package.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{378E0EE7-8EC0-484B-836B-09072C3D6955}|mdagamebook.client\\mdagamebook.client.esproj|solutionrelative:mdagamebook.client\\package.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
@@ -39,50 +39,47 @@
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "launch.json",
-              "DocumentMoniker": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\.vscode\\launch.json",
+              "DocumentMoniker": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\.vscode\\launch.json",
               "RelativeDocumentMoniker": "mdagamebook.client\\.vscode\\launch.json",
-              "ToolTip": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\.vscode\\launch.json",
+              "ToolTip": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\.vscode\\launch.json",
               "RelativeToolTip": "mdagamebook.client\\.vscode\\launch.json",
               "ViewState": "AgIAAAEAAAAAAAAAAAAAAAgAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-11-29T22:54:34.876Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-29T22:54:34.876Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "Login.tsx",
-              "DocumentMoniker": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\src\\app\\Login.tsx",
+              "DocumentMoniker": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\src\\app\\Login.tsx",
               "RelativeDocumentMoniker": "mdagamebook.client\\src\\app\\Login.tsx",
-              "ToolTip": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\src\\app\\Login.tsx",
+              "ToolTip": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\src\\app\\Login.tsx",
               "RelativeToolTip": "mdagamebook.client\\src\\app\\Login.tsx",
               "ViewState": "AgIAACEAAAAAAAAAAAAAABAAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2024-11-29T22:40:40.127Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-29T22:40:40.127Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\Properties\\launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "MDAGameBook.Server\\Properties\\launchSettings.json",
-              "ToolTip": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\Properties\\launchSettings.json",
               "RelativeToolTip": "MDAGameBook.Server\\Properties\\launchSettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-11-29T22:33:37.249Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-29T22:33:37.249Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\Program.cs",
+              "DocumentMoniker": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\Program.cs",
               "RelativeDocumentMoniker": "MDAGameBook.Server\\Program.cs",
-              "ToolTip": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\Program.cs",
+              "ToolTip": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\Program.cs",
               "RelativeToolTip": "MDAGameBook.Server\\Program.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAAAD8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-29T22:32:33.946Z",
               "EditorCaption": ""
@@ -92,9 +89,9 @@
               "DocumentIndex": 5,
               "Title": "launch.json",
               "DocumentMoniker": "C:\\Users\\steveruu\\source\\repos\\MDAGameBook\\mdagamebook.client\\.vscode\\launch.json",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\steveruu\\source\\repos\\MDAGameBook\\mdagamebook.client\\.vscode\\launch.json",
+              "RelativeDocumentMoniker": "..\\..\\..\\source\\repos\\MDAGameBook\\mdagamebook.client\\.vscode\\launch.json",
               "ToolTip": "C:\\Users\\steveruu\\source\\repos\\MDAGameBook\\mdagamebook.client\\.vscode\\launch.json",
-              "RelativeToolTip": "..\\..\\..\\..\\steveruu\\source\\repos\\MDAGameBook\\mdagamebook.client\\.vscode\\launch.json",
+              "RelativeToolTip": "..\\..\\..\\source\\repos\\MDAGameBook\\mdagamebook.client\\.vscode\\launch.json",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2024-11-20T10:58:01.242Z"
             },
@@ -102,14 +99,13 @@
               "$type": "Document",
               "DocumentIndex": 4,
               "Title": "package.json",
-              "DocumentMoniker": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\package.json",
+              "DocumentMoniker": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\package.json",
               "RelativeDocumentMoniker": "mdagamebook.client\\package.json",
-              "ToolTip": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\package.json",
+              "ToolTip": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\package.json",
               "RelativeToolTip": "mdagamebook.client\\package.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-11-20T10:51:22.777Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-20T10:51:22.777Z"
             }
           ]
         }
