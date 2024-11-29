@@ -1,0 +1,33 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\21904355-4328-489c-86a6-05232a63b893.png",
+      "PackagePath": "staticwebassets\\Uploads\\21904355-4328-489c-86a6-05232a63b893.png"
+    },
+    {
+      "Id": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\ed2ae985-72a9-455f-b208-015ee9467bf2.png",
+      "PackagePath": "staticwebassets\\Uploads\\ed2ae985-72a9-455f-b208-015ee9467bf2.png"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.MDAGameBook.Server.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.MDAGameBook.Server.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.build.MDAGameBook.Server.props",
+      "PackagePath": "build\\MDAGameBook.Server.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.MDAGameBook.Server.props",
+      "PackagePath": "buildMultiTargeting\\MDAGameBook.Server.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.buildTransitive.MDAGameBook.Server.props",
+      "PackagePath": "buildTransitive\\MDAGameBook.Server.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

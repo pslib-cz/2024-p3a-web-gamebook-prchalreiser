@@ -49,6 +49,8 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed(origin => new Uri(origin).IsLoopback));
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -56,7 +58,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors(x => x.AllowAnyMethod().SetIsOriginAllowed(origin => new Uri(origin).IsLoopback));
 
 app.UseStaticFiles();
 app.UseDefaultFiles();

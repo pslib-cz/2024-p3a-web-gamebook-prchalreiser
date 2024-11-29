@@ -1,0 +1,240 @@
+{
+  "Version": 1,
+  "Hash": "WTTJTjxOiz8NhkZDrFhUME+4C2r56R877+5NrBWlFp0=",
+  "Source": "MDAGameBook.Server",
+  "BasePath": "_content/MDAGameBook.Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\mdagamebook.client.esproj",
+      "Version": 2,
+      "Source": "mdagamebook.client",
+      "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Release;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Release;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+    }
+  ],
+  "DiscoveryPatterns": [
+    {
+      "Name": "MDAGameBook.Server\\wwwroot",
+      "Source": "MDAGameBook.Server",
+      "ContentRoot": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\",
+      "BasePath": "_content/MDAGameBook.Server",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\21904355-4328-489c-86a6-05232a63b893.png",
+      "SourceId": "MDAGameBook.Server",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\",
+      "BasePath": "_content/MDAGameBook.Server",
+      "RelativePath": "Uploads/21904355-4328-489c-86a6-05232a63b893#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "gcug9ch89f",
+      "Integrity": "oGaZivTjhn0gCJ7VrDCQNTz2FaEuWU2tfYAHpo47iAs=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\21904355-4328-489c-86a6-05232a63b893.png"
+    },
+    {
+      "Identity": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\ed2ae985-72a9-455f-b208-015ee9467bf2.png",
+      "SourceId": "MDAGameBook.Server",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\",
+      "BasePath": "_content/MDAGameBook.Server",
+      "RelativePath": "Uploads/ed2ae985-72a9-455f-b208-015ee9467bf2#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "hg6oq1725q",
+      "Integrity": "sSQZQefN3WI5/WSddigUUAxV+VtWDbtHPN9zE+ACz5o=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\ed2ae985-72a9-455f-b208-015ee9467bf2.png"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "Uploads/21904355-4328-489c-86a6-05232a63b893.gcug9ch89f.png",
+      "AssetFile": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\21904355-4328-489c-86a6-05232a63b893.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1674972"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"oGaZivTjhn0gCJ7VrDCQNTz2FaEuWU2tfYAHpo47iAs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 29 Nov 2024 21:42:41 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "gcug9ch89f"
+        },
+        {
+          "Name": "label",
+          "Value": "Uploads/21904355-4328-489c-86a6-05232a63b893.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-oGaZivTjhn0gCJ7VrDCQNTz2FaEuWU2tfYAHpo47iAs="
+        }
+      ]
+    },
+    {
+      "Route": "Uploads/21904355-4328-489c-86a6-05232a63b893.png",
+      "AssetFile": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\21904355-4328-489c-86a6-05232a63b893.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1674972"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"oGaZivTjhn0gCJ7VrDCQNTz2FaEuWU2tfYAHpo47iAs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 29 Nov 2024 21:42:41 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-oGaZivTjhn0gCJ7VrDCQNTz2FaEuWU2tfYAHpo47iAs="
+        }
+      ]
+    },
+    {
+      "Route": "Uploads/ed2ae985-72a9-455f-b208-015ee9467bf2.hg6oq1725q.png",
+      "AssetFile": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\ed2ae985-72a9-455f-b208-015ee9467bf2.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1399268"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"sSQZQefN3WI5/WSddigUUAxV+VtWDbtHPN9zE+ACz5o=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 29 Nov 2024 21:43:10 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "hg6oq1725q"
+        },
+        {
+          "Name": "label",
+          "Value": "Uploads/ed2ae985-72a9-455f-b208-015ee9467bf2.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-sSQZQefN3WI5/WSddigUUAxV+VtWDbtHPN9zE+ACz5o="
+        }
+      ]
+    },
+    {
+      "Route": "Uploads/ed2ae985-72a9-455f-b208-015ee9467bf2.png",
+      "AssetFile": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\ed2ae985-72a9-455f-b208-015ee9467bf2.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1399268"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"sSQZQefN3WI5/WSddigUUAxV+VtWDbtHPN9zE+ACz5o=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 29 Nov 2024 21:43:10 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-sSQZQefN3WI5/WSddigUUAxV+VtWDbtHPN9zE+ACz5o="
+        }
+      ]
+    }
+  ]
+}
