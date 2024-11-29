@@ -3,7 +3,7 @@
 "ServerUrl": "https://localhost:51014",
 "RedirectUrl": "",
 "LaunchCommand": "npm run dev",
-"WorkingDirectory": "C:\\Users\\steveruu\\source\\repos\\MDAGameBook\\MDAGameBook.Server\\..\\mdagamebook.client",
+"WorkingDirectory": "C:\\Users\\prcha\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\..\\mdagamebook.client",
 "MaxTimeoutInSeconds": "120",
 "KeepRunning": "false"
 }
