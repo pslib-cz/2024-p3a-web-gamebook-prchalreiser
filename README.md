@@ -1,10 +1,10 @@
 <div align="center">
+<img src="https://i.imgur.com/ZZXEdiT.png" alt="kokot" width=200 />
 
 # Multidimenzionální absťák
-> a gamebook by @toncekr & @steveruu  
+> a gamebook by @toncekr & @steveruu
 
 **[Figma](https://www.figma.com/design/c06SWKpvasclNtKCNU2pQE/MDAGamebook?node-id=0-1&t=JM0Hsiub1j8QwFeF-1)** · [Notion](https://www.notion.so/steveruu/Multidimenzion-ln-abs-k-14492fa18d8f80ed82cfe8459281f9a7?pvs=4) · [Experimental branch](https://github.com/minjiyalabs/mda)
-
 </div>
 
 ## 📜 Krátké shnrutí příběhu 
