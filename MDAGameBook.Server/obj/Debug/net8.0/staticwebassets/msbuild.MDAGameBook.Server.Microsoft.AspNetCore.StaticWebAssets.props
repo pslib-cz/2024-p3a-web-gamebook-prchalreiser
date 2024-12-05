@@ -36,6 +36,24 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Uploads\69cd543a-75a8-4f11-9b22-8834c61909ee.png'))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Uploads\cf57f801-4311-48aa-b32e-79642c28fd93.png'))">
+      <SourceType>Package</SourceType>
+      <SourceId>MDAGameBook.Server</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/MDAGameBook.Server</BasePath>
+      <RelativePath>Uploads/cf57f801-4311-48aa-b32e-79642c28fd93.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>iz7881wm34</Fingerprint>
+      <Integrity>kvnD4k2GErGusmTr+FHUj//5Cal20P74jFC9QueOc4k=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Uploads\cf57f801-4311-48aa-b32e-79642c28fd93.png'))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Uploads\ed2ae985-72a9-455f-b208-015ee9467bf2.png'))">
       <SourceType>Package</SourceType>
       <SourceId>MDAGameBook.Server</SourceId>

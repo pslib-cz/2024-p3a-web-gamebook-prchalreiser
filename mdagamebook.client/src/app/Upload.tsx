@@ -56,15 +56,15 @@ const FileUpload = () => {
         const token = localStorage.getItem("accessToken");
         if (!token) {
             console.log("Nejste přihlášen");
+        } else {
+            fetch("https://localhost:7260/api/user/manage/info", {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                mode: "cors",
+            }).then(res => res.json()).then(data => console.log(data));
         }
-
-        fetch("https://localhost:7260/api/user/manage/info", {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            mode: "cors",
-        }).then(res => res.json()).then(data => console.log(data));
     }, []);
 
     return (
