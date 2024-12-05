@@ -1,4 +1,4 @@
-using GameBookASP.Data;
+﻿using GameBookASP.Data;
 using GameBookASP.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
@@ -67,5 +67,6 @@ app.UseAuthorization();
 
 app.MapGroup("/api/user").MapIdentityApi<User>();
 app.MapControllers();
+
 
 app.Run();
