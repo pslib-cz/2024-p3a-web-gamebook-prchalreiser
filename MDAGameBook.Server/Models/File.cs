@@ -7,6 +7,6 @@ namespace GameBookASP.Models {
         public string? FileType { get; set; }
         public DateTime? UploadedAt { get; set; }
         [JsonIgnore]
-        public required string FilePath { get; set; }
+        public string? FilePath { get; set; }
     }
 }

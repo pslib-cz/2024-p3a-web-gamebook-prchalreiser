@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\MDAGameBook.Server.csproj": {}
+    "C:\\Users\\Antonín Reiser\\source\\repos\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\MDAGameBook.Server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\MDAGameBook.Server.csproj": {
+    "C:\\Users\\Antonín Reiser\\source\\repos\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\MDAGameBook.Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\MDAGameBook.Server.csproj",
+        "projectUniqueName": "C:\\Users\\Antonín Reiser\\source\\repos\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\MDAGameBook.Server.csproj",
         "projectName": "MDAGameBook.Server",
-        "projectPath": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\MDAGameBook.Server.csproj",
-        "packagesPath": "C:\\Users\\steveruu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\obj\\",
+        "projectPath": "C:\\Users\\Antonín Reiser\\source\\repos\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\MDAGameBook.Server.csproj",
+        "packagesPath": "C:\\Users\\Antonín Reiser\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Antonín Reiser\\source\\repos\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\steveruu\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Antonín Reiser\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -43,9 +38,8 @@
         "restoreAuditProperties": {
           "enableAudit": "true",
           "auditLevel": "low",
-          "auditMode": "all"
-        },
-        "SdkAnalysisLevel": "9.0.100"
+          "auditMode": "direct"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -60,6 +54,12 @@
               "version": "[8.*-*, )"
             },
             "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.11, )"
             },
@@ -101,7 +101,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

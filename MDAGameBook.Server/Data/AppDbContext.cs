@@ -8,6 +8,14 @@ namespace GameBookASP.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
+        public DbSet<Player> Players { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Link> Links { get; set; }
+        public DbSet<Shop> Shops { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<Minigame> Minigames { get; set; }
+        public DbSet<FightMinigame> FightMinigames { get; set; }
+
         public DbSet<Models.File>? Files { get; set; }
         public override DbSet<Models.User> Users { get; set; } = null!;
 
@@ -56,6 +64,7 @@ namespace GameBookASP.Data
                     }
                 );
             });
+
         }
     }
 }

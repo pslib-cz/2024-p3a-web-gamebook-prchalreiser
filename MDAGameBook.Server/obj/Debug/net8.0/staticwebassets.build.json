@@ -1,13 +1,13 @@
 {
   "Version": 1,
-  "Hash": "a428KUpzXPPkHut4jikl59tIxdCXMmh4aRq2sSgPnDc=",
+  "Hash": "BCDQkGGEOmwHrVkzj6X5hAp9pSmvrkgRg6Dayy6S2f0=",
   "Source": "MDAGameBook.Server",
   "BasePath": "_content/MDAGameBook.Server",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [
     {
-      "Identity": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\mdagamebook.client.esproj",
+      "Identity": "C:\\Users\\Antonín Reiser\\source\\repos\\2024-p3a-web-gamebook-prchalreiser\\mdagamebook.client\\mdagamebook.client.esproj",
       "Version": 2,
       "Source": "mdagamebook.client",
       "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",
@@ -22,425 +22,106 @@
     {
       "Name": "MDAGameBook.Server\\wwwroot",
       "Source": "MDAGameBook.Server",
-      "ContentRoot": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Antonín Reiser\\source\\repos\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\",
       "BasePath": "_content/MDAGameBook.Server",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\21904355-4328-489c-86a6-05232a63b893.png",
+      "Identity": "C:\\Users\\Antonín Reiser\\source\\repos\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\21904355-4328-489c-86a6-05232a63b893.png",
       "SourceId": "MDAGameBook.Server",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Antonín Reiser\\source\\repos\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\",
       "BasePath": "_content/MDAGameBook.Server",
-      "RelativePath": "Uploads/21904355-4328-489c-86a6-05232a63b893#[.{fingerprint}]?.png",
+      "RelativePath": "Uploads/21904355-4328-489c-86a6-05232a63b893.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
+      "AssetMergeBehavior": "PreferTarget",
       "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "gcug9ch89f",
-      "Integrity": "oGaZivTjhn0gCJ7VrDCQNTz2FaEuWU2tfYAHpo47iAs=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Uploads\\21904355-4328-489c-86a6-05232a63b893.png"
     },
     {
-      "Identity": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\69cd543a-75a8-4f11-9b22-8834c61909ee.png",
+      "Identity": "C:\\Users\\Antonín Reiser\\source\\repos\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\69cd543a-75a8-4f11-9b22-8834c61909ee.png",
       "SourceId": "MDAGameBook.Server",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Antonín Reiser\\source\\repos\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\",
       "BasePath": "_content/MDAGameBook.Server",
-      "RelativePath": "Uploads/69cd543a-75a8-4f11-9b22-8834c61909ee#[.{fingerprint}]?.png",
+      "RelativePath": "Uploads/69cd543a-75a8-4f11-9b22-8834c61909ee.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
+      "AssetMergeBehavior": "PreferTarget",
       "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "gcug9ch89f",
-      "Integrity": "oGaZivTjhn0gCJ7VrDCQNTz2FaEuWU2tfYAHpo47iAs=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Uploads\\69cd543a-75a8-4f11-9b22-8834c61909ee.png"
     },
     {
-      "Identity": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\cf57f801-4311-48aa-b32e-79642c28fd93.png",
+      "Identity": "C:\\Users\\Antonín Reiser\\source\\repos\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\cf57f801-4311-48aa-b32e-79642c28fd93.png",
       "SourceId": "MDAGameBook.Server",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Antonín Reiser\\source\\repos\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\",
       "BasePath": "_content/MDAGameBook.Server",
-      "RelativePath": "Uploads/cf57f801-4311-48aa-b32e-79642c28fd93#[.{fingerprint}]?.png",
+      "RelativePath": "Uploads/cf57f801-4311-48aa-b32e-79642c28fd93.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
+      "AssetMergeBehavior": "PreferTarget",
       "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "iz7881wm34",
-      "Integrity": "kvnD4k2GErGusmTr+FHUj//5Cal20P74jFC9QueOc4k=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Uploads\\cf57f801-4311-48aa-b32e-79642c28fd93.png"
     },
     {
-      "Identity": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\ed2ae985-72a9-455f-b208-015ee9467bf2.png",
+      "Identity": "C:\\Users\\Antonín Reiser\\source\\repos\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\d8db492c-0b17-4b21-84b1-19b2b1db0512.PNG",
       "SourceId": "MDAGameBook.Server",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Antonín Reiser\\source\\repos\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\",
       "BasePath": "_content/MDAGameBook.Server",
-      "RelativePath": "Uploads/ed2ae985-72a9-455f-b208-015ee9467bf2#[.{fingerprint}]?.png",
+      "RelativePath": "Uploads/d8db492c-0b17-4b21-84b1-19b2b1db0512.PNG",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
+      "AssetMergeBehavior": "PreferTarget",
       "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "hg6oq1725q",
-      "Integrity": "sSQZQefN3WI5/WSddigUUAxV+VtWDbtHPN9zE+ACz5o=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\d8db492c-0b17-4b21-84b1-19b2b1db0512.PNG"
+    },
+    {
+      "Identity": "C:\\Users\\Antonín Reiser\\source\\repos\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\ed2ae985-72a9-455f-b208-015ee9467bf2.png",
+      "SourceId": "MDAGameBook.Server",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Antonín Reiser\\source\\repos\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\",
+      "BasePath": "_content/MDAGameBook.Server",
+      "RelativePath": "Uploads/ed2ae985-72a9-455f-b208-015ee9467bf2.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Uploads\\ed2ae985-72a9-455f-b208-015ee9467bf2.png"
-    }
-  ],
-  "Endpoints": [
-    {
-      "Route": "Uploads/21904355-4328-489c-86a6-05232a63b893.gcug9ch89f.png",
-      "AssetFile": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\21904355-4328-489c-86a6-05232a63b893.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1674972"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"oGaZivTjhn0gCJ7VrDCQNTz2FaEuWU2tfYAHpo47iAs=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 23:10:07 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "gcug9ch89f"
-        },
-        {
-          "Name": "label",
-          "Value": "Uploads/21904355-4328-489c-86a6-05232a63b893.png"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-oGaZivTjhn0gCJ7VrDCQNTz2FaEuWU2tfYAHpo47iAs="
-        }
-      ]
-    },
-    {
-      "Route": "Uploads/21904355-4328-489c-86a6-05232a63b893.png",
-      "AssetFile": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\21904355-4328-489c-86a6-05232a63b893.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1674972"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"oGaZivTjhn0gCJ7VrDCQNTz2FaEuWU2tfYAHpo47iAs=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 23:10:07 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-oGaZivTjhn0gCJ7VrDCQNTz2FaEuWU2tfYAHpo47iAs="
-        }
-      ]
-    },
-    {
-      "Route": "Uploads/69cd543a-75a8-4f11-9b22-8834c61909ee.gcug9ch89f.png",
-      "AssetFile": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\69cd543a-75a8-4f11-9b22-8834c61909ee.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1674972"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"oGaZivTjhn0gCJ7VrDCQNTz2FaEuWU2tfYAHpo47iAs=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 23:10:07 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "gcug9ch89f"
-        },
-        {
-          "Name": "label",
-          "Value": "Uploads/69cd543a-75a8-4f11-9b22-8834c61909ee.png"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-oGaZivTjhn0gCJ7VrDCQNTz2FaEuWU2tfYAHpo47iAs="
-        }
-      ]
-    },
-    {
-      "Route": "Uploads/69cd543a-75a8-4f11-9b22-8834c61909ee.png",
-      "AssetFile": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\69cd543a-75a8-4f11-9b22-8834c61909ee.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1674972"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"oGaZivTjhn0gCJ7VrDCQNTz2FaEuWU2tfYAHpo47iAs=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 23:10:07 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-oGaZivTjhn0gCJ7VrDCQNTz2FaEuWU2tfYAHpo47iAs="
-        }
-      ]
-    },
-    {
-      "Route": "Uploads/cf57f801-4311-48aa-b32e-79642c28fd93.iz7881wm34.png",
-      "AssetFile": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\cf57f801-4311-48aa-b32e-79642c28fd93.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3597"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"kvnD4k2GErGusmTr+FHUj//5Cal20P74jFC9QueOc4k=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 05 Dec 2024 09:57:20 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "iz7881wm34"
-        },
-        {
-          "Name": "label",
-          "Value": "Uploads/cf57f801-4311-48aa-b32e-79642c28fd93.png"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-kvnD4k2GErGusmTr+FHUj//5Cal20P74jFC9QueOc4k="
-        }
-      ]
-    },
-    {
-      "Route": "Uploads/cf57f801-4311-48aa-b32e-79642c28fd93.png",
-      "AssetFile": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\cf57f801-4311-48aa-b32e-79642c28fd93.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3597"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"kvnD4k2GErGusmTr+FHUj//5Cal20P74jFC9QueOc4k=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 05 Dec 2024 09:57:20 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-kvnD4k2GErGusmTr+FHUj//5Cal20P74jFC9QueOc4k="
-        }
-      ]
-    },
-    {
-      "Route": "Uploads/ed2ae985-72a9-455f-b208-015ee9467bf2.hg6oq1725q.png",
-      "AssetFile": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\ed2ae985-72a9-455f-b208-015ee9467bf2.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1399268"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"sSQZQefN3WI5/WSddigUUAxV+VtWDbtHPN9zE+ACz5o=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 23:10:07 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "hg6oq1725q"
-        },
-        {
-          "Name": "label",
-          "Value": "Uploads/ed2ae985-72a9-455f-b208-015ee9467bf2.png"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-sSQZQefN3WI5/WSddigUUAxV+VtWDbtHPN9zE+ACz5o="
-        }
-      ]
-    },
-    {
-      "Route": "Uploads/ed2ae985-72a9-455f-b208-015ee9467bf2.png",
-      "AssetFile": "C:\\Users\\steveruu\\Desktop\\coding\\2024-p3a-web-gamebook-prchalreiser\\MDAGameBook.Server\\wwwroot\\Uploads\\ed2ae985-72a9-455f-b208-015ee9467bf2.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1399268"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"sSQZQefN3WI5/WSddigUUAxV+VtWDbtHPN9zE+ACz5o=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 23:10:07 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-sSQZQefN3WI5/WSddigUUAxV+VtWDbtHPN9zE+ACz5o="
-        }
-      ]
     }
   ]
 }
