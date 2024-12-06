@@ -78,6 +78,7 @@ namespace GameBookASP.Controllers
             }
 
             IList<dynamic> newFiles = new List<dynamic>();
+
             foreach (var file in model.Files) {
                 var fileName = Path.GetFileName(file.FileName);
                 var imageContentTypes = new List<string> {
@@ -96,7 +97,6 @@ namespace GameBookASP.Controllers
                 }
 
                 var imgId = Guid.NewGuid();
-                // Include wwwroot in the relative path
                 var relativePath = Path.Combine("wwwroot", "Uploads", imgId.ToString() + Path.GetExtension(fileName));
                 var filePath = Path.Combine(_environment.WebRootPath, "Uploads", imgId.ToString() + Path.GetExtension(fileName));
 
@@ -118,6 +118,7 @@ namespace GameBookASP.Controllers
                     FileType = file.ContentType,
                     FileSize = file.Length,
                     Status = "Success",
+                   
                 });
 
                 var newFile = new Models.File {
@@ -127,7 +128,9 @@ namespace GameBookASP.Controllers
                     FileType = file.ContentType,
                     UploadedAt = DateTime.Now
                 };
+
                 _context.Files.Add(newFile);
+                newFiles.Add(newFile);
             }
 
             await _context.SaveChangesAsync();
