@@ -28,17 +28,20 @@ namespace GameBookASP.Controllers
         [HttpGet("download/{fileId}")]
         public async Task<IActionResult> GetFile(Guid fileId)
         {
-            var file = await _context.Files.FindAsync(fileId);
+            var file = _context.Files.FirstOrDefault(f => f.Id == fileId);
             if (file == null)
             {
                 return NotFound();
             }
-            if (!System.IO.File.Exists(file.FilePath))
-            {
-                return NotFound("File not found.");
+
+            var absolutePath = Path.Combine(_environment.ContentRootPath, file.FilePath);
+
+            // Check if the file exists
+            if (!System.IO.File.Exists(absolutePath)) {
+                return NotFound("File does not exist.");
             }
 
-            return PhysicalFile(file.FilePath, file.FileType, file.FileName);
+            return PhysicalFile(absolutePath, file.FileType, file.FileName);
         }
 
         // get list of all files
@@ -75,41 +78,33 @@ namespace GameBookASP.Controllers
             }
 
             IList<dynamic> newFiles = new List<dynamic>();
-
-            foreach (var file in model.Files)
-            {
+            foreach (var file in model.Files) {
                 var fileName = Path.GetFileName(file.FileName);
                 var imageContentTypes = new List<string> {
-                    "image/jpeg",
-                    "image/png",
-                    "image/gif",
-                    "image/webp",
-                    "image/avif"
-                };
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/webp",
+        "image/avif"
+    };
 
-                if (!imageContentTypes.Contains(file.ContentType))
-                {
-                    return NotFound("Too large");
+                if (!imageContentTypes.Contains(file.ContentType)) {
+                    return NotFound("Invalid file type");
                 }
-                if (file.Length > 12 * 1024 * 1024)
-                {
-                    return NotFound("Too large");
-                    continue;
+                if (file.Length > 12 * 1024 * 1024) {
+                    return NotFound("File too large");
                 }
 
                 var imgId = Guid.NewGuid();
+                // Include wwwroot in the relative path
+                var relativePath = Path.Combine("wwwroot", "Uploads", imgId.ToString() + Path.GetExtension(fileName));
                 var filePath = Path.Combine(_environment.WebRootPath, "Uploads", imgId.ToString() + Path.GetExtension(fileName));
 
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    try
-                    {
+                using (var stream = new FileStream(filePath, FileMode.Create)) {
+                    try {
                         await file.CopyToAsync(stream);
-                    }
-                    catch (Exception e)
-                    {
-                        newFiles.Add(new
-                        {
+                    } catch (Exception e) {
+                        newFiles.Add(new {
                             FileName = fileName,
                             FileType = file.ContentType,
                             FileSize = file.Length,
@@ -118,19 +113,17 @@ namespace GameBookASP.Controllers
                         continue;
                     }
                 }
-                newFiles.Add(new
-                {
+                newFiles.Add(new {
                     FileName = fileName,
                     FileType = file.ContentType,
                     FileSize = file.Length,
                     Status = "Success",
                 });
 
-                var newFile = new Models.File
-                {
+                var newFile = new Models.File {
                     Id = imgId,
                     FileName = fileName,
-                    FilePath = filePath,
+                    FilePath = relativePath, // Save the relative path with "wwwroot"
                     FileType = file.ContentType,
                     UploadedAt = DateTime.Now
                 };
