@@ -19,22 +19,22 @@ Rozhodl ses: najdeš ten nápoj, i kdybys měl procestovat celý vesmír.
 vlastní implementaci aplikace realizující Gamebook tak, aby celá hra šla hrát, aby vypadala jako gamebook stylu odpovídají tématu gamebooku a aby byla RPG - tedy, aby v ní hráč měl možnost volby, vývoj postavy, změnu stavu herního světa.
 
 ### Návrh hry 
-- [ ] Vytvoření vlastního příběhu
+- [x] Vytvoření vlastního příběhu
 - [ ] Návrh mechanik, herní logiky a herních systémů
 - [ ] Vytvoření a příprava grafiky (DALL-E, Flux, SD)
 - [x] Návrh UI (ReadingUI, DecidingUI)
 
 ### Backend API pro ukládání info o hře - ASP.NET API
-- [ ] Návrh databáze 
-- [ ] Připojení databáze do aplikace ASP.NET 
-- [ ] Návrh struktury API - tedy controllery a REST endpointy 
+- [x] Návrh databáze 
+- [x] Připojení databáze do aplikace ASP.NET 
+- [x] Návrh struktury API - tedy controllery a REST endpointy 
 - [ ] Přihlašování uživatelů do aplikace 
 - [ ] Nahrávání, zpracování a získávání souborů (= obrázků)
 
 ### Frontend (hráč) - React
-- [ ] Založení aplikace 
-- [ ] Architektura aplikace 
-- [ ] Zpracování dat z formuláře 
+- [x] Založení aplikace 
+- [x] Architektura aplikace 
+- [x] Zpracování dat z formuláře 
 - [ ] Ukládání dat do localStorage 
 - [ ] Získávání dat z REST API 
 - [ ] Manipulace s URL pomocí routeru 
