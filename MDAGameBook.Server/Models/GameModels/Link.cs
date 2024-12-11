@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 public class Link
 {
@@ -11,6 +12,7 @@ public class Link
     public int ToLocationID { get; set; }
     public bool? Condition { get; set; }
 
+    [JsonIgnore]
     public Location FromLocation { get; set; } = null!;
     public Location ToLocation { get; set; } = null!;
 }

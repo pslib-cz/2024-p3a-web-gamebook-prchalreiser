@@ -10,9 +10,5 @@ public class Player
     public int Withdrawal { get; set; }
     public int Stamina { get; set; }
     public int Coins { get; set; }
-    public string Inventory { get; set; } = "[]"; // JSON representation of items
-
-    [ForeignKey("LocationReached")]
-    public int LocationReachedID { get; set; } = 0;
-    public Location? LocationReached { get; set; }
+    public List<Item> Inventory { get; set; } = new List<Item> { };  // on gwt posilat json
 }

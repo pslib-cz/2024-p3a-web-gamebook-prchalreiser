@@ -11,47 +11,47 @@ namespace MDAGameBook.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LocationsController : ControllerBase
+    public class LinksController : ControllerBase
     {
         private readonly AppDbContext _context;
 
-        public LocationsController(AppDbContext context)
+        public LinksController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Locations
+        // GET: api/Links
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Location>>> GetLocations()
+        public async Task<ActionResult<IEnumerable<Link>>> GetLinks()
         {
-            return await _context.Locations.ToListAsync();
+            return await _context.Links.ToListAsync();
         }
 
-        // GET: api/Locations/5
+        // GET: api/Links/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Location>> GetLocation(Guid id)
+        public async Task<ActionResult<Link>> GetLink(int id)
         {
-            var location = await _context.Locations.FindAsync(id);
+            var link = await _context.Links.FindAsync(id);
 
-            if (location == null)
+            if (link == null)
             {
                 return NotFound();
             }
 
-            return location;
+            return link;
         }
 
-        // PUT: api/Locations/5
+        // PUT: api/Links/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutLocation(int id, Location location)
+        public async Task<IActionResult> PutLink(int id, Link link)
         {
-            if (id != location.LocationID)
+            if (id != link.LinkID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(location).State = EntityState.Modified;
+            _context.Entry(link).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace MDAGameBook.Server.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!LocationExists(id))
+                if (!LinkExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +72,36 @@ namespace MDAGameBook.Server.Controllers
             return NoContent();
         }
 
-        // POST: api/Locations
+        // POST: api/Links
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Location>> PostLocation(Location location)
+        public async Task<ActionResult<Link>> PostLink(Link link)
         {
-            _context.Locations.Add(location);
+            _context.Links.Add(link);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetLocation", new { id = location.LocationID }, location);
+            return CreatedAtAction("GetLink", new { id = link.LinkID }, link);
         }
 
-        // DELETE: api/Locations/5
+        // DELETE: api/Links/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteLocation(Guid id)
+        public async Task<IActionResult> DeleteLink(int id)
         {
-            var location = await _context.Locations.FindAsync(id);
-            if (location == null)
+            var link = await _context.Links.FindAsync(id);
+            if (link == null)
             {
                 return NotFound();
             }
 
-            _context.Locations.Remove(location);
+            _context.Links.Remove(link);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool LocationExists(int id)
+        private bool LinkExists(int id)
         {
-            return _context.Locations.Any(e => e.LocationID == id);
+            return _context.Links.Any(e => e.LinkID == id);
         }
     }
 }
