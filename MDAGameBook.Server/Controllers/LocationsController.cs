@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GameBookASP.Data;
+using GameBookASP.GameModels;
 
 namespace MDAGameBook.Server.Controllers
 {

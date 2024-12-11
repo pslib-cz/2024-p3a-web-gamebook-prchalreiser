@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+namespace GameBookASP.GameModels;
 
 public class Item
 {

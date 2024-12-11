@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using GameBookASP.GameModels;
 
 namespace GameBookASP.Data
 {
@@ -62,6 +63,21 @@ namespace GameBookASP.Data
                         RoleId = adminRoleId,
                         UserId = adminId
                     }
+                );
+            });
+
+            builder.Entity<Location>(options =>
+            {
+                options.HasData(
+                       new Location
+                       {
+                           LocationID = 420,
+                           Name = "Hotbox",
+                           Description = "A small",
+                           Items = "[]",
+                           BackgroundImageUrl = "https://localhost:7260/wwwroot/Uploads/06dfd75a-1c7b-42a2-942d-ee3d48a26a0f.png"
+
+                       }
                 );
             });
 

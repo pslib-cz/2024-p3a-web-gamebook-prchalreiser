@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+namespace GameBookASP.GameModels;
 
 public class Player
 {
@@ -10,5 +11,5 @@ public class Player
     public int Withdrawal { get; set; }
     public int Stamina { get; set; }
     public int Coins { get; set; }
-    public List<Item> Inventory { get; set; } = new List<Item> { };  // on gwt posilat json
+    public ICollection<Item> Inventory { get; set; } // on gwt posilat json
 }
