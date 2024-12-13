@@ -30,7 +30,7 @@ namespace MDAGameBook.Server.Controllers
 
         // GET: api/Locations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Location>> GetLocation(Guid id)
+        public async Task<ActionResult<Location>> GetLocation(int id)
         {
             var location = await _context.Locations.FindAsync(id);
 
@@ -86,7 +86,7 @@ namespace MDAGameBook.Server.Controllers
 
         // DELETE: api/Locations/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteLocation(Guid id)
+        public async Task<IActionResult> DeleteLocation(int id)
         {
             var location = await _context.Locations.FindAsync(id);
             if (location == null)

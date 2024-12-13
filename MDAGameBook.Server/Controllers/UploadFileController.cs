@@ -97,7 +97,7 @@ namespace GameBookASP.Controllers
                 }
 
                 var imgId = Guid.NewGuid();
-                var relativePath = Path.Combine("wwwroot", "Uploads", imgId.ToString() + Path.GetExtension(fileName));
+                var relativePath = Path.Combine("Uploads", imgId.ToString() + Path.GetExtension(fileName));
                 var filePath = Path.Combine(_environment.WebRootPath, "Uploads", imgId.ToString() + Path.GetExtension(fileName));
 
                 using (var stream = new FileStream(filePath, FileMode.Create)) {
