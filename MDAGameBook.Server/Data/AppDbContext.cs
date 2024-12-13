@@ -119,7 +119,6 @@ builder.Entity<Link>(options => {
                         LinkID = 69,
                         FromLocationID = 420,
                         ToLocationID = 421,
-
                     }
                 );
             });
