@@ -102,7 +102,7 @@ namespace GameBookASP.Data
                 .WithMany(p => p.UserPlayers)
                 .HasForeignKey(up => up.PlayerId);
 
-builder.Entity<Link>(options => {
+            builder.Entity<Link>(options => {
                 options.HasKey(e => e.LinkID);
                 options.HasOne(e => e.FromLocation)
                 .WithMany()
