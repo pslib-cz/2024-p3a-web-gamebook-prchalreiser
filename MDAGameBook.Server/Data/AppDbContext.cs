@@ -19,6 +19,7 @@ namespace GameBookASP.Data
 
         public DbSet<Models.File>? Files { get; set; }
         public override DbSet<Models.User> Users { get; set; } = null!;
+        public DbSet<UserPlayer> UserPlayers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -81,6 +82,15 @@ namespace GameBookASP.Data
                 );
             });
 
+            builder.Entity<UserPlayer>()
+                .HasOne(up => up.User)
+                .WithMany(u => u.UserPlayers)
+                .HasForeignKey(up => up.UserId);
+
+            builder.Entity<UserPlayer>()
+                .HasOne(up => up.Player)
+                .WithMany(p => p.UserPlayers)
+                .HasForeignKey(up => up.PlayerId);
         }
     }
 }
