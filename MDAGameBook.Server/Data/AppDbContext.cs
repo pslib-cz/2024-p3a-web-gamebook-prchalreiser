@@ -67,20 +67,30 @@ namespace GameBookASP.Data
                 );
             });
 
-            builder.Entity<Location>(options =>
-            {
-                options.HasData(
-                       new Location
-                       {
-                           LocationID = 420,
-                           Name = "Hotbox",
-                           Description = "A small",
-                           Items = "[]",
+            builder.Entity<Location>(options => {
+                options.HasData
+                (
+                       new Location {
+                           LocationID = -1,
+                           Name = "Unlinked Location",
+                           Description = "Nacházíš se někde, kam ses neměl dostat :O",
                            BackgroundImageUrl = "https://localhost:7260/wwwroot/Uploads/06dfd75a-1c7b-42a2-942d-ee3d48a26a0f.png"
-
+                       },
+                       new Location {
+                            LocationID = 420,
+                            Name = "Hotbox",
+                            Description = "Jsi v interiéru auta a dáváš hotbox.",
+                            BackgroundImageUrl = "https://localhost:7260/wwwroot/Uploads/06dfd75a-1c7b-42a2-942d-ee3d48a26a0f.png"
+                       }, 
+                       new Location {
+                            LocationID = 421,
+                            Name = "Outside",
+                            Description = "Vylezl jsi z auta a stojíš v temném lese",
+                            BackgroundImageUrl = "https://localhost:7260/wwwroot/Uploads/06dfd75a-1c7b-42a2-942d-ee3d48a26a0f.png"
                        }
                 );
             });
+
 
             builder.Entity<UserPlayer>()
                 .HasOne(up => up.User)
@@ -91,6 +101,29 @@ namespace GameBookASP.Data
                 .HasOne(up => up.Player)
                 .WithMany(p => p.UserPlayers)
                 .HasForeignKey(up => up.PlayerId);
+
+builder.Entity<Link>(options => {
+                options.HasKey(e => e.LinkID);
+                options.HasOne(e => e.FromLocation)
+                .WithMany()
+                .HasForeignKey(e => e.FromLocationID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+                options.HasOne(e => e.ToLocation)
+                  .WithMany()
+                  .HasForeignKey(e => e.ToLocationID)
+                  .OnDelete(DeleteBehavior.Restrict);
+
+                options.HasData(
+                    new Link {
+                        LinkID = 69,
+                        FromLocationID = 420,
+                        ToLocationID = 421,
+
+                    }
+                );
+            });
+
         }
     }
 }

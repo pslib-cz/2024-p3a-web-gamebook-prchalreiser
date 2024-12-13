@@ -3,6 +3,7 @@ using System;
 using GameBookASP.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MDAGameBook.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241213074813_LocationSeed")]
+    partial class LocationSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
@@ -281,7 +284,7 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "eb4362e0-d16c-4190-8df8-80d27004003f",
+                            Id = "6fc16aac-3572-43cd-83f3-d8720a30b3a3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -353,15 +356,15 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "71c63911-afe4-44f0-aaf6-579418d20cc1",
+                            Id = "1eaba987-5223-4c46-bfb9-6eaa27d34f12",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bcada984-bfb8-404a-8824-ded18c07a702",
+                            ConcurrencyStamp = "e2abe5e0-fa72-49b7-8d37-90aa70836eea",
                             Email = "admin@minjiya.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MINJIYA.COM",
                             NormalizedUserName = "ADMIN@MINJIYA.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEN1pWuWSDvAa0vn42XpbfR8HGDKzoFQPTzhy5l6tyaU9slL2Ym1JoIimExl2l/ue3Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHzZ0bFu62kDMxMwhphnJrRkNJwRQCxG5/bBJtRyyM15mfq3Fja7DnxO1SzNtolIzQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -454,8 +457,8 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            RoleId = "eb4362e0-d16c-4190-8df8-80d27004003f",
-                            UserId = "71c63911-afe4-44f0-aaf6-579418d20cc1"
+                            RoleId = "6fc16aac-3572-43cd-83f3-d8720a30b3a3",
+                            UserId = "1eaba987-5223-4c46-bfb9-6eaa27d34f12"
                         });
                 });
 
@@ -520,13 +523,13 @@ namespace MDAGameBook.Server.Migrations
                     b.HasOne("GameBookASP.GameModels.Location", "FromLocation")
                         .WithMany()
                         .HasForeignKey("FromLocationID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("GameBookASP.GameModels.Location", "ToLocation")
                         .WithMany()
                         .HasForeignKey("ToLocationID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("FromLocation");

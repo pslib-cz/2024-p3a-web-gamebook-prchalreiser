@@ -25,14 +25,14 @@ namespace MDAGameBook.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Link>>> GetLinks()
         {
-            return await _context.Links.ToListAsync();
+            return await _context.Links.Include(l => l.ToLocation).ToListAsync();
         }
 
         // GET: api/Links/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Link>> GetLink(int id)
         {
-            var link = await _context.Links.FindAsync(id);
+            var link = await _context.Links.Include(l => l.ToLocation).FirstOrDefaultAsync(l => l.LinkID == id);
 
             if (link == null)
             {
