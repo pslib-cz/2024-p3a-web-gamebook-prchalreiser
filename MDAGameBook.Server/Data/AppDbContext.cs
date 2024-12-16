@@ -9,17 +9,17 @@ namespace GameBookASP.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<Player> Players { get; set; }
-        public DbSet<Location> Locations { get; set; }
-        public DbSet<Link> Links { get; set; }
-        public DbSet<Shop> Shops { get; set; }
-        public DbSet<Item> Items { get; set; }
-        public DbSet<Minigame> Minigames { get; set; }
-        public DbSet<FightMinigame> FightMinigames { get; set; }
+        public DbSet<Player>? Players { get; set; }
+        public DbSet<Location>? Locations { get; set; }
+        public DbSet<Link>? Links { get; set; }
+        public DbSet<Shop>? Shops { get; set; }
+        public DbSet<Item>? Items { get; set; }
+        public DbSet<Minigame>? Minigames { get; set; }
+        public DbSet<FightMinigame>? FightMinigames { get; set; }
 
         public DbSet<Models.File>? Files { get; set; }
         public override DbSet<Models.User> Users { get; set; } = null!;
-        public DbSet<UserPlayer> UserPlayers { get; set; }
+        public DbSet<UserPlayer>? UserPlayers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -104,14 +104,14 @@ namespace GameBookASP.Data
             builder.Entity<Link>(options => {
                 options.HasKey(e => e.LinkID);
                 options.HasOne(e => e.FromLocation)
-                .WithMany()
-                .HasForeignKey(e => e.FromLocationID)
-                .OnDelete(DeleteBehavior.Restrict);
+                    .WithMany()
+                    .HasForeignKey(e => e.FromLocationID)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 options.HasOne(e => e.ToLocation)
-                  .WithMany()
-                  .HasForeignKey(e => e.ToLocationID)
-                  .OnDelete(DeleteBehavior.Restrict);
+                    .WithMany()
+                    .HasForeignKey(e => e.ToLocationID)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 options.HasData(
                     new Link {
