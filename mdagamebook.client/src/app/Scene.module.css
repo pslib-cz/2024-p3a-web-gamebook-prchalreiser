@@ -1,0 +1,10 @@
+.scene-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.scene-description {
+    margin-top: 20px;
+    line-height: 1.6;
+}

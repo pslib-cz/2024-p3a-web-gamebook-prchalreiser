@@ -1,9 +1,9 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Link from './components/Link';
 // pages
 import StartingPage from './app/StartingPage';
 import Login from './app/Login';
 import Upload from './app/Upload';
+import Scene from './app/Scene';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -23,6 +23,7 @@ const App = () => {
       path: "/upload",
       element: <Upload />
     },
+    { path: "/scene/:sceneId", element: <Scene /> },
     {
       path: "*",
       element: <div>404 Not Found</div>
