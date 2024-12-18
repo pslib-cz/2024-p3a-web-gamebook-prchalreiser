@@ -168,13 +168,27 @@ namespace MDAGameBook.Server.Controllers
                     return BadRequest("Item not found");
                 }
 
+                // Initialize inventory if null
+                if (userPlayer.Player.Inventory == null)
+                {
+                    userPlayer.Player.Inventory = new List<Item>();
+                }
+
                 // Add item to player's inventory
-                userPlayer.Player.Inventory ??= new List<Item>();
                 userPlayer.Player.Inventory.Add(magicKey);
-                await _context.SaveChangesAsync();
+                
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return Ok(new { message = "Item collected successfully!" });
+                }
+                catch (Exception)
+                {
+                    return StatusCode(500, new { message = "Failed to save item to inventory" });
+                }
             }
 
-            return Ok(new { message = "Item collected successfully!" });
+            return BadRequest(new { message = "No item to collect at this location" });
         }
 
         private bool LocationExists(int id)

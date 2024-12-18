@@ -19,6 +19,10 @@ interface ApiError {
     message: string;
 }
 
+interface ItemCheckResponse {
+    hasItem: boolean;
+}
+
 const Scene = () => {
     const navigate = useNavigate();
     const { sceneId } = useParams<{ sceneId: string }>();
@@ -26,6 +30,7 @@ const Scene = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [hasCollectedItem, setHasCollectedItem] = useState(false);
+    const [hasItem, setHasItem] = useState(false);
 
     useEffect(() => {
         const fetchSceneData = async () => {
@@ -65,6 +70,31 @@ const Scene = () => {
         }
     }, [sceneId]);
 
+    useEffect(() => {
+        const checkForItem = async () => {
+            if (sceneId === "420") {
+                try {
+                    const token = localStorage.getItem('accessToken');
+                    const response = await fetch('https://localhost:7260/api/Players/has-item/1', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+
+                    if (response.ok) {
+                        const hasItem = await response.json();
+                        setHasItem(hasItem);
+                        setHasCollectedItem(hasItem);
+                    }
+                } catch (err) {
+                    console.error('Failed to check for item:', err);
+                }
+            }
+        };
+
+        checkForItem();
+    }, [sceneId]);
+
     const collectItem = async () => {
         try {
             const token = localStorage.getItem('accessToken');
@@ -81,6 +111,7 @@ const Scene = () => {
             }
 
             const data = await response.json();
+            setHasItem(true);
             setHasCollectedItem(true);
             alert(data.message);
         } catch (err) {
@@ -115,7 +146,7 @@ const Scene = () => {
                     />
                 )}
                 <div className={styles.navigation}>
-                    {sceneId === "420" && !hasCollectedItem && (
+                    {sceneId === "420" && !hasItem && (
                         <button 
                             className={styles.collectButton} 
                             onClick={collectItem}

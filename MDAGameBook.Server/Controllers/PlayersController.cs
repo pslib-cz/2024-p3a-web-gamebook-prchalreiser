@@ -137,6 +137,31 @@ namespace MDAGameBook.Server.Controllers
             return _context.Players.Any(e => e.PlayerID == id);
         }
 
+        // Add this new endpoint
+        [HttpGet("has-item/{itemId}")]
+        public async Task<ActionResult<bool>> HasItem(int itemId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var userPlayer = await _context.UserPlayers
+                .Include(up => up.Player)
+                    .ThenInclude(p => p.Inventory)
+                .FirstOrDefaultAsync(up => up.UserId == userId);
+
+            if (userPlayer == null)
+            {
+                return false;
+            }
+
+            var hasItem = userPlayer.Player.Inventory?
+                .Any(item => item.ItemID == itemId) ?? false;
+
+            return hasItem;
+        }
 
     }
 }
