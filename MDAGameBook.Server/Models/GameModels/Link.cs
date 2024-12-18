@@ -11,6 +11,7 @@ public class Link
     public int FromLocationID { get; set; }
     [ForeignKey("ToLocation")]
     public int ToLocationID { get; set; }
+    public int? RequiredItemId { get; set; }
     public bool? Condition { get; set; }
 
     [JsonIgnore]

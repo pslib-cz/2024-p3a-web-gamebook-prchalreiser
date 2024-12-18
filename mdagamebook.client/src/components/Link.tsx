@@ -3,7 +3,8 @@ import { PropsWithChildren } from "react"
 import styled from "styled-components"
 
 type LinkProps = PropsWithChildren<{
-    href: string
+    href: string,
+    onClick?: () => void
 }>
 
 const StyledLink = styled(RouterLink)`
@@ -48,9 +49,9 @@ const StyledLink = styled(RouterLink)`
     }
 `
 
-const Link = ({ href, children }: LinkProps) => {
+const Link = ({ href, children, onClick }: LinkProps) => {
     return (
-        <StyledLink to={href}>
+        <StyledLink to={href} onClick={onClick}>
             {children}
         </StyledLink>
     )

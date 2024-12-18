@@ -74,22 +74,53 @@ namespace GameBookASP.Data
                            LocationID = -1,
                            Name = "Unlinked Location",
                            Description = "Nacházíš se někde, kam ses neměl dostat :O",
-                           BackgroundImageUrl = "https://localhost:7260/Uploads/f5f2add3-d635-4319-8e27-d9494c03b14e.png"
+                           BackgroundImageUrl = "https://localhost:7260/Uploads/f5f2add3-d635-4319-8e27-d9494c03b14e.png",
+                           HasRequiredItem = false
+                       
                        },
                        new Location {
                             LocationID = 420,
                             Name = "Hotbox",
                             Description = "Jsi v interiéru auta a dáváš hotbox.",
-                            BackgroundImageUrl = "https://localhost:7260/Uploads/06dfd75a-1c7b-42a2-942d-ee3d48a26a0f.png"
+                            BackgroundImageUrl = "https://localhost:7260/Uploads/06dfd75a-1c7b-42a2-942d-ee3d48a26a0f.png",
+                            HasRequiredItem = false
                        }, 
                        new Location {
                             LocationID = 421,
                             Name = "Outside",
                             Description = "Vylezl jsi z auta a stojíš v temném lese",
-                            BackgroundImageUrl = "https://localhost:7260/Uploads/06dfd75a-1c7b-42a2-942d-ee3d48a26a0f.png"
+                            BackgroundImageUrl = "https://localhost:7260/Uploads/06dfd75a-1c7b-42a2-942d-ee3d48a26a0f.png",
+                            HasRequiredItem = false
                        }
                 );
             });
+            builder.Entity<Item>().HasData(
+                new Item
+                {
+                    ItemID = 1,
+                    Name = "Magic Key",
+                    Description = "A mysterious key that unlocks the path forward.",
+                    Price = 0,
+                    IsDrinkable = false,
+                    Effect = "{}" // No effects for now
+                }
+            );
+
+            builder.Entity<Player>().HasData(
+                new Player
+                {
+                    PlayerID = Guid.Parse("11111111-1111-1111-1111-111111111111"), // Example GUID
+                    Health = 100,
+                    Withdrawal = 0,
+                    Stamina = 100,
+                    Coins = 0,
+                    Inventory = new List<Item>()
+                }
+            );
+
+
+
+
 
             builder.Entity<UserPlayer>()
                 .HasOne(up => up.User)
@@ -118,6 +149,7 @@ namespace GameBookASP.Data
                         LinkID = 69,
                         FromLocationID = 420,
                         ToLocationID = 421,
+                        RequiredItemId = 1
                     }
                 );
             });

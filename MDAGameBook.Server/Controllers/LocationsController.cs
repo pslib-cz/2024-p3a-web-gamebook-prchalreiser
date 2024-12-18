@@ -7,11 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GameBookASP.Data;
 using GameBookASP.GameModels;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MDAGameBook.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class LocationsController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -33,10 +36,37 @@ namespace MDAGameBook.Server.Controllers
         public async Task<ActionResult<Location>> GetLocation(int id)
         {
             var location = await _context.Locations.FindAsync(id);
-
             if (location == null)
             {
                 return NotFound();
+            }
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var userPlayer = await _context.UserPlayers
+                .Include(up => up.Player)
+                    .ThenInclude(p => p.Inventory)
+                .FirstOrDefaultAsync(up => up.UserId == userId);
+
+            if (userPlayer == null)
+            {
+                return BadRequest("Player not found. Please create a player first.");
+            }
+
+            // Check if trying to access location 421 without the required item
+            if (id == 421)
+            {
+                var hasRequiredItem = userPlayer.Player.Inventory?
+                    .Any(item => item.ItemID == 1) ?? false;
+
+                if (!hasRequiredItem)
+                {
+                    return BadRequest(new { message = "You need the Magic Key to enter this location!" });
+                }
             }
 
             return location;
@@ -98,6 +128,53 @@ namespace MDAGameBook.Server.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        // Add this new endpoint
+        [HttpPost("{id}/collect-item")]
+        public async Task<ActionResult<Location>> CollectItem(int id)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var userPlayer = await _context.UserPlayers
+                .Include(up => up.Player)
+                .ThenInclude(p => p.Inventory)
+                .FirstOrDefaultAsync(up => up.UserId == userId);
+
+            if (userPlayer == null)
+            {
+                return BadRequest("Player not found");
+            }
+
+            if (id == 420) // Hotbox location
+            {
+                // Check if player already has the item
+                var hasItem = userPlayer.Player.Inventory?
+                    .Any(item => item.ItemID == 1) ?? false;
+
+                if (hasItem)
+                {
+                    return BadRequest(new { message = "You already have this item!" });
+                }
+
+                // Get the Magic Key item
+                var magicKey = await _context.Items.FindAsync(1);
+                if (magicKey == null)
+                {
+                    return BadRequest("Item not found");
+                }
+
+                // Add item to player's inventory
+                userPlayer.Player.Inventory ??= new List<Item>();
+                userPlayer.Player.Inventory.Add(magicKey);
+                await _context.SaveChangesAsync();
+            }
+
+            return Ok(new { message = "Item collected successfully!" });
         }
 
         private bool LocationExists(int id)

@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GameBookASP.Data;
 using GameBookASP.GameModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MDAGameBook.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class LinksController : ControllerBase
     {
         private readonly AppDbContext _context;

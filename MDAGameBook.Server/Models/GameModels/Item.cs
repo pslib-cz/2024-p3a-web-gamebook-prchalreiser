@@ -4,7 +4,7 @@ namespace GameBookASP.GameModels;
 public class Item
 {
     [Key]
-    public Guid ItemID { get; set; }
+    public int ItemID { get; set; }
     public string Name { get; set; } = string.Empty;
     public bool IsDrinkable { get; set; }
     public string? Description { get; set; }

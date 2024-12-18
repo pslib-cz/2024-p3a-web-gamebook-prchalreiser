@@ -12,7 +12,7 @@ public class Player
     public int Withdrawal { get; set; }
     public int Stamina { get; set; }
     public int Coins { get; set; }
-    public ICollection<Item> Inventory { get; set; } // on gwt posilat json
+    public ICollection<Item>? Inventory { get; set; } // on gwt posilat json
 
     // Add this property
     [JsonIgnore]

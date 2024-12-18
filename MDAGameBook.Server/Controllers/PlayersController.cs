@@ -7,11 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GameBookASP.Data;
 using GameBookASP.GameModels;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace MDAGameBook.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PlayersController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -78,7 +81,36 @@ namespace MDAGameBook.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Player>> PostPlayer(Player player)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            // Check if user already has a player
+            var existingUserPlayer = await _context.UserPlayers
+                .Include(up => up.Player)
+                .FirstOrDefaultAsync(up => up.UserId == userId);
+
+            if (existingUserPlayer != null)
+            {
+                // Return the existing player instead of an error
+                return Ok(existingUserPlayer.Player);
+            }
+
+            // Create new player
             _context.Players.Add(player);
+            await _context.SaveChangesAsync();
+
+            // Create UserPlayer link
+            var userPlayer = new UserPlayer
+            {
+                Id = Guid.NewGuid(),
+                UserId = userId,
+                PlayerId = player.PlayerID
+            };
+
+            _context.UserPlayers.Add(userPlayer);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetPlayer", new { id = player.PlayerID }, player);
@@ -104,5 +136,7 @@ namespace MDAGameBook.Server.Controllers
         {
             return _context.Players.Any(e => e.PlayerID == id);
         }
+
+
     }
 }

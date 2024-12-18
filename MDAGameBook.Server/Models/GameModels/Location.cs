@@ -8,5 +8,6 @@ public class Location
     public string? Description { get; set; }
     public string Items { get; set; } = "[]"; // JSON representation of items)
     public string? BackgroundImageUrl { get; set; }
+    public bool HasRequiredItem { get; set; } = false;
 
 }
