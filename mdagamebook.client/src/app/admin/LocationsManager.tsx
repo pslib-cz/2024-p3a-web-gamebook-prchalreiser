@@ -27,10 +27,6 @@ const LocationsManager = () => {
         items: '[]'
     });
 
-    useEffect(() => {
-        fetchLocations();
-    }, [token]);
-
     const fetchLocations = async () => {
         try {
             const response = await fetch('https://localhost:7260/api/Locations', {
@@ -43,9 +39,13 @@ const LocationsManager = () => {
                 setLocations(data);
             }
         } catch (err) {
-            setError('Failed to fetch locations');
+            setError('Failed to fetch locations! ' + err);
         }
     };
+
+    useEffect(() => {
+        fetchLocations();
+    }, [token]);
 
     const handleFileUpload = async () => {
         if (!file) return null;

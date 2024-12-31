@@ -51,7 +51,7 @@ const LinksManager = () => {
                 setLinks(data);
             }
         } catch (err) {
-            setError('Failed to fetch links');
+            setError('Failed to fetch links! ' + err);
         }
     };
 
@@ -67,7 +67,7 @@ const LinksManager = () => {
                 setLocations(data);
             }
         } catch (err) {
-            setError('Failed to fetch locations');
+            setError('Failed to fetch locations! ' + err);
         }
     };
 
