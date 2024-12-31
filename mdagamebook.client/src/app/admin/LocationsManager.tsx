@@ -148,7 +148,7 @@ const LocationsManager = () => {
     };
 
     const handleDelete = async (locationId: number) => {
-        if (!window.confirm('Are you sure you want to delete this location? This will also delete all links to and from this location.')) {
+        if (!window.confirm('Are you sure you want to delete this location?')) {
             return;
         }
 
@@ -164,7 +164,7 @@ const LocationsManager = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to delete location');
+                throw new Error('Failed to delete location. Try to delete all links to and from this location first.');
             }
 
             setSuccess('Location deleted successfully!');
@@ -191,6 +191,7 @@ const LocationsManager = () => {
                         id="name"
                         value={formData.name}
                         onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                        className={styles.formInput}
                         required
                     />
                 </div>
@@ -201,6 +202,7 @@ const LocationsManager = () => {
                         id="description"
                         value={formData.description}
                         onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                        className={`${styles.formInput} ${styles.formTextarea}`}
                         required
                     />
                 </div>
@@ -212,6 +214,7 @@ const LocationsManager = () => {
                         id="image"
                         accept="image/*"
                         onChange={(e) => setFile(e.target.files?.[0] || null)}
+                        className={styles.fileInput}
                         required={!editingLocation}
                     />
                 </div>
@@ -222,16 +225,27 @@ const LocationsManager = () => {
                             type="checkbox"
                             checked={formData.hasRequiredItem}
                             onChange={(e) => setFormData(prev => ({ ...prev, hasRequiredItem: e.target.checked }))}
+                            className={styles.checkbox}
                         />
-                        Has Required Item
+                        <label className={styles.checkboxLabel}>
+                            Has Required Item
+                        </label>
                     </label>
                 </div>
 
-                <button type="submit" disabled={loading}>
+                <button
+                    type="submit"
+                    disabled={loading}
+                    className={`${styles.button} ${styles.primaryButton} ${loading ? styles.buttonDisabled : ''}`}
+                >
                     {loading ? 'Processing...' : (editingLocation ? 'Update Location' : 'Create Location')}
                 </button>
                 {editingLocation && (
-                    <button type="button" onClick={resetForm}>
+                    <button
+                        type="button"
+                        onClick={resetForm}
+                        className={`${styles.button} ${styles.secondaryButton}`}
+                    >
                         Cancel Edit
                     </button>
                 )}
@@ -253,12 +267,15 @@ const LocationsManager = () => {
                             <div className={styles.locationInfo}>
                                 <p>{location.description}</p>
                                 <div className={styles.buttonGroup}>
-                                    <button onClick={() => handleEdit(location)}>
+                                    <button
+                                        onClick={() => handleEdit(location)}
+                                        className={`${styles.button} ${styles.editButton}`}
+                                    >
                                         <span className={styles.buttonIcon}>✏️</span> Edit
                                     </button>
                                     <button
                                         onClick={() => handleDelete(location.locationID)}
-                                        className={styles.deleteButton}
+                                        className={`${styles.button} ${styles.deleteButton}`}
                                     >
                                         <span className={styles.buttonIcon}>🗑️</span> Delete
                                     </button>

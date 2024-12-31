@@ -174,6 +174,7 @@ const LinksManager = () => {
                         value={formData.fromLocationID}
                         onChange={(e) => setFormData(prev => ({ ...prev, fromLocationID: e.target.value }))}
                         required
+                        className={styles.formSelect}
                     >
                         <option value="">Select location</option>
                         {locations.map(location => (
@@ -191,6 +192,7 @@ const LinksManager = () => {
                         value={formData.toLocationID}
                         onChange={(e) => setFormData(prev => ({ ...prev, toLocationID: e.target.value }))}
                         required
+                        className={styles.formSelect}
                     >
                         <option value="">Select location</option>
                         {locations.map(location => (
@@ -201,11 +203,15 @@ const LinksManager = () => {
                     </select>
                 </div>
 
-                <button type="submit" disabled={loading}>
+                <button type="submit" disabled={loading} className={`${styles.button} ${styles.primaryButton} ${loading ? styles.buttonDisabled : ''}`}>
                     {loading ? 'Processing...' : (editingLink ? 'Update Link' : 'Create Link')}
                 </button>
                 {editingLink && (
-                    <button type="button" onClick={resetForm}>
+                    <button
+                        type="button"
+                        onClick={resetForm}
+                        className={`${styles.button} ${styles.secondaryButton}`}
+                    >
                         Cancel Edit
                     </button>
                 )}
@@ -230,12 +236,15 @@ const LinksManager = () => {
                             )}
                         </div>
                         <div className={styles.buttonGroup}>
-                            <button onClick={() => handleEdit(link)}>
+                            <button
+                                onClick={() => handleEdit(link)}
+                                className={`${styles.button} ${styles.editButton}`}
+                            >
                                 <span className={styles.buttonIcon}>✏️</span> Edit
                             </button>
                             <button
                                 onClick={() => handleDelete(link.linkID)}
-                                className={styles.deleteButton}
+                                className={`${styles.button} ${styles.deleteButton}`}
                             >
                                 <span className={styles.buttonIcon}>🗑️</span> Delete
                             </button>
