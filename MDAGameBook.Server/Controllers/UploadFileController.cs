@@ -37,7 +37,8 @@ namespace GameBookASP.Controllers
             var absolutePath = Path.Combine(_environment.ContentRootPath, file.FilePath);
 
             // Check if the file exists
-            if (!System.IO.File.Exists(absolutePath)) {
+            if (!System.IO.File.Exists(absolutePath))
+            {
                 return NotFound("File does not exist.");
             }
 
@@ -66,7 +67,7 @@ namespace GameBookASP.Controllers
             var userRoles = await _context.UserRoles.Where(ur => ur.UserId == userId).ToListAsync();
             var userRoleIds = userRoles.Select(ur => ur.RoleId).ToList();
             var adminRoleId = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "Admin");
-            
+
             if (!userRoleIds.Contains(adminRoleId!.Id))
             {
                 return Unauthorized("User is not an admin");
@@ -79,7 +80,8 @@ namespace GameBookASP.Controllers
 
             IList<dynamic> newFiles = new List<dynamic>();
 
-            foreach (var file in model.Files) {
+            foreach (var file in model.Files)
+            {
                 var fileName = Path.GetFileName(file.FileName);
                 var imageContentTypes = new List<string> {
         "image/jpeg",
@@ -89,10 +91,12 @@ namespace GameBookASP.Controllers
         "image/avif"
     };
 
-                if (!imageContentTypes.Contains(file.ContentType)) {
+                if (!imageContentTypes.Contains(file.ContentType))
+                {
                     return NotFound("Invalid file type");
                 }
-                if (file.Length > 12 * 1024 * 1024) {
+                if (file.Length > 12 * 1024 * 1024)
+                {
                     return NotFound("File too large");
                 }
 
@@ -100,11 +104,16 @@ namespace GameBookASP.Controllers
                 var relativePath = Path.Combine("Uploads", imgId.ToString() + Path.GetExtension(fileName));
                 var filePath = Path.Combine(_environment.WebRootPath, "Uploads", imgId.ToString() + Path.GetExtension(fileName));
 
-                using (var stream = new FileStream(filePath, FileMode.Create)) {
-                    try {
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    try
+                    {
                         await file.CopyToAsync(stream);
-                    } catch (Exception e) {
-                        newFiles.Add(new {
+                    }
+                    catch (Exception e)
+                    {
+                        newFiles.Add(new
+                        {
                             FileName = fileName,
                             FileType = file.ContentType,
                             FileSize = file.Length,
@@ -113,18 +122,12 @@ namespace GameBookASP.Controllers
                         continue;
                     }
                 }
-                newFiles.Add(new {
-                    FileName = fileName,
-                    FileType = file.ContentType,
-                    FileSize = file.Length,
-                    Status = "Success",
-                   
-                });
 
-                var newFile = new Models.File {
+                var newFile = new Models.File
+                {
                     Id = imgId,
                     FileName = fileName,
-                    FilePath = relativePath, // Save the relative path with "wwwroot"
+                    FilePath = relativePath, // This contains "Uploads/[guid][extension]"
                     FileType = file.ContentType,
                     UploadedAt = DateTime.Now
                 };

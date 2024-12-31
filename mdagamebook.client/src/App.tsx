@@ -5,6 +5,8 @@ import StartingPage from './app/StartingPage';
 import Login from './app/Login';
 import Upload from './app/Upload';
 import Scene from './app/Scene';
+import AdminPanel from './app/admin/AdminPanel';
+
 
 // First, create the routes configuration
 const routes = [
@@ -27,6 +29,10 @@ const routes = [
   {
     path: "/scene/:sceneId",
     element: <Scene />
+  },
+  {
+    path: "/admin",
+    element: <AdminPanel />
   },
   {
     path: "*",

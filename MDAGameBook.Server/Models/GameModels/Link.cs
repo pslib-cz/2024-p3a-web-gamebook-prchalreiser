@@ -7,14 +7,15 @@ public class Link
 {
     [Key]
     public int LinkID { get; set; }
+    [Required]
     [ForeignKey("FromLocation")]
     public int FromLocationID { get; set; }
+    [Required]
     [ForeignKey("ToLocation")]
     public int ToLocationID { get; set; }
     public int? RequiredItemId { get; set; }
     public bool? Condition { get; set; }
 
-    [JsonIgnore]
-    public Location FromLocation { get; set; } = null!;
-    public Location ToLocation { get; set; } = null!;
+    public virtual Location? FromLocation { get; set; }
+    public virtual Location? ToLocation { get; set; }
 }

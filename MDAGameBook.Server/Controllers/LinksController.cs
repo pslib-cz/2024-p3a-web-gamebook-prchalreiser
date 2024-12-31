@@ -55,6 +55,24 @@ namespace MDAGameBook.Server.Controllers
                 return BadRequest();
             }
 
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Detach any existing navigation properties to prevent tracking conflicts
+            link.FromLocation = null;
+            link.ToLocation = null;
+
+            // Verify that the locations exist
+            var fromLocationExists = await _context.Locations!.AnyAsync(l => l.LocationID == link.FromLocationID);
+            var toLocationExists = await _context.Locations!.AnyAsync(l => l.LocationID == link.ToLocationID);
+
+            if (!fromLocationExists || !toLocationExists)
+            {
+                return BadRequest("One or both locations not found");
+            }
+
             _context.Entry(link).State = EntityState.Modified;
 
             try
@@ -81,8 +99,31 @@ namespace MDAGameBook.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Link>> PostLink(Link link)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Detach any existing navigation properties to prevent tracking conflicts
+            link.FromLocation = null;
+            link.ToLocation = null;
+
+            // Verify that the locations exist
+            var fromLocationExists = await _context.Locations!.AnyAsync(l => l.LocationID == link.FromLocationID);
+            var toLocationExists = await _context.Locations!.AnyAsync(l => l.LocationID == link.ToLocationID);
+
+            if (!fromLocationExists || !toLocationExists)
+            {
+                return BadRequest("One or both locations not found");
+            }
+
             _context.Links!.Add(link);
             await _context.SaveChangesAsync();
+
+            // Load the ToLocation for the response
+            await _context.Entry(link)
+                .Reference(l => l.ToLocation)
+                .LoadAsync();
 
             return CreatedAtAction("GetLink", new { id = link.LinkID }, link);
         }
