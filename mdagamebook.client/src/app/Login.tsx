@@ -11,11 +11,7 @@ const SignInPage = () => {
         try {
             await login(email, password);
         } catch (error) {
-            if (error instanceof Error) {
-                setError(error);
-            } else {
-                setError(new Error("Přihlášení nebylo úspěšné"));
-            }
+            setError(new Error("Nesprávné přihlašovací údaje! " + error));
         } finally {
             setLoading(false);
         }

@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
+
 namespace GameBookASP.GameModels;
 public class Location
 {
@@ -6,7 +8,22 @@ public class Location
     public int LocationID { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }
-    public string Items { get; set; } = "[]"; // JSON representation of items)
+    private string _items = "[]";
+    public string Items
+    {
+        get => _items;
+        set => _items = string.IsNullOrEmpty(value) ? "[]" : value;
+    }
     public string? BackgroundImageUrl { get; set; }
     public bool HasRequiredItem { get; set; } = false;
+
+    public void SetItems(int[] items)
+    {
+        _items = JsonSerializer.Serialize(items);
+    }
+
+    public int[] GetItems()
+    {
+        return JsonSerializer.Deserialize<int[]>(_items) ?? Array.Empty<int>();
+    }
 }

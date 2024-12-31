@@ -9,6 +9,7 @@ using GameBookASP.Data;
 using GameBookASP.GameModels;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using System.Text.Json;
 
 namespace MDAGameBook.Server.Controllers
 {
@@ -28,33 +29,33 @@ namespace MDAGameBook.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Location>>> GetLocations()
         {
-            return await _context.Locations.ToListAsync();
+            return await _context.Locations!.ToListAsync();
         }
 
         // GET: api/Locations/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Location>> GetLocation(int id)
         {
-            var location = await _context.Locations.FindAsync(id);
-            if (location == null)
-            {
-                return NotFound();
-            }
-
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userId == null)
             {
                 return Unauthorized();
             }
 
-            var userPlayer = await _context.UserPlayers
+            var location = await _context.Locations!.FindAsync(id);
+            if (location == null)
+            {
+                return NotFound();
+            }
+
+            var userPlayer = await _context.UserPlayers!
                 .Include(up => up.Player)
                     .ThenInclude(p => p.Inventory)
                 .FirstOrDefaultAsync(up => up.UserId == userId);
 
             if (userPlayer == null)
             {
-                return BadRequest("Player not found. Please create a player first.");
+                return BadRequest();
             }
 
             // Check if trying to access location 421 without the required item
@@ -65,7 +66,7 @@ namespace MDAGameBook.Server.Controllers
 
                 if (!hasRequiredItem)
                 {
-                    return BadRequest(new { message = "You need the Magic Key to enter this location!" });
+                    return BadRequest();
                 }
             }
 
@@ -108,7 +109,7 @@ namespace MDAGameBook.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Location>> PostLocation(Location location)
         {
-            _context.Locations.Add(location);
+            _context.Locations!.Add(location);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetLocation", new { id = location.LocationID }, location);
@@ -118,7 +119,7 @@ namespace MDAGameBook.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLocation(int id)
         {
-            var location = await _context.Locations.FindAsync(id);
+            var location = await _context.Locations!.FindAsync(id);
             if (location == null)
             {
                 return NotFound();
@@ -140,7 +141,7 @@ namespace MDAGameBook.Server.Controllers
                 return Unauthorized();
             }
 
-            var userPlayer = await _context.UserPlayers
+            var userPlayer = await _context.UserPlayers!
                 .Include(up => up.Player)
                 .ThenInclude(p => p.Inventory)
                 .FirstOrDefaultAsync(up => up.UserId == userId);
@@ -150,22 +151,36 @@ namespace MDAGameBook.Server.Controllers
                 return BadRequest("Player not found");
             }
 
-            if (id == 420) // Hotbox location
+            // Get the location and parse its items
+            var location = await _context.Locations!.FindAsync(id);
+            if (location == null)
             {
-                // Check if player already has the item
+                return NotFound("Location not found");
+            }
+
+            // Parse the Items JSON array from the location
+            var locationItems = JsonSerializer.Deserialize<int[]>(location.Items);
+            if (locationItems == null || !locationItems.Any())
+            {
+                return BadRequest(new { message = "No items to collect at this location" });
+            }
+
+            // Check if player already has any of the items
+            foreach (var itemId in locationItems)
+            {
                 var hasItem = userPlayer.Player.Inventory?
-                    .Any(item => item.ItemID == 1) ?? false;
+                    .Any(item => item.ItemID == itemId) ?? false;
 
                 if (hasItem)
                 {
-                    return BadRequest(new { message = "You already have this item!" });
+                    continue;
                 }
 
-                // Get the Magic Key item
-                var magicKey = await _context.Items.FindAsync(1);
-                if (magicKey == null)
+                // Get the item from database
+                var item = await _context.Items!.FindAsync(itemId);
+                if (item == null)
                 {
-                    return BadRequest("Item not found");
+                    continue;
                 }
 
                 // Initialize inventory if null
@@ -175,12 +190,16 @@ namespace MDAGameBook.Server.Controllers
                 }
 
                 // Add item to player's inventory
-                userPlayer.Player.Inventory.Add(magicKey);
-                
+                userPlayer.Player.Inventory.Add(item);
+
                 try
                 {
+                    // Update the location's items to remove the collected item
+                    var remainingItems = locationItems.Where(i => i != itemId).ToArray();
+                    location.Items = JsonSerializer.Serialize(remainingItems);
+
                     await _context.SaveChangesAsync();
-                    return Ok(new { message = "Item collected successfully!" });
+                    return Ok(new { message = $"{item.Name} collected successfully!" });
                 }
                 catch (Exception)
                 {
@@ -188,12 +207,12 @@ namespace MDAGameBook.Server.Controllers
                 }
             }
 
-            return BadRequest(new { message = "No item to collect at this location" });
+            return BadRequest(new { message = "You already have all items from this location" });
         }
 
         private bool LocationExists(int id)
         {
-            return _context.Locations.Any(e => e.LocationID == id);
+            return _context.Locations!.Any(e => e.LocationID == id);
         }
     }
 }

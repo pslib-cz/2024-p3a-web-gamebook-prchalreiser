@@ -28,14 +28,14 @@ namespace MDAGameBook.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Player>>> GetPlayers()
         {
-            return await _context.Players.ToListAsync();
+            return await _context.Players!.ToListAsync();
         }
 
         // GET: api/Players/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Player>> GetPlayer(Guid id)
         {
-            var player = await _context.Players.FindAsync(id);
+            var player = await _context.Players!.FindAsync(id);
 
             if (player == null)
             {
@@ -88,7 +88,7 @@ namespace MDAGameBook.Server.Controllers
             }
 
             // Check if user already has a player
-            var existingUserPlayer = await _context.UserPlayers
+            var existingUserPlayer = await _context.UserPlayers!
                 .Include(up => up.Player)
                 .FirstOrDefaultAsync(up => up.UserId == userId);
 
@@ -99,7 +99,7 @@ namespace MDAGameBook.Server.Controllers
             }
 
             // Create new player
-            _context.Players.Add(player);
+            _context.Players!.Add(player);
             await _context.SaveChangesAsync();
 
             // Create UserPlayer link
@@ -110,7 +110,7 @@ namespace MDAGameBook.Server.Controllers
                 PlayerId = player.PlayerID
             };
 
-            _context.UserPlayers.Add(userPlayer);
+            _context.UserPlayers!.Add(userPlayer);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetPlayer", new { id = player.PlayerID }, player);
@@ -120,13 +120,13 @@ namespace MDAGameBook.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePlayer(Guid id)
         {
-            var player = await _context.Players.FindAsync(id);
+            var player = await _context.Players!.FindAsync(id);
             if (player == null)
             {
                 return NotFound();
             }
 
-            _context.Players.Remove(player);
+            _context.Players!.Remove(player);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -134,7 +134,7 @@ namespace MDAGameBook.Server.Controllers
 
         private bool PlayerExists(Guid id)
         {
-            return _context.Players.Any(e => e.PlayerID == id);
+            return _context.Players!.Any(e => e.PlayerID == id);
         }
 
         // Add this new endpoint
@@ -147,20 +147,20 @@ namespace MDAGameBook.Server.Controllers
                 return Unauthorized();
             }
 
-            var userPlayer = await _context.UserPlayers
+            var userPlayer = await _context.UserPlayers!
                 .Include(up => up.Player)
                     .ThenInclude(p => p.Inventory)
                 .FirstOrDefaultAsync(up => up.UserId == userId);
 
             if (userPlayer == null)
             {
-                return false;
+                return BadRequest();
             }
 
             var hasItem = userPlayer.Player.Inventory?
                 .Any(item => item.ItemID == itemId) ?? false;
 
-            return hasItem;
+            return Ok(hasItem);
         }
 
     }

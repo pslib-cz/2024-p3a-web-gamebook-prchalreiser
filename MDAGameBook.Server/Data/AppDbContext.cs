@@ -67,31 +67,59 @@ namespace GameBookASP.Data
                 );
             });
 
-            builder.Entity<Location>(options => {
+            builder.Entity<Location>(options =>
+            {
                 options.HasData
                 (
-                       new Location {
-                           LocationID = -1,
-                           Name = "Unlinked Location",
-                           Description = "Nacházíš se někde, kam ses neměl dostat :O",
-                           BackgroundImageUrl = "https://localhost:7260/Uploads/f5f2add3-d635-4319-8e27-d9494c03b14e.png",
-                           HasRequiredItem = false
-                       
-                       },
-                       new Location {
-                            LocationID = 420,
-                            Name = "Hotbox",
-                            Description = "Jsi v interiéru auta a dáváš hotbox.",
-                            BackgroundImageUrl = "https://localhost:7260/Uploads/06dfd75a-1c7b-42a2-942d-ee3d48a26a0f.png",
-                            HasRequiredItem = false
-                       }, 
-                       new Location {
-                            LocationID = 421,
-                            Name = "Outside",
-                            Description = "Vylezl jsi z auta a stojíš v temném lese",
-                            BackgroundImageUrl = "https://localhost:7260/Uploads/06dfd75a-1c7b-42a2-942d-ee3d48a26a0f.png",
-                            HasRequiredItem = false
-                       }
+                    new Location
+                    {
+                        LocationID = -1,
+                        Name = "Unlinked Location",
+                        Description = "Nacházíš se někde, kam ses neměl dostat :O",
+                        BackgroundImageUrl = "https://localhost:7260/Uploads/f5f2add3-d635-4319-8e27-d9494c03b14e.png",
+                        HasRequiredItem = false
+                    },
+                    new Location
+                    {
+                        LocationID = 420,
+                        Name = "Hotbox",
+                        Description = "Jsi v interiéru auta a dáváš hotbox.",
+                        BackgroundImageUrl = "https://localhost:7260/Uploads/06dfd75a-1c7b-42a2-942d-ee3d48a26a0f.png",
+                        HasRequiredItem = true,
+                        Items = "[1]"
+                    },
+                    new Location
+                    {
+                        LocationID = 421,
+                        Name = "Dark Forest",
+                        Description = "Vylezl jsi z auta a stojíš v temném lese. Cesta se rozděluje na několik směrů.",
+                        BackgroundImageUrl = "https://localhost:7260/Uploads/dark-forest.png",
+                        HasRequiredItem = false,
+                    },
+                    new Location
+                    {
+                        LocationID = 422,
+                        Name = "Abandoned Cabin",
+                        Description = "Narazil jsi na starou dřevěnou chatu. Vypadá opuštěně, ale světlo uvnitř stále svítí.",
+                        BackgroundImageUrl = "https://localhost:7260/Uploads/cabin.png",
+                        HasRequiredItem = false
+                    },
+                    new Location
+                    {
+                        LocationID = 423,
+                        Name = "Mysterious Lake",
+                        Description = "Přišel jsi k temnému jezeru. Měsíční světlo se odráží na jeho hladině.",
+                        BackgroundImageUrl = "https://localhost:7260/Uploads/lake.png",
+                        HasRequiredItem = false
+                    },
+                    new Location
+                    {
+                        LocationID = 424,
+                        Name = "Ancient Stone Circle",
+                        Description = "Objevil jsi kruh prastarých kamenů. Ve vzduchu je cítit magická energie.",
+                        BackgroundImageUrl = "https://localhost:7260/Uploads/stone-circle.png",
+                        HasRequiredItem = false
+                    }
                 );
             });
             builder.Entity<Item>().HasData(
@@ -132,7 +160,8 @@ namespace GameBookASP.Data
                 .WithMany(p => p.UserPlayers)
                 .HasForeignKey(up => up.PlayerId);
 
-            builder.Entity<Link>(options => {
+            builder.Entity<Link>(options =>
+            {
                 options.HasKey(e => e.LinkID);
                 options.HasOne(e => e.FromLocation)
                     .WithMany()
@@ -145,11 +174,54 @@ namespace GameBookASP.Data
                     .OnDelete(DeleteBehavior.Restrict);
 
                 options.HasData(
-                    new Link {
-                        LinkID = 69,
+                    new Link
+                    {
+                        LinkID = 1,
                         FromLocationID = 420,
                         ToLocationID = 421,
-                        RequiredItemId = 1
+                        RequiredItemId = 1  // Requires Magic Key
+                    },
+                    new Link
+                    {
+                        LinkID = 2,
+                        FromLocationID = 421,
+                        ToLocationID = 422,
+                        RequiredItemId = null
+                    },
+                    new Link
+                    {
+                        LinkID = 3,
+                        FromLocationID = 421,
+                        ToLocationID = 423,
+                        RequiredItemId = null
+                    },
+                    new Link
+                    {
+                        LinkID = 4,
+                        FromLocationID = 421,
+                        ToLocationID = 424,
+                        RequiredItemId = null
+                    },
+                    new Link
+                    {
+                        LinkID = 5,
+                        FromLocationID = 422,
+                        ToLocationID = 421,
+                        RequiredItemId = null
+                    },
+                    new Link
+                    {
+                        LinkID = 6,
+                        FromLocationID = 423,
+                        ToLocationID = 421,
+                        RequiredItemId = null
+                    },
+                    new Link
+                    {
+                        LinkID = 7,
+                        FromLocationID = 424,
+                        ToLocationID = 421,
+                        RequiredItemId = null
                     }
                 );
             });

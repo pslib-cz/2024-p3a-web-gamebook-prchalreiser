@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GameBookASP.Data;
 using GameBookASP.GameModels;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace MDAGameBook.Server.Controllers
 {
@@ -27,14 +28,14 @@ namespace MDAGameBook.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Link>>> GetLinks()
         {
-            return await _context.Links.Include(l => l.ToLocation).ToListAsync();
+            return await _context.Links!.Include(l => l.ToLocation).ToListAsync();
         }
 
         // GET: api/Links/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Link>> GetLink(int id)
         {
-            var link = await _context.Links.Include(l => l.ToLocation).FirstOrDefaultAsync(l => l.LinkID == id);
+            var link = await _context.Links!.Include(l => l.ToLocation).FirstOrDefaultAsync(l => l.LinkID == id);
 
             if (link == null)
             {
@@ -80,7 +81,7 @@ namespace MDAGameBook.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Link>> PostLink(Link link)
         {
-            _context.Links.Add(link);
+            _context.Links!.Add(link);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetLink", new { id = link.LinkID }, link);
@@ -90,7 +91,7 @@ namespace MDAGameBook.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLink(int id)
         {
-            var link = await _context.Links.FindAsync(id);
+            var link = await _context.Links!.FindAsync(id);
             if (link == null)
             {
                 return NotFound();
@@ -102,9 +103,26 @@ namespace MDAGameBook.Server.Controllers
             return NoContent();
         }
 
+        [HttpGet("from/{locationId}")]
+        public async Task<ActionResult<IEnumerable<Link>>> GetLinksFromLocation(int locationId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var links = await _context.Links!
+                .Include(l => l.ToLocation)
+                .Where(l => l.FromLocationID == locationId)
+                .ToListAsync();
+
+            return Ok(links);
+        }
+
         private bool LinkExists(int id)
         {
-            return _context.Links.Any(e => e.LinkID == id);
+            return _context.Links!.Any(e => e.LinkID == id);
         }
     }
 }

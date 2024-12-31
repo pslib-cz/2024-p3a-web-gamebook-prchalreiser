@@ -11,6 +11,18 @@ interface SceneData {
     description: string;
     items: string;
     backgroundImageUrl: string;
+    hasRequiredItem: boolean;
+}
+
+interface Link {
+    linkID: number;
+    fromLocationID: number;
+    toLocationID: number;
+    requiredItemId: number | null;
+    toLocation: {
+        locationID: number;
+        name: string;
+    };
 }
 
 interface ApiError {
@@ -24,41 +36,48 @@ const Scene = () => {
     const [error, setError] = useState<string | null>(null);
     const [hasItem, setHasItem] = useState(false);
     const { token, logout } = useAuth();
+    const [links, setLinks] = useState<Link[]>([]);
 
     useEffect(() => {
-        const fetchSceneData = async () => {
+        const fetchData = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(`https://localhost:7260/api/Locations/${sceneId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
+                const [sceneResponse, linksResponse] = await Promise.all([
+                    fetch(`https://localhost:7260/api/Locations/${sceneId}`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    }),
+                    fetch(`https://localhost:7260/api/Links/from/${sceneId}`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    })
+                ]);
 
-                if (!response.ok) {
-                    const errorData: ApiError = await response.json();
-                    if (response.status === 404) {
-                        throw new Error("Scéna neexistuje");
-                    } else if (response.status === 401) {
+                if (!sceneResponse.ok) {
+                    const errorData = await sceneResponse.json();
+                    if (sceneResponse.status === 401) {
                         logout();
-                    } else if (response.status === 400) {
-                        throw new Error(errorData.message);
-                    } else {
-                        throw new Error(`${response.statusText}`);
+                        throw new Error("Prosím, přihlaste se znovu");
                     }
+                    throw new Error(errorData.message || "Nepodařilo se načíst scénu");
                 }
 
-                const data = await response.json();
-                setSceneData(data);
+                if (!linksResponse.ok) {
+                    throw new Error("Nepodařilo se načíst odkazy");
+                }
+
+                const sceneData = await sceneResponse.json();
+                const linksData = await linksResponse.json();
+
+                setSceneData(sceneData);
+                setLinks(linksData);
             } catch (err) {
-                setError(err instanceof Error ? err.message : 'An error occurred');
+                setError(err instanceof Error ? err.message : 'Nastala neočekávaná chyba');
             } finally {
                 setLoading(false);
             }
         };
 
         if (sceneId) {
-            fetchSceneData();
+            fetchData();
         }
     }, [sceneId, token, logout]);
 
@@ -134,7 +153,7 @@ const Scene = () => {
                     />
                 )}
                 <div className={styles.navigation}>
-                    {sceneId === "420" && !hasItem && (
+                    {sceneData.hasRequiredItem && !hasItem && (
                         <button
                             className={styles.collectButton}
                             onClick={collectItem}
@@ -142,16 +161,14 @@ const Scene = () => {
                             Collect Required Item
                         </button>
                     )}
-                    {sceneId === "420" && (
-                        <Link href={`/scene/421`}>
-                            Go to Outside (421)
+                    {links.map(link => (
+                        <Link
+                            key={link.linkID}
+                            href={`/scene/${link.toLocation.locationID}`}
+                        >
+                            Go to {link.toLocation.name} ({link.toLocation.locationID})
                         </Link>
-                    )}
-                    {sceneId === "421" && (
-                        <Link href={`/scene/420`}>
-                            Go to Hotbox (420)
-                        </Link>
-                    )}
+                    ))}
                 </div>
             </div>
         </div>
@@ -159,3 +176,4 @@ const Scene = () => {
 };
 
 export default Scene;
+
