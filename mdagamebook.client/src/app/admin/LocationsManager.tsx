@@ -241,23 +241,34 @@ const LocationsManager = () => {
                 <h3>Existing Locations</h3>
                 {locations.map(location => (
                     <div key={location.locationID} className={styles.listItem}>
-                        <h4>{location.name}</h4>
-                        <p>{location.description}</p>
-                        <img
-                            src={location.backgroundImageUrl}
-                            alt={location.name}
-                            className={styles.thumbnail}
-                        />
-                        <div className={styles.buttonGroup}>
-                            <button onClick={() => handleEdit(location)}>
-                                Edit
-                            </button>
-                            <button
-                                onClick={() => handleDelete(location.locationID)}
-                                className={styles.deleteButton}
-                            >
-                                Delete
-                            </button>
+                        <div className={styles.locationHeader}>
+                            <h4>{location.name}</h4>
+                            <div className={styles.locationMeta}>
+                                {location.hasRequiredItem && (
+                                    <span className={styles.badge}>Requires Item</span>
+                                )}
+                            </div>
+                        </div>
+                        <div className={styles.locationContent}>
+                            <div className={styles.locationInfo}>
+                                <p>{location.description}</p>
+                                <div className={styles.buttonGroup}>
+                                    <button onClick={() => handleEdit(location)}>
+                                        <span className={styles.buttonIcon}>✏️</span> Edit
+                                    </button>
+                                    <button
+                                        onClick={() => handleDelete(location.locationID)}
+                                        className={styles.deleteButton}
+                                    >
+                                        <span className={styles.buttonIcon}>🗑️</span> Delete
+                                    </button>
+                                </div>
+                            </div>
+                            <img
+                                src={location.backgroundImageUrl}
+                                alt={location.name}
+                                className={styles.thumbnail}
+                            />
                         </div>
                     </div>
                 ))}

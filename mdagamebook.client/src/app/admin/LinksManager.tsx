@@ -215,19 +215,29 @@ const LinksManager = () => {
                 <h3>Existing Links</h3>
                 {links.map(link => (
                     <div key={link.linkID} className={styles.listItem}>
-                        <p>
-                            From: {locations.find(l => l.locationID === link.fromLocationID)?.name} →
-                            To: {link.toLocation.name}
-                        </p>
+                        <div className={styles.linkContent}>
+                            <div className={styles.linkPath}>
+                                <span className={styles.locationName}>
+                                    {locations.find(l => l.locationID === link.fromLocationID)?.name}
+                                </span>
+                                <span className={styles.linkArrow}>→</span>
+                                <span className={styles.locationName}>
+                                    {link.toLocation.name}
+                                </span>
+                            </div>
+                            {link.requiredItemId && (
+                                <span className={styles.badge}>Required Item: {link.requiredItemId}</span>
+                            )}
+                        </div>
                         <div className={styles.buttonGroup}>
                             <button onClick={() => handleEdit(link)}>
-                                Edit
+                                <span className={styles.buttonIcon}>✏️</span> Edit
                             </button>
                             <button
                                 onClick={() => handleDelete(link.linkID)}
                                 className={styles.deleteButton}
                             >
-                                Delete
+                                <span className={styles.buttonIcon}>🗑️</span> Delete
                             </button>
                         </div>
                     </div>
