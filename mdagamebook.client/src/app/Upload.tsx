@@ -84,6 +84,7 @@ const FileUpload = () => {
         <div className="file-input-container">
           <input
             type="file"
+            accept=".jpg, .jpeg, .png, .gif, .webp, .avif"
             onChange={(e) => setFile(e.target.files?.[0] || null)}
             disabled={loading}
             required

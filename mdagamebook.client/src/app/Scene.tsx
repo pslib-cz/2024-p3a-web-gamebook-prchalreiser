@@ -1,10 +1,9 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styles from "./Scene.module.css";
 
-// Assuming Link is your styled button component
 import Link from '../components/Link'; // Adjust the import path as necessary
+import { useAuth } from "../contexts/AuthContext";
 
 interface SceneData {
     id: number;
@@ -12,31 +11,24 @@ interface SceneData {
     description: string;
     items: string;
     backgroundImageUrl: string;
-    // Add other properties based on your API response
 }
 
 interface ApiError {
     message: string;
 }
 
-interface ItemCheckResponse {
-    hasItem: boolean;
-}
-
 const Scene = () => {
-    const navigate = useNavigate();
     const { sceneId } = useParams<{ sceneId: string }>();
     const [sceneData, setSceneData] = useState<SceneData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [hasCollectedItem, setHasCollectedItem] = useState(false);
     const [hasItem, setHasItem] = useState(false);
+    const { token, logout } = useAuth();
 
     useEffect(() => {
         const fetchSceneData = async () => {
             try {
                 setLoading(true);
-                const token = localStorage.getItem('accessToken');
                 const response = await fetch(`https://localhost:7260/api/Locations/${sceneId}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -48,7 +40,7 @@ const Scene = () => {
                     if (response.status === 404) {
                         throw new Error("Scéna neexistuje");
                     } else if (response.status === 401) {
-                        navigate("/login");
+                        logout();
                     } else if (response.status === 400) {
                         throw new Error(errorData.message);
                     } else {
@@ -68,13 +60,12 @@ const Scene = () => {
         if (sceneId) {
             fetchSceneData();
         }
-    }, [sceneId]);
+    }, [sceneId, token, logout]);
 
     useEffect(() => {
         const checkForItem = async () => {
             if (sceneId === "420") {
                 try {
-                    const token = localStorage.getItem('accessToken');
                     const response = await fetch('https://localhost:7260/api/Players/has-item/1', {
                         headers: {
                             'Authorization': `Bearer ${token}`
@@ -84,7 +75,6 @@ const Scene = () => {
                     if (response.ok) {
                         const hasItem = await response.json();
                         setHasItem(hasItem);
-                        setHasCollectedItem(hasItem);
                     }
                 } catch (err) {
                     console.error('Failed to check for item:', err);
@@ -93,11 +83,10 @@ const Scene = () => {
         };
 
         checkForItem();
-    }, [sceneId]);
+    }, [sceneId, token]);
 
     const collectItem = async () => {
         try {
-            const token = localStorage.getItem('accessToken');
             const response = await fetch(`https://localhost:7260/api/Locations/${sceneId}/collect-item`, {
                 method: 'POST',
                 headers: {
@@ -112,7 +101,6 @@ const Scene = () => {
 
             const data = await response.json();
             setHasItem(true);
-            setHasCollectedItem(true);
             alert(data.message);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to collect item');
@@ -139,16 +127,16 @@ const Scene = () => {
                     {sceneData.description}
                 </div>
                 {sceneData.backgroundImageUrl && (
-                    <img 
+                    <img
                         className={styles.sceneImage}
-                        src={sceneData.backgroundImageUrl} 
-                        alt={sceneData.name} 
+                        src={sceneData.backgroundImageUrl}
+                        alt={sceneData.name}
                     />
                 )}
                 <div className={styles.navigation}>
                     {sceneId === "420" && !hasItem && (
-                        <button 
-                            className={styles.collectButton} 
+                        <button
+                            className={styles.collectButton}
                             onClick={collectItem}
                         >
                             Collect Required Item
