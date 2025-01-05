@@ -35,7 +35,7 @@ vlastní implementaci aplikace realizující Gamebook tak, aby celá hra šla hr
 - [x] Založení aplikace 
 - [x] Architektura aplikace 
 - [x] Zpracování dat z formuláře 
-- [ ] Ukládání dat do localStorage 
+- [x] Ukládání dat do localStorage 
 - [x] Získávání dat z REST API 
 - [x] Manipulace s URL pomocí routeru 
 - [ ] Centralizace akcí a dat pomocí Contextu a Reduceru 
