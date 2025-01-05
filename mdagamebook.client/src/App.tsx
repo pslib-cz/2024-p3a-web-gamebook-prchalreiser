@@ -7,8 +7,6 @@ import Login from './app/Login';
 import Upload from './app/Upload';
 import Scene from './app/Scene';
 import AdminPanel from './app/admin/AdminPanel';
-import LastLocation from './app/LastLocation';
-
 
 // First, create the routes configuration
 const routes = [
@@ -35,10 +33,6 @@ const routes = [
   {
     path: "/admin",
     element: <AdminPanel />
-  },
-  {
-    path: "/last-location",
-    element: <LastLocation />
   },
   {
     path: "*",

@@ -144,7 +144,6 @@ namespace MDAGameBook.Server.Controllers
             return NoContent();
         }
 
-        // Add this new endpoint
         [HttpPost("{id}/collect-item")]
         public async Task<ActionResult<Location>> CollectItem(int id)
         {
@@ -164,7 +163,6 @@ namespace MDAGameBook.Server.Controllers
                 return BadRequest("Player not found");
             }
 
-            // Get the location and parse its items
             var location = await _context.Locations!.FindAsync(id);
             if (location == null)
             {
@@ -173,14 +171,12 @@ namespace MDAGameBook.Server.Controllers
 
             try
             {
-                // Parse the Items JSON array from the location
                 var locationItems = JsonSerializer.Deserialize<int[]>(location.Items ?? "[]");
                 if (locationItems == null || !locationItems.Any())
                 {
                     return BadRequest(new { message = $"No items to collect at this location. Items: {location.Items}" });
                 }
 
-                // Check if player already has any of the items
                 foreach (var itemId in locationItems)
                 {
                     var hasItem = userPlayer.Player.Inventory?
@@ -191,23 +187,19 @@ namespace MDAGameBook.Server.Controllers
                         continue;
                     }
 
-                    // Get the item from database
                     var item = await _context.Items!.FindAsync(itemId);
                     if (item == null)
                     {
                         continue;
                     }
 
-                    // Initialize inventory if null
                     if (userPlayer.Player.Inventory == null)
                     {
                         userPlayer.Player.Inventory = new List<Item>();
                     }
 
-                    // Add item to player's inventory
                     userPlayer.Player.Inventory.Add(item);
 
-                    // Update the location's items to remove the collected item
                     var remainingItems = locationItems.Where(i => i != itemId).ToArray();
                     location.Items = JsonSerializer.Serialize(remainingItems);
 
@@ -223,7 +215,6 @@ namespace MDAGameBook.Server.Controllers
             }
         }
 
-        // Add this new endpoint
         [HttpGet("last-location")]
         public async Task<ActionResult<Location>> GetLastLocation()
         {

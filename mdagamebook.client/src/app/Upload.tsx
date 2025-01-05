@@ -21,7 +21,6 @@ const FileUpload = () => {
     formData.append("Files", file);
 
     try {
-      // Check file size before uploading (16MB limit)
       if (file.size > 16 * 1024 * 1024) {
         throw new Error("Soubor je příliš velký. Maximální velikost je 16 MB.");
       }
@@ -45,7 +44,6 @@ const FileUpload = () => {
 
       setSuccess(true);
       setFile(null);
-      // Reset the form
       (event.target as HTMLFormElement).reset();
     } catch (err) {
       setError(err instanceof Error ? err : new Error("Nahrávání selhalo"));

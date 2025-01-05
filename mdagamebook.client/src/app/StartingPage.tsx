@@ -17,8 +17,7 @@ const StartingPage = () => {
         }
     }, [navigate]);
 
-    const handlePlayClick = async (e: React.MouseEvent) => {
-        e.preventDefault();
+    const handlePlayClick = async () => {
         setLoading(true);
 
         try {
@@ -30,20 +29,20 @@ const StartingPage = () => {
 
             if (response.ok) {
                 const locationData = await response.json();
-                // Redirect to the last location if it exists
+
                 if (locationData && locationData.locationID) {
                     navigate(`/scene/${locationData.locationID}`);
                 } else {
-                    // If no last location, redirect to default scene
-                    navigate('/scene/420');
+                    // Pokud neexistuje last location, redirect na start
+                    navigate('/scene/0');
                 }
             } else {
-                // If can't fetch last location, redirect to default scene
-                navigate('/scene/420');
+                // Pokud neexistuje last location, redirect na start
+                navigate('/scene/0');
             }
         } catch (error) {
             console.error('Failed to fetch last location:', error);
-            navigate('/scene/420'); // Fallback to default scene
+            navigate('/scene/0');
         } finally {
             setLoading(false);
         }
@@ -54,7 +53,7 @@ const StartingPage = () => {
             <h1 className={styles.title}>Multidimenzionální absťák</h1>
             <div className={styles.mainContent}>
                 <div className={styles.linkWrapper}>
-                    <Link href="#" onClick={handlePlayClick}>
+                    <Link href="#" onClick={() => { handlePlayClick() }}>
                         {loading ? "Načítání..." : "Hrát"}
                     </Link>
                     <Link href="/leaderboard">Žebříčky</Link>

@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import styles from "./Scene.module.css";
 import nextButton from '../assets/nextbutton.svg';
 
@@ -39,7 +39,7 @@ interface SceneBufferProps {
     className?: string;
 }
 
-const SceneBuffer: React.FC<SceneBufferProps> = ({ sceneData, isActive, isTransitioning, className }) => {
+const SceneBuffer: React.FC<SceneBufferProps> = ({ sceneData, isActive, className }) => {
     if (!sceneData) return null;
 
     return (
@@ -63,11 +63,9 @@ const Scene = () => {
     const { token, logout } = useAuth();
     const [links, setLinks] = useState<Link[]>([]);
     const navigate = useNavigate();
-    const [isExiting, setIsExiting] = useState(false);
+
     const containerRef = useRef<HTMLDivElement>(null);
-    const [preloadedImages, setPreloadedImages] = useState<PreloadedImages>({});
-    const [currentImage, setCurrentImage] = useState<string | null>(null);
-    const [nextImage, setNextImage] = useState<string | null>(null);
+
     const [isTransitioning, setIsTransitioning] = useState(false);
     const [currentSceneBuffer, setCurrentSceneBuffer] = useState<SceneData | null>(null);
     const [nextSceneBuffer, setNextSceneBuffer] = useState<SceneData | null>(null);
@@ -167,13 +165,9 @@ const Scene = () => {
             }
         }
 
-        setPreloadedImages(newPreloadedImages);
     }, [links, token]);
 
     useEffect(() => {
-        if (sceneData?.backgroundImageUrl) {
-            setCurrentImage(sceneData.backgroundImageUrl);
-        }
         preloadImages();
     }, [sceneData, preloadImages]);
 
@@ -183,7 +177,6 @@ const Scene = () => {
         try {
             setIsTransitioning(true);
 
-            // Get the next scene data from cache (it should be preloaded)
             const { scene: nextSceneData } = await getSceneData(nextSceneId.toString());
 
             // Pre-load the next image
@@ -194,18 +187,15 @@ const Scene = () => {
                 img.src = nextSceneData.backgroundImageUrl;
             });
 
-            // Set up the buffers
             setCurrentSceneBuffer(sceneData);
             setNextSceneBuffer(nextSceneData);
-
-            // Update the scene data immediately but keep the old background
             setSceneData(nextSceneData);
 
-            // Wait for a frame to ensure React has updated the DOM
+            // Eliminace bílého flashbangu při přechodu mezi scénami
             await new Promise(resolve => requestAnimationFrame(resolve));
             await new Promise(resolve => setTimeout(resolve, 500));
 
-            navigate(path, { replace: true }); // Use replace to prevent history stack buildup
+            navigate(path, { replace: true });
 
         } catch (error) {
             console.error('Navigation failed:', error);
@@ -217,10 +207,6 @@ const Scene = () => {
         }
     }, [navigate, sceneData, getSceneData]);
 
-    useEffect(() => {
-        // Reset exit state when scene changes
-        setIsExiting(false);
-    }, [sceneId]);
 
     if (loading) {
         return <div className={styles.loading}>Loading your adventure...</div>;
@@ -271,14 +257,12 @@ const Scene = () => {
         <div ref={containerRef} className={styles.container}>
             <PlayerStats />
 
-            {/* Main scene buffer */}
             <SceneBuffer
                 sceneData={sceneData}
                 isActive={!isTransitioning}
                 isTransitioning={isTransitioning}
             />
 
-            {/* Transition buffers */}
             {isTransitioning && (
                 <>
                     <SceneBuffer
@@ -307,7 +291,7 @@ const Scene = () => {
                                 className={styles.collectButton}
                                 onClick={collectItem}
                             >
-                                Collect Required Item
+                                Sebrat item
                             </button>
                         )}
                         {renderNavigation()}
@@ -321,7 +305,7 @@ const Scene = () => {
                             className={styles.collectButton}
                             onClick={collectItem}
                         >
-                            Collect Required Item
+                            Sebrat item
                         </button>
                     )}
                     {renderNavigation()}

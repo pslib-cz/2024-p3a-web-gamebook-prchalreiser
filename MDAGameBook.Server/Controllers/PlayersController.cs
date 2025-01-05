@@ -94,15 +94,13 @@ namespace MDAGameBook.Server.Controllers
 
             if (existingUserPlayer != null)
             {
-                // Return the existing player instead of an error
                 return Ok(existingUserPlayer.Player);
             }
 
-            // Create new player
             _context.Players!.Add(player);
             await _context.SaveChangesAsync();
 
-            // Create UserPlayer link
+            // UserPlayer link
             var userPlayer = new UserPlayer
             {
                 Id = Guid.NewGuid(),
