@@ -42,7 +42,31 @@ export function AuthProvider({ children }: AuthProviderProps) {
             // Verify the token
             await verifyToken(data.accessToken);
 
-            navigate("/scene/420");
+            // Fetch last location and redirect
+            try {
+                const locationResponse = await fetch('https://localhost:7260/api/Locations/last-location', {
+                    headers: {
+                        'Authorization': `Bearer ${data.accessToken}`
+                    }
+                });
+
+                if (locationResponse.ok) {
+                    const locationData = await locationResponse.json();
+                    // Redirect to the last location if it exists
+                    if (locationData && locationData.locationID) {
+                        navigate(`/scene/${locationData.locationID}`);
+                    } else {
+                        // If no last location, redirect to default scene
+                        navigate('/scene/420');
+                    }
+                } else {
+                    // If can't fetch last location, redirect to default scene
+                    navigate('/scene/420');
+                }
+            } catch (error) {
+                console.error('Failed to fetch last location:', error);
+                navigate('/scene/420'); // Fallback to default scene
+            }
         } catch (error) {
             localStorage.removeItem("accessToken");
             setToken(null);

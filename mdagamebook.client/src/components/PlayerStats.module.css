@@ -9,7 +9,8 @@
     border-radius: 15px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    animation: slideIn 0.3s ease-out;
+    opacity: 1;
+    transform: none;
 }
 
 .statBar {
@@ -72,17 +73,6 @@
     font-weight: bold;
 }
 
-@keyframes slideIn {
-    from {
-        transform: translateX(-20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
 @media (max-width: 768px) {
     .statsContainer {
         top: 10px;
@@ -102,4 +92,4 @@
         width: 20px;
         height: 20px;
     }
-} 
+}

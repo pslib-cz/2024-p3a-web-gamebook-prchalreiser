@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthContext';
+import { SceneProvider } from './contexts/SceneContext';
 // pages
 import StartingPage from './app/StartingPage';
 import Login from './app/Login';
@@ -50,7 +51,9 @@ const router = createBrowserRouter(routes.map(route => ({
   ...route,
   element: (
     <AuthProvider>
-      {route.element}
+      <SceneProvider>
+        {route.element}
+      </SceneProvider>
     </AuthProvider>
   )
 })));

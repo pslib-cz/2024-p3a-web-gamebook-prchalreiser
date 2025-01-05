@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import styles from "./Login.module.css";
-import { useNavigate } from "react-router-dom";
 
 const EyeIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -21,34 +20,12 @@ const SignInPage = () => {
     const [error, setError] = useState<Error | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
-    const { login, token } = useAuth();
-    const navigate = useNavigate();
+    const { login } = useAuth();
 
     const handleLogin = async (email: string, password: string) => {
         setLoading(true);
         try {
             await login(email, password);
-
-            // After successful login, fetch last location
-            const response = await fetch('https://localhost:7260/api/Locations/last-location', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (response.ok) {
-                const locationData = await response.json();
-                // Redirect to the last location if it exists
-                if (locationData && locationData.locationID) {
-                    navigate(`/scene/${locationData.locationID}`);
-                } else {
-                    // If no last location, redirect to a default scene (e.g., scene 420)
-                    navigate('/scene/420');
-                }
-            } else {
-                // If can't fetch last location, redirect to default scene
-                navigate('/scene/420');
-            }
         } catch (error) {
             setError(new Error("Nesprávné přihlašovací údaje! " + error));
         } finally {
