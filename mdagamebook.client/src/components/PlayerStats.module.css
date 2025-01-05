@@ -1,0 +1,105 @@
+.statsContainer {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 15px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease-out;
+}
+
+.statBar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 200px;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 1.1rem;
+}
+
+.statIcon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.statValue {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.progressBar {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    transition: width 0.3s ease-out;
+}
+
+.healthBar {
+    background: linear-gradient(90deg, #ff5555, #ff0000);
+}
+
+.withdrawalBar {
+    background: linear-gradient(90deg, #9b59b6, #8e44ad);
+}
+
+.staminaBar {
+    background: linear-gradient(90deg, #f1c40f, #f39c12);
+}
+
+.coins {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .statsContainer {
+        top: 10px;
+        left: 10px;
+        padding: 10px;
+    }
+
+    .statBar {
+        min-width: 150px;
+    }
+
+    .stat {
+        font-size: 1rem;
+    }
+
+    .statIcon {
+        width: 20px;
+        height: 20px;
+    }
+} 

@@ -5,6 +5,7 @@ import nextButton from '../assets/nextbutton.svg';
 
 import Link from '../components/Link'; // Adjust the import path as necessary
 import { useAuth } from "../contexts/AuthContext";
+import PlayerStats from '../components/PlayerStats';
 
 interface SceneData {
     id: number;
@@ -192,6 +193,7 @@ const Scene = () => {
             ref={containerRef}
             className={`${styles.container} ${isExiting ? styles.exit : ''}`}
         >
+            <PlayerStats />
             {sceneData.backgroundImageUrl && (
                 <img
                     className={styles.backgroundImage}

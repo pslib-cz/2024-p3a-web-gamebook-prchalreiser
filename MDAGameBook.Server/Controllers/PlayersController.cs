@@ -163,5 +163,26 @@ namespace MDAGameBook.Server.Controllers
             return Ok(hasItem);
         }
 
+        [HttpGet("current")]
+        public async Task<ActionResult<Player>> GetCurrentPlayer()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var userPlayer = await _context.UserPlayers!
+                .Include(up => up.Player)
+                .FirstOrDefaultAsync(up => up.UserId == userId);
+
+            if (userPlayer?.Player == null)
+            {
+                return NotFound();
+            }
+
+            return userPlayer.Player;
+        }
+
     }
 }
