@@ -8,7 +8,6 @@ import Upload from './app/Upload';
 import Scene from './app/Scene';
 import AdminPanel from './app/admin/AdminPanel';
 
-// First, create the routes configuration
 const routes = [
   {
     path: "/",
@@ -40,7 +39,6 @@ const routes = [
   }
 ];
 
-// Create a router with authentication wrapper
 const router = createBrowserRouter(routes.map(route => ({
   ...route,
   element: (
