@@ -28,7 +28,7 @@ const SignInPage = () => {
         setLoading(true);
         try {
             await login(email, password);
-            
+
             // After successful login, fetch last location
             const response = await fetch('https://localhost:7260/api/Locations/last-location', {
                 headers: {

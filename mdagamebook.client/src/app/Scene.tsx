@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import styles from "./Scene.module.css";
+import nextButton from '../assets/nextbutton.svg';
 
 import Link from '../components/Link'; // Adjust the import path as necessary
 import { useAuth } from "../contexts/AuthContext";
@@ -125,32 +126,78 @@ const Scene = () => {
     };
 
     if (loading) {
-        return <div className={styles.container}>Loading...</div>;
+        return <div className={styles.loading}>Loading your adventure...</div>;
     }
 
     if (error) {
-        return <div className={styles.container}>{error}</div>;
+        return <div className={styles.error}>{error}</div>;
     }
 
     if (!sceneData) {
-        return <div className={styles.container}>No scene data found</div>;
+        return <div className={styles.error}>No scene data found</div>;
     }
+
+    const renderNavigation = () => {
+        if (links.length === 1) {
+            return (
+                <button
+                    className={styles.continueButton}
+                    onClick={() => window.location.href = `/scene/${links[0].toLocation.locationID}`}
+                    aria-label="Continue to next scene"
+                >
+                    <img 
+                        src={nextButton} 
+                        alt="Next" 
+                        className={styles.continueTriangle}
+                    />
+                </button>
+            );
+        }
+
+        return (
+            <div className={styles.multipleChoices}>
+                {links.map(link => (
+                    <Link
+                        key={link.linkID}
+                        href={`/scene/${link.toLocation.locationID}`}
+                        className={styles.choiceButton}
+                    >
+                        {link.toLocation.name}
+                    </Link>
+                ))}
+            </div>
+        );
+    };
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>{sceneData.name}</h1>
-            <div className={styles.mainContent}>
+            {sceneData.backgroundImageUrl && (
+                <img
+                    className={styles.backgroundImage}
+                    src={sceneData.backgroundImageUrl}
+                    alt={sceneData.name}
+                />
+            )}
+            <div className={links.length === 1 ? styles.textBoxSingle : styles.textBoxMultiple}>
                 <div className={styles.description}>
                     {sceneData.description}
                 </div>
-                {sceneData.backgroundImageUrl && (
-                    <img
-                        className={styles.sceneImage}
-                        src={sceneData.backgroundImageUrl}
-                        alt={sceneData.name}
-                    />
+                {links.length === 1 && (
+                    <div className={styles.navigation}>
+                        {sceneData.hasRequiredItem && !hasItem && (
+                            <button
+                                className={styles.collectButton}
+                                onClick={collectItem}
+                            >
+                                Collect Required Item
+                            </button>
+                        )}
+                        {renderNavigation()}
+                    </div>
                 )}
-                <div className={styles.navigation}>
+            </div>
+            {links.length > 1 && (
+                <div className={styles.navigationMultiple}>
                     {sceneData.hasRequiredItem && !hasItem && (
                         <button
                             className={styles.collectButton}
@@ -159,16 +206,9 @@ const Scene = () => {
                             Collect Required Item
                         </button>
                     )}
-                    {links.map(link => (
-                        <Link
-                            key={link.linkID}
-                            href={`/scene/${link.toLocation.locationID}`}
-                        >
-                            Go to {link.toLocation.name} ({link.toLocation.locationID})
-                        </Link>
-                    ))}
+                    {renderNavigation()}
                 </div>
-            </div>
+            )}
         </div>
     );
 };

@@ -20,7 +20,7 @@ const StartingPage = () => {
     const handlePlayClick = async (e: React.MouseEvent) => {
         e.preventDefault();
         setLoading(true);
-        
+
         try {
             const response = await fetch('https://localhost:7260/api/Locations/last-location', {
                 headers: {

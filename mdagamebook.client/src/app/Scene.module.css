@@ -1,57 +1,218 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 2rem;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #1a1a1a;
 }
 
-.title {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    text-align: center;
-}
-
-.mainContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-    max-width: 800px;
+.backgroundImage {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    opacity: 0.9;
+    filter: brightness(0.85);
+}
+
+.textBox {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 1200px;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(15px);
+    border-radius: 24px;
+    padding: 40px;
+    color: white;
+    z-index: 2;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.textBoxSingle {
+    composes: textBox;
+    bottom: 80px;
+}
+
+.textBoxMultiple {
+    composes: textBox;
+    top: 80px;
 }
 
 .description {
-    text-align: center;
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-}
-
-.sceneImage {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin: 1rem 0;
+    font-size: 1.4rem;
+    line-height: 1.8;
+    margin-bottom: 35px;
+    color: #f0f0f0;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .navigation {
     display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.navigationMultiple {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 1200px;
+    z-index: 2;
+}
+
+.continueButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 15px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    display: flex;
+    align-items: center;
     justify-content: center;
 }
 
+.continueTriangle {
+    width: 48px;
+    height: 48px;
+    opacity: 0.9;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.continueButton:hover .continueTriangle {
+    transform: translateX(8px) scale(1.1);
+    opacity: 1;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))
+            drop-shadow(0 0 6px rgba(255, 255, 255, 0.2));
+}
+
+.continueButton:active .continueTriangle {
+    transform: translateX(4px) scale(0.95);
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.multipleChoices {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    margin-inline: auto;
+}
+
+.choiceButton {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.choiceButton:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
 .collectButton {
-    padding: 10px 20px;
-    background-color: #4CAF50;
+    background: linear-gradient(135deg, #4caf50, #45a049);
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 16px;
+    padding: 15px 30px;
+    font-size: 1.2rem;
     cursor: pointer;
-    margin: 10px 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
 
 .collectButton:hover {
-    background-color: #45a049;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(76, 175, 80, 0.4);
+}
+
+.collectButton:active {
+    transform: translateY(1px);
+}
+
+/* Loading spinner */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #ff6b6b;
+    font-size: 1.5rem;
+    text-align: center;
+    padding: 2rem;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .multipleChoices {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .textBox,
+    .textBoxSingle,
+    .textBoxMultiple,
+    .navigationMultiple {
+        width: 92%;
+        padding: 25px;
+    }
+
+    .textBoxMultiple {
+        top: 40px;
+    }
+
+    .navigationMultiple {
+        bottom: 40px;
+    }
+
+    .description {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+
+    .choiceButton {
+        width: 100%;
+        text-align: center;
+    }
+
+    .continueButton {
+        padding: 22px;
+    }
+
+    .continueTriangle {
+        width: 40px;
+        height: 40px;
+    }
 }
