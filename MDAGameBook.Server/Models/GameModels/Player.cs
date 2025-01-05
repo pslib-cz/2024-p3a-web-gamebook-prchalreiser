@@ -13,8 +13,8 @@ public class Player
     public int Stamina { get; set; }
     public int Coins { get; set; }
     public ICollection<Item>? Inventory { get; set; } // on gwt posilat json
+    public int LastLocationID { get; set; } = -1; // Default to unlinked location
 
-    // Add this property
     [JsonIgnore]
     public ICollection<UserPlayer>? UserPlayers { get; set; }
 }

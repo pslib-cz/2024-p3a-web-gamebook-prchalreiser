@@ -3,6 +3,7 @@ using System;
 using GameBookASP.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MDAGameBook.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250105120550_LastSavedLocation")]
+    partial class LastSavedLocation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
@@ -121,6 +124,7 @@ namespace MDAGameBook.Server.Migrations
                         {
                             LinkID = 1,
                             FromLocationID = 420,
+                            RequiredItemId = 1,
                             ToLocationID = 421
                         },
                         new
@@ -401,7 +405,7 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6605eb37-0f06-4646-b97e-4a62519374f5",
+                            Id = "0bfcdbd8-29d2-4aec-9b88-0f52020e57f4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -473,15 +477,15 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fdd1a8d8-6380-4d1f-a63e-4444e4042d07",
+                            Id = "de51bef5-c143-4c59-9192-32a93d99a38f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3a87d3a3-4473-4040-85bc-fea990fe7e0a",
+                            ConcurrencyStamp = "3075410c-b543-4822-9bfe-ed76ee0682a3",
                             Email = "admin@minjiya.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MINJIYA.COM",
                             NormalizedUserName = "ADMIN@MINJIYA.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECbvaYoXkzja2n7+Ps4zSNQdxlPGbTHa9Hr7NpDO0DCm1iLhhrarDtNF1b0BmpHkgA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAeXW7YFqktrlqnb9jMxq2l186Bn2bMW1akAetxThFycqnBS9+AtcyINgE8WXSHBTA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -574,8 +578,8 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            RoleId = "6605eb37-0f06-4646-b97e-4a62519374f5",
-                            UserId = "fdd1a8d8-6380-4d1f-a63e-4444e4042d07"
+                            RoleId = "0bfcdbd8-29d2-4aec-9b88-0f52020e57f4",
+                            UserId = "de51bef5-c143-4c59-9192-32a93d99a38f"
                         });
                 });
 

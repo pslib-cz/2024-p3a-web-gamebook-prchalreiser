@@ -25,10 +25,6 @@ interface Link {
     };
 }
 
-interface ApiError {
-    message: string;
-}
-
 const Scene = () => {
     const { sceneId } = useParams<{ sceneId: string }>();
     const [sceneData, setSceneData] = useState<SceneData | null>(null);
@@ -38,44 +34,44 @@ const Scene = () => {
     const { token, logout } = useAuth();
     const [links, setLinks] = useState<Link[]>([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoading(true);
-                const [sceneResponse, linksResponse] = await Promise.all([
-                    fetch(`https://localhost:7260/api/Locations/${sceneId}`, {
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    }),
-                    fetch(`https://localhost:7260/api/Links/from/${sceneId}`, {
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    })
-                ]);
+    const fetchData = async () => {
+        try {
+            setLoading(true);
+            const [sceneResponse, linksResponse] = await Promise.all([
+                fetch(`https://localhost:7260/api/Locations/${sceneId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                }),
+                fetch(`https://localhost:7260/api/Links/from/${sceneId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                })
+            ]);
 
-                if (!sceneResponse.ok) {
-                    const errorData = await sceneResponse.json();
-                    if (sceneResponse.status === 401) {
-                        logout();
-                        throw new Error("Prosím, přihlaste se znovu");
-                    }
-                    throw new Error(errorData.message || "Nepodařilo se načíst scénu");
+            if (!sceneResponse.ok) {
+                const errorData = await sceneResponse.json();
+                if (sceneResponse.status === 401) {
+                    logout();
+                    throw new Error("Prosím, přihlaste se znovu");
                 }
-
-                if (!linksResponse.ok) {
-                    throw new Error("Nepodařilo se načíst odkazy");
-                }
-
-                const sceneData = await sceneResponse.json();
-                const linksData = await linksResponse.json();
-
-                setSceneData(sceneData);
-                setLinks(linksData);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'Nastala neočekávaná chyba');
-            } finally {
-                setLoading(false);
+                throw new Error(errorData.message || "Nepodařilo se načíst scénu");
             }
-        };
 
+            if (!linksResponse.ok) {
+                throw new Error("Nepodařilo se načíst odkazy");
+            }
+
+            const sceneData = await sceneResponse.json();
+            const linksData = await linksResponse.json();
+
+            setSceneData(sceneData);
+            setLinks(linksData);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Nastala neočekávaná chyba');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
         if (sceneId) {
             fetchData();
         }
@@ -83,21 +79,19 @@ const Scene = () => {
 
     useEffect(() => {
         const checkForItem = async () => {
-            if (sceneId === "420") {
-                try {
-                    const response = await fetch('https://localhost:7260/api/Players/has-item/1', {
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        }
-                    });
-
-                    if (response.ok) {
-                        const hasItem = await response.json();
-                        setHasItem(hasItem);
+            try {
+                const response = await fetch('https://localhost:7260/api/Players/has-item/1', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
                     }
-                } catch (err) {
-                    console.error('Failed to check for item:', err);
+                });
+
+                if (response.ok) {
+                    const hasItem = await response.json();
+                    setHasItem(hasItem);
                 }
+            } catch (err) {
+                console.error('Failed to check for item:', err);
             }
         };
 
@@ -109,18 +103,22 @@ const Scene = () => {
             const response = await fetch(`https://localhost:7260/api/Locations/${sceneId}/collect-item`, {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
                 }
             });
 
+            const data = await response.json();
+
             if (!response.ok) {
-                const errorData: ApiError = await response.json();
-                throw new Error(errorData.message);
+                throw new Error(data.message || 'Failed to collect item');
             }
 
-            const data = await response.json();
             setHasItem(true);
             alert(data.message);
+
+            // Refresh the scene data after collecting the item
+            fetchData();
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to collect item');
         }

@@ -147,9 +147,6 @@ namespace GameBookASP.Data
             );
 
 
-
-
-
             builder.Entity<UserPlayer>()
                 .HasOne(up => up.User)
                 .WithMany(u => u.UserPlayers)
@@ -179,7 +176,7 @@ namespace GameBookASP.Data
                         LinkID = 1,
                         FromLocationID = 420,
                         ToLocationID = 421,
-                        RequiredItemId = 1  // Requires Magic Key
+                        RequiredItemId = 1
                     },
                     new Link
                     {

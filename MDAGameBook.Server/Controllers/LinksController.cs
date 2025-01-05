@@ -153,12 +153,33 @@ namespace MDAGameBook.Server.Controllers
                 return Unauthorized();
             }
 
+            var userPlayer = await _context.UserPlayers!
+                .Include(up => up.Player)
+                .Include(up => up.Player.Inventory)
+                .FirstOrDefaultAsync(up => up.UserId == userId);
+
+            if (userPlayer == null)
+            {
+                return BadRequest("Player not found");
+            }
+
+            // Get all available links
             var links = await _context.Links!
                 .Include(l => l.ToLocation)
                 .Where(l => l.FromLocationID == locationId)
                 .ToListAsync();
 
-            return Ok(links);
+            // Filter links based on required items
+            var filteredLinks = links.Where(link =>
+            {
+                if (link.RequiredItemId == null)
+                    return true;
+
+                return userPlayer.Player.Inventory?
+                    .Any(item => item.ItemID == link.RequiredItemId) ?? false;
+            });
+
+            return Ok(filteredLinks);
         }
 
         private bool LinkExists(int id)

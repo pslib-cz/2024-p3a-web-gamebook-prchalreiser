@@ -55,19 +55,32 @@ namespace MDAGameBook.Server.Controllers
 
             if (userPlayer == null)
             {
-                return BadRequest();
-            }
-
-            // Check if trying to access location 421 without the required item
-            if (id == 421)
-            {
-                var hasRequiredItem = userPlayer.Player.Inventory?
-                    .Any(item => item.ItemID == 1) ?? false;
-
-                if (!hasRequiredItem)
+                // Create new player if doesn't exist
+                var player = new Player
                 {
-                    return BadRequest();
-                }
+                    PlayerID = Guid.NewGuid(),
+                    Health = 100,
+                    Withdrawal = 0,
+                    Stamina = 100,
+                    Coins = 0,
+                    LastLocationID = id,
+                    Inventory = new List<Item>()
+                };
+
+                userPlayer = new UserPlayer
+                {
+                    UserId = userId,
+                    Player = player
+                };
+
+                _context.UserPlayers!.Add(userPlayer);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                // Update the player's last location
+                userPlayer.Player.LastLocationID = id;
+                await _context.SaveChangesAsync();
             }
 
             return location;
@@ -158,42 +171,42 @@ namespace MDAGameBook.Server.Controllers
                 return NotFound("Location not found");
             }
 
-            // Parse the Items JSON array from the location
-            var locationItems = JsonSerializer.Deserialize<int[]>(location.Items);
-            if (locationItems == null || !locationItems.Any())
+            try
             {
-                return BadRequest(new { message = "No items to collect at this location" });
-            }
-
-            // Check if player already has any of the items
-            foreach (var itemId in locationItems)
-            {
-                var hasItem = userPlayer.Player.Inventory?
-                    .Any(item => item.ItemID == itemId) ?? false;
-
-                if (hasItem)
+                // Parse the Items JSON array from the location
+                var locationItems = JsonSerializer.Deserialize<int[]>(location.Items ?? "[]");
+                if (locationItems == null || !locationItems.Any())
                 {
-                    continue;
+                    return BadRequest(new { message = $"No items to collect at this location. Items: {location.Items}" });
                 }
 
-                // Get the item from database
-                var item = await _context.Items!.FindAsync(itemId);
-                if (item == null)
+                // Check if player already has any of the items
+                foreach (var itemId in locationItems)
                 {
-                    continue;
-                }
+                    var hasItem = userPlayer.Player.Inventory?
+                        .Any(item => item.ItemID == itemId) ?? false;
 
-                // Initialize inventory if null
-                if (userPlayer.Player.Inventory == null)
-                {
-                    userPlayer.Player.Inventory = new List<Item>();
-                }
+                    if (hasItem)
+                    {
+                        continue;
+                    }
 
-                // Add item to player's inventory
-                userPlayer.Player.Inventory.Add(item);
+                    // Get the item from database
+                    var item = await _context.Items!.FindAsync(itemId);
+                    if (item == null)
+                    {
+                        continue;
+                    }
 
-                try
-                {
+                    // Initialize inventory if null
+                    if (userPlayer.Player.Inventory == null)
+                    {
+                        userPlayer.Player.Inventory = new List<Item>();
+                    }
+
+                    // Add item to player's inventory
+                    userPlayer.Player.Inventory.Add(item);
+
                     // Update the location's items to remove the collected item
                     var remainingItems = locationItems.Where(i => i != itemId).ToArray();
                     location.Items = JsonSerializer.Serialize(remainingItems);
@@ -201,13 +214,41 @@ namespace MDAGameBook.Server.Controllers
                     await _context.SaveChangesAsync();
                     return Ok(new { message = $"{item.Name} collected successfully!" });
                 }
-                catch (Exception)
-                {
-                    return StatusCode(500, new { message = "Failed to save item to inventory" });
-                }
+
+                return BadRequest(new { message = "You already have all items from this location" });
+            }
+            catch (JsonException ex)
+            {
+                return BadRequest(new { message = $"Invalid items data format: {ex.Message}" });
+            }
+        }
+
+        // Add this new endpoint
+        [HttpGet("last-location")]
+        public async Task<ActionResult<Location>> GetLastLocation()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                return Unauthorized();
             }
 
-            return BadRequest(new { message = "You already have all items from this location" });
+            var userPlayer = await _context.UserPlayers!
+                .Include(up => up.Player)
+                .FirstOrDefaultAsync(up => up.UserId == userId);
+
+            if (userPlayer == null)
+            {
+                return BadRequest("Player not found");
+            }
+
+            var location = await _context.Locations!.FindAsync(userPlayer.Player.LastLocationID);
+            if (location == null)
+            {
+                return NotFound("Last location not found");
+            }
+
+            return location;
         }
 
         private bool LocationExists(int id)
