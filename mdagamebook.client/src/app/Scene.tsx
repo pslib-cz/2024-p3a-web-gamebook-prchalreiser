@@ -1,5 +1,5 @@
-import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
 import styles from "./Scene.module.css";
 import nextButton from '../assets/nextbutton.svg';
 
@@ -34,6 +34,9 @@ const Scene = () => {
     const [hasItem, setHasItem] = useState(false);
     const { token, logout } = useAuth();
     const [links, setLinks] = useState<Link[]>([]);
+    const navigate = useNavigate();
+    const [isExiting, setIsExiting] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     const fetchData = async () => {
         try {
@@ -125,6 +128,20 @@ const Scene = () => {
         }
     };
 
+    const handleNavigation = async (path: string) => {
+        setIsExiting(true);
+        // Wait for the fade out
+        await new Promise(resolve => setTimeout(resolve, 200));
+        // Navigate and reset the exit state
+        navigate(path);
+        setIsExiting(false);
+    };
+
+    useEffect(() => {
+        // Reset exit state when scene changes
+        setIsExiting(false);
+    }, [sceneId]);
+
     if (loading) {
         return <div className={styles.loading}>Loading your adventure...</div>;
     }
@@ -142,7 +159,7 @@ const Scene = () => {
             return (
                 <button
                     className={styles.continueButton}
-                    onClick={() => window.location.href = `/scene/${links[0].toLocation.locationID}`}
+                    onClick={() => handleNavigation(`/scene/${links[0].toLocation.locationID}`)}
                     aria-label="Continue to next scene"
                 >
                     <img
@@ -161,6 +178,7 @@ const Scene = () => {
                         key={link.linkID}
                         href={`/scene/${link.toLocation.locationID}`}
                         className={styles.choiceButton}
+                        onClick={() => handleNavigation(`/scene/${link.toLocation.locationID}`)}
                     >
                         {link.toLocation.name}
                     </Link>
@@ -170,7 +188,10 @@ const Scene = () => {
     };
 
     return (
-        <div className={styles.container}>
+        <div 
+            ref={containerRef}
+            className={`${styles.container} ${isExiting ? styles.exit : ''}`}
+        >
             {sceneData.backgroundImageUrl && (
                 <img
                     className={styles.backgroundImage}

@@ -79,9 +79,6 @@ namespace GameBookASP.Data
                        .HasForeignKey(l => l.ToLocationID)
                        .OnDelete(DeleteBehavior.Cascade);
 
-                options.HasData(
-
-                );
             });
             builder.Entity<Item>().HasData(
                 new Item
@@ -128,9 +125,6 @@ namespace GameBookASP.Data
                        .WithMany()
                        .HasForeignKey(e => e.ToLocationID);
 
-                options.HasData(
-
-                );
             });
         }
     }
