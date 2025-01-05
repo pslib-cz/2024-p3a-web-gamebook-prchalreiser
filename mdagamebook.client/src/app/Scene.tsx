@@ -145,9 +145,9 @@ const Scene = () => {
                     onClick={() => window.location.href = `/scene/${links[0].toLocation.locationID}`}
                     aria-label="Continue to next scene"
                 >
-                    <img 
-                        src={nextButton} 
-                        alt="Next" 
+                    <img
+                        src={nextButton}
+                        alt="Next"
                         className={styles.continueTriangle}
                     />
                 </button>

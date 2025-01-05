@@ -38,7 +38,7 @@ namespace MDAGameBook.Server.Migrations
 
                     b.HasKey("MinigameID");
 
-                    b.ToTable("FightMinigames");
+                    b.ToTable("FightMinigames", (string)null);
                 });
 
             modelBuilder.Entity("GameBookASP.GameModels.Item", b =>
@@ -76,7 +76,7 @@ namespace MDAGameBook.Server.Migrations
 
                     b.HasIndex("PlayerID");
 
-                    b.ToTable("Items");
+                    b.ToTable("Items", (string)null);
 
                     b.HasData(
                         new
@@ -114,51 +114,7 @@ namespace MDAGameBook.Server.Migrations
 
                     b.HasIndex("ToLocationID");
 
-                    b.ToTable("Links");
-
-                    b.HasData(
-                        new
-                        {
-                            LinkID = 1,
-                            FromLocationID = 420,
-                            ToLocationID = 421
-                        },
-                        new
-                        {
-                            LinkID = 2,
-                            FromLocationID = 421,
-                            ToLocationID = 422
-                        },
-                        new
-                        {
-                            LinkID = 3,
-                            FromLocationID = 421,
-                            ToLocationID = 423
-                        },
-                        new
-                        {
-                            LinkID = 4,
-                            FromLocationID = 421,
-                            ToLocationID = 424
-                        },
-                        new
-                        {
-                            LinkID = 5,
-                            FromLocationID = 422,
-                            ToLocationID = 421
-                        },
-                        new
-                        {
-                            LinkID = 6,
-                            FromLocationID = 423,
-                            ToLocationID = 421
-                        },
-                        new
-                        {
-                            LinkID = 7,
-                            FromLocationID = 424,
-                            ToLocationID = 421
-                        });
+                    b.ToTable("Links", (string)null);
                 });
 
             modelBuilder.Entity("GameBookASP.GameModels.Location", b =>
@@ -186,63 +142,7 @@ namespace MDAGameBook.Server.Migrations
 
                     b.HasKey("LocationID");
 
-                    b.ToTable("Locations");
-
-                    b.HasData(
-                        new
-                        {
-                            LocationID = -1,
-                            BackgroundImageUrl = "https://localhost:7260/Uploads/f5f2add3-d635-4319-8e27-d9494c03b14e.png",
-                            Description = "Nacházíš se někde, kam ses neměl dostat :O",
-                            HasRequiredItem = false,
-                            Items = "[]",
-                            Name = "Unlinked Location"
-                        },
-                        new
-                        {
-                            LocationID = 420,
-                            BackgroundImageUrl = "https://localhost:7260/Uploads/06dfd75a-1c7b-42a2-942d-ee3d48a26a0f.png",
-                            Description = "Jsi v interiéru auta a dáváš hotbox.",
-                            HasRequiredItem = true,
-                            Items = "[1]",
-                            Name = "Hotbox"
-                        },
-                        new
-                        {
-                            LocationID = 421,
-                            BackgroundImageUrl = "https://localhost:7260/Uploads/dark-forest.png",
-                            Description = "Vylezl jsi z auta a stojíš v temném lese. Cesta se rozděluje na několik směrů.",
-                            HasRequiredItem = false,
-                            Items = "[]",
-                            Name = "Dark Forest"
-                        },
-                        new
-                        {
-                            LocationID = 422,
-                            BackgroundImageUrl = "https://localhost:7260/Uploads/cabin.png",
-                            Description = "Narazil jsi na starou dřevěnou chatu. Vypadá opuštěně, ale světlo uvnitř stále svítí.",
-                            HasRequiredItem = false,
-                            Items = "[]",
-                            Name = "Abandoned Cabin"
-                        },
-                        new
-                        {
-                            LocationID = 423,
-                            BackgroundImageUrl = "https://localhost:7260/Uploads/lake.png",
-                            Description = "Přišel jsi k temnému jezeru. Měsíční světlo se odráží na jeho hladině.",
-                            HasRequiredItem = false,
-                            Items = "[]",
-                            Name = "Mysterious Lake"
-                        },
-                        new
-                        {
-                            LocationID = 424,
-                            BackgroundImageUrl = "https://localhost:7260/Uploads/stone-circle.png",
-                            Description = "Objevil jsi kruh prastarých kamenů. Ve vzduchu je cítit magická energie.",
-                            HasRequiredItem = false,
-                            Items = "[]",
-                            Name = "Ancient Stone Circle"
-                        });
+                    b.ToTable("Locations", (string)null);
                 });
 
             modelBuilder.Entity("GameBookASP.GameModels.Minigame", b =>
@@ -262,7 +162,7 @@ namespace MDAGameBook.Server.Migrations
 
                     b.HasIndex("LocationID");
 
-                    b.ToTable("Minigames");
+                    b.ToTable("Minigames", (string)null);
                 });
 
             modelBuilder.Entity("GameBookASP.GameModels.Player", b =>
@@ -292,7 +192,7 @@ namespace MDAGameBook.Server.Migrations
 
                     b.HasKey("PlayerID");
 
-                    b.ToTable("Players");
+                    b.ToTable("Players", (string)null);
 
                     b.HasData(
                         new
@@ -324,7 +224,7 @@ namespace MDAGameBook.Server.Migrations
 
                     b.HasIndex("LocationID");
 
-                    b.ToTable("Shops");
+                    b.ToTable("Shops", (string)null);
                 });
 
             modelBuilder.Entity("GameBookASP.GameModels.UserPlayer", b =>
@@ -346,7 +246,7 @@ namespace MDAGameBook.Server.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserPlayers");
+                    b.ToTable("UserPlayers", (string)null);
                 });
 
             modelBuilder.Entity("GameBookASP.Models.File", b =>
@@ -370,7 +270,7 @@ namespace MDAGameBook.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Files");
+                    b.ToTable("Files", (string)null);
                 });
 
             modelBuilder.Entity("GameBookASP.Models.Role", b =>
@@ -401,7 +301,7 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6605eb37-0f06-4646-b97e-4a62519374f5",
+                            Id = "1b2dfed5-cb5f-4d3a-963f-6178641cfa50",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -473,15 +373,15 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fdd1a8d8-6380-4d1f-a63e-4444e4042d07",
+                            Id = "be73ab8d-bbea-4f1d-bd92-74035825c34d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3a87d3a3-4473-4040-85bc-fea990fe7e0a",
+                            ConcurrencyStamp = "e01e1d13-7def-4059-90b1-c35668b15552",
                             Email = "admin@minjiya.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MINJIYA.COM",
                             NormalizedUserName = "ADMIN@MINJIYA.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECbvaYoXkzja2n7+Ps4zSNQdxlPGbTHa9Hr7NpDO0DCm1iLhhrarDtNF1b0BmpHkgA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBUjVQBT279fmsavqjt0OG9xgP/NF3DFpMWtccZklObdD7yDm2JkQxT4c+y0A/EU8g==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -574,8 +474,8 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            RoleId = "6605eb37-0f06-4646-b97e-4a62519374f5",
-                            UserId = "fdd1a8d8-6380-4d1f-a63e-4444e4042d07"
+                            RoleId = "1b2dfed5-cb5f-4d3a-963f-6178641cfa50",
+                            UserId = "be73ab8d-bbea-4f1d-bd92-74035825c34d"
                         });
                 });
 
@@ -610,7 +510,7 @@ namespace MDAGameBook.Server.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("RoleUser");
+                    b.ToTable("RoleUser", (string)null);
                 });
 
             modelBuilder.Entity("GameBookASP.GameModels.FightMinigame", b =>
@@ -640,13 +540,13 @@ namespace MDAGameBook.Server.Migrations
                     b.HasOne("GameBookASP.GameModels.Location", "FromLocation")
                         .WithMany()
                         .HasForeignKey("FromLocationID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("GameBookASP.GameModels.Location", "ToLocation")
                         .WithMany()
                         .HasForeignKey("ToLocationID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("FromLocation");

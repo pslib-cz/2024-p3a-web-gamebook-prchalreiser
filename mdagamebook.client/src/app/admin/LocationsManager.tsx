@@ -256,7 +256,10 @@ const LocationsManager = () => {
                 {locations.map(location => (
                     <div key={location.locationID} className={styles.listItem}>
                         <div className={styles.locationHeader}>
-                            <h4>{location.name}</h4>
+                            <div className={styles.locationTitleGroup}>
+                                <h4>{location.name}</h4>
+                                <span className={styles.locationId}>ID: {location.locationID}</span>
+                            </div>
                             <div className={styles.locationMeta}>
                                 {location.hasRequiredItem && (
                                     <span className={styles.badge}>Requires Item</span>
