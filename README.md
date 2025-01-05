@@ -28,28 +28,28 @@ vlastní implementaci aplikace realizující Gamebook tak, aby celá hra šla hr
 - [x] Návrh databáze 
 - [x] Připojení databáze do aplikace ASP.NET 
 - [x] Návrh struktury API - tedy controllery a REST endpointy 
-- [ ] Přihlašování uživatelů do aplikace 
-- [ ] Nahrávání, zpracování a získávání souborů (= obrázků)
+- [x] Přihlašování uživatelů do aplikace 
+- [x] Nahrávání, zpracování a získávání souborů (= obrázků)
 
 ### Frontend (hráč) - React
 - [x] Založení aplikace 
 - [x] Architektura aplikace 
 - [x] Zpracování dat z formuláře 
 - [ ] Ukládání dat do localStorage 
-- [ ] Získávání dat z REST API 
-- [ ] Manipulace s URL pomocí routeru 
+- [x] Získávání dat z REST API 
+- [x] Manipulace s URL pomocí routeru 
 - [ ] Centralizace akcí a dat pomocí Contextu a Reduceru 
 
 ### krmení API daty - součástí herního klienta
 - [x] Přihlašovací formulář pro správce - login / identity
-- [ ] Správa databáze (CRUD)
-  - [ ] Vytváření nových lokací 
-  - [ ] Editace existujících lokací
-  - [ ] Mazání lokací
+- [x] Správa databáze (CRUD)
+  - [x] Vytváření nových lokací 
+  - [x] Editace existujících lokací
+  - [x] Mazání lokací
 - [ ] Správa obrázků 
   - [x] Nahrávání obrázků na server (upload)
   - [ ] Mazání obrázků 
-  - [ ] Přiřazování obrázků k lokacím
+  - [x] Přiřazování obrázků k lokacím
 - [ ] Správa herních mechanik (?????)
   - [ ] Vytváření předmětů
   - [ ] Vytváření nepřátel
