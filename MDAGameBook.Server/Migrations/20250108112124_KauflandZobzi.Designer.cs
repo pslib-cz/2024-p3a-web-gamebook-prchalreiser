@@ -3,6 +3,7 @@ using System;
 using GameBookASP.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MDAGameBook.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250108112124_KauflandZobzi")]
+    partial class KauflandZobzi
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
@@ -293,7 +296,7 @@ namespace MDAGameBook.Server.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("ShopID")
+                    b.Property<Guid?>("ShopID")
                         .HasColumnType("TEXT");
 
                     b.HasKey("ShopItemID");
@@ -310,24 +313,21 @@ namespace MDAGameBook.Server.Migrations
                             ShopItemID = 4,
                             ItemID = 4,
                             Price = 100,
-                            Quantity = 3,
-                            ShopID = new Guid("22222222-2222-2222-2222-222222222222")
+                            Quantity = 3
                         },
                         new
                         {
                             ShopItemID = 5,
                             ItemID = 5,
                             Price = 75,
-                            Quantity = 5,
-                            ShopID = new Guid("22222222-2222-2222-2222-222222222222")
+                            Quantity = 5
                         },
                         new
                         {
                             ShopItemID = 6,
                             ItemID = 6,
                             Price = 150,
-                            Quantity = 2,
-                            ShopID = new Guid("22222222-2222-2222-2222-222222222222")
+                            Quantity = 2
                         });
                 });
 
@@ -405,7 +405,7 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "937c303e-a51c-4906-9dff-f534bbc050b8",
+                            Id = "34314760-5a81-471b-8f8b-0bddd278aa53",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -477,15 +477,15 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "89ff1b18-68a9-4072-971f-5c7a0d03b4d4",
+                            Id = "4822405e-553a-4a39-b444-5f4e572cf489",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ccad9309-4ae7-4dca-a957-98de76e77d44",
+                            ConcurrencyStamp = "576b7e76-a34f-4fb0-9b97-f1d3d426f340",
                             Email = "admin@minjiya.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MINJIYA.COM",
                             NormalizedUserName = "ADMIN@MINJIYA.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGy5SuUbf5AMi6M6HRUWoJ0tV7/hsDRIlBEXdb/iydbE7uezCAXcsNwdD5JpQJNt5g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKpHOrHavaxoBosTCr+wC3524UYu8BapQ/sP1/zDiemilglsEPiZSYu3fvRWtBzjZg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -578,8 +578,8 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            RoleId = "937c303e-a51c-4906-9dff-f534bbc050b8",
-                            UserId = "89ff1b18-68a9-4072-971f-5c7a0d03b4d4"
+                            RoleId = "34314760-5a81-471b-8f8b-0bddd278aa53",
+                            UserId = "4822405e-553a-4a39-b444-5f4e572cf489"
                         });
                 });
 
@@ -688,15 +688,11 @@ namespace MDAGameBook.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GameBookASP.GameModels.Shop", "Shop")
+                    b.HasOne("GameBookASP.GameModels.Shop", null)
                         .WithMany("ShopItems")
-                        .HasForeignKey("ShopID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ShopID");
 
                     b.Navigation("Item");
-
-                    b.Navigation("Shop");
                 });
 
             modelBuilder.Entity("GameBookASP.GameModels.UserPlayer", b =>

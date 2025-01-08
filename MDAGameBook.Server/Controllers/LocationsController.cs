@@ -42,7 +42,12 @@ namespace MDAGameBook.Server.Controllers
                 return Unauthorized();
             }
 
-            var location = await _context.Locations!.FindAsync(id);
+            var location = await _context.Locations!
+                .Include(l => l.Shop)
+                    .ThenInclude(s => s!.ShopItems)
+                        .ThenInclude(si => si.Item)
+                .FirstOrDefaultAsync(l => l.LocationID == id);
+
             if (location == null)
             {
                 return NotFound();

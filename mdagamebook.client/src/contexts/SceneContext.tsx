@@ -30,10 +30,29 @@ interface SceneCache {
     };
 }
 
+interface ShopItem {
+    shopItemID: number;
+    itemID: number;
+    price: number;
+    quantity: number;
+    item: {
+        name: string;
+        description: string;
+    };
+}
+
+interface Shop {
+    shopID: string;
+    locationID: number;
+    shopItems: ShopItem[];
+}
+
 interface SceneContextType {
     getSceneData: (sceneId: string) => Promise<{ scene: SceneData; links: Link[] }>;
     preloadNextScenes: (links: Link[]) => Promise<void>;
     clearCache: () => void;
+    getShopData: (sceneId: string) => Promise<Shop | null>;
+    purchaseItem: (shopItemId: number) => Promise<{ message: string; newBalance: number }>;
 }
 
 const SceneContext = createContext<SceneContextType | null>(null);
@@ -42,6 +61,7 @@ const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
 export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [sceneCache, setSceneCache] = useState<SceneCache>({});
+    const [shopCache, setShopCache] = useState<{ [key: string]: Shop }>({});
     const { token } = useAuth();
 
     const fetchSceneData = async (sceneId: string) => {
@@ -93,8 +113,55 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setSceneCache({});
     }, []);
 
+    const getShopData = useCallback(async (sceneId: string) => {
+        try {
+            const response = await fetch(`${API_URL}/api/Shops/location/${sceneId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            if (response.ok) {
+                const shopData = await response.json();
+                setShopCache(prev => ({
+                    ...prev,
+                    [sceneId]: shopData
+                }));
+                return shopData;
+            } else if (response.status !== 404) {
+                console.error('Failed to fetch shop data');
+            }
+            return null;
+        } catch (error) {
+            console.error('Failed to fetch shop:', error);
+            return null;
+        }
+    }, [token]);
+
+    const purchaseItem = useCallback(async (shopItemId: number) => {
+        const response = await fetch(`${API_URL}/api/Shops/buy`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ shopItemId })
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.message || 'Purchase failed');
+        }
+
+        return data;
+    }, [token]);
+
     return (
-        <SceneContext.Provider value={{ getSceneData, preloadNextScenes, clearCache }}>
+        <SceneContext.Provider value={{ 
+            getSceneData, 
+            preloadNextScenes, 
+            clearCache,
+            getShopData,
+            purchaseItem
+        }}>
             {children}
         </SceneContext.Provider>
     );

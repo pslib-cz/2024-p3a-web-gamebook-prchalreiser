@@ -3,6 +3,7 @@ using System;
 using GameBookASP.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MDAGameBook.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250108110846_kaufalfa")]
+    partial class kaufalfa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
@@ -90,30 +93,21 @@ namespace MDAGameBook.Server.Migrations
                         },
                         new
                         {
-                            ItemID = 4,
-                            Description = "A mystical crystal that instantly restores 50 health points.",
-                            Effect = "{\"health\": 50}",
+                            ItemID = 2,
+                            Description = "Restores 25 health points.",
+                            Effect = "{\"health\": 25}",
                             IsDrinkable = true,
-                            Name = "Healing Crystal",
-                            Price = 100
+                            Name = "Health Potion",
+                            Price = 30
                         },
                         new
                         {
-                            ItemID = 5,
-                            Description = "A fizzy drink that restores 40 stamina points.",
-                            Effect = "{\"stamina\": 40}",
+                            ItemID = 3,
+                            Description = "Restores 20 stamina points.",
+                            Effect = "{\"stamina\": 20}",
                             IsDrinkable = true,
-                            Name = "Energy Drink",
-                            Price = 75
-                        },
-                        new
-                        {
-                            ItemID = 6,
-                            Description = "A bitter potion that reduces withdrawal effects by 30 points.",
-                            Effect = "{\"withdrawal\": -30}",
-                            IsDrinkable = true,
-                            Name = "Anti-Withdrawal Potion",
-                            Price = 150
+                            Name = "Stamina Boost",
+                            Price = 20
                         });
                 });
 
@@ -179,7 +173,7 @@ namespace MDAGameBook.Server.Migrations
                         {
                             LocationID = 69,
                             BackgroundImageUrl = "/images/shop.jpg",
-                            Description = "A dimly lit shop filled with mysterious potions and magical items. The merchant watches you with keen interest.",
+                            Description = "A cozy shop filled with various items and potions. The merchant eyes you carefully from behind the counter.",
                             HasRequiredItem = false,
                             HasShop = true,
                             Items = "[]",
@@ -293,7 +287,7 @@ namespace MDAGameBook.Server.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("ShopID")
+                    b.Property<Guid?>("ShopID")
                         .HasColumnType("TEXT");
 
                     b.HasKey("ShopItemID");
@@ -307,27 +301,24 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            ShopItemID = 4,
-                            ItemID = 4,
-                            Price = 100,
-                            Quantity = 3,
-                            ShopID = new Guid("22222222-2222-2222-2222-222222222222")
+                            ShopItemID = 1,
+                            ItemID = 1,
+                            Price = 50,
+                            Quantity = 1
                         },
                         new
                         {
-                            ShopItemID = 5,
-                            ItemID = 5,
-                            Price = 75,
-                            Quantity = 5,
-                            ShopID = new Guid("22222222-2222-2222-2222-222222222222")
+                            ShopItemID = 2,
+                            ItemID = 2,
+                            Price = 30,
+                            Quantity = 5
                         },
                         new
                         {
-                            ShopItemID = 6,
-                            ItemID = 6,
-                            Price = 150,
-                            Quantity = 2,
-                            ShopID = new Guid("22222222-2222-2222-2222-222222222222")
+                            ShopItemID = 3,
+                            ItemID = 3,
+                            Price = 20,
+                            Quantity = 10
                         });
                 });
 
@@ -405,7 +396,7 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "937c303e-a51c-4906-9dff-f534bbc050b8",
+                            Id = "69a30c21-4d16-4fc3-bdac-62074c489a26",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -477,15 +468,15 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "89ff1b18-68a9-4072-971f-5c7a0d03b4d4",
+                            Id = "54047b4b-f3e0-4390-9ed5-5428f098a29c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ccad9309-4ae7-4dca-a957-98de76e77d44",
+                            ConcurrencyStamp = "9ad223e7-a061-41bb-a96a-5bed0d1aa7ed",
                             Email = "admin@minjiya.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MINJIYA.COM",
                             NormalizedUserName = "ADMIN@MINJIYA.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGy5SuUbf5AMi6M6HRUWoJ0tV7/hsDRIlBEXdb/iydbE7uezCAXcsNwdD5JpQJNt5g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBJEhNbQD+hcz127UpdoOkH3Pe/ET+hmh1WDR9repGcy47RPH/8lb4VRnSuwegubyQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -578,8 +569,8 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            RoleId = "937c303e-a51c-4906-9dff-f534bbc050b8",
-                            UserId = "89ff1b18-68a9-4072-971f-5c7a0d03b4d4"
+                            RoleId = "69a30c21-4d16-4fc3-bdac-62074c489a26",
+                            UserId = "54047b4b-f3e0-4390-9ed5-5428f098a29c"
                         });
                 });
 
@@ -688,15 +679,11 @@ namespace MDAGameBook.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GameBookASP.GameModels.Shop", "Shop")
+                    b.HasOne("GameBookASP.GameModels.Shop", null)
                         .WithMany("ShopItems")
-                        .HasForeignKey("ShopID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ShopID");
 
                     b.Navigation("Item");
-
-                    b.Navigation("Shop");
                 });
 
             modelBuilder.Entity("GameBookASP.GameModels.UserPlayer", b =>

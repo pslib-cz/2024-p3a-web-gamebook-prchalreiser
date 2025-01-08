@@ -39,6 +39,23 @@ interface SceneBufferProps {
     className?: string;
 }
 
+interface ShopItem {
+    shopItemID: number;
+    itemID: number;
+    price: number;
+    quantity: number;
+    item: {
+        name: string;
+        description: string;
+    };
+}
+
+interface Shop {
+    shopID: string;
+    locationID: number;
+    shopItems: ShopItem[];
+}
+
 const SceneBuffer: React.FC<SceneBufferProps> = ({ sceneData, isActive, className }) => {
     if (!sceneData) return null;
 
@@ -69,7 +86,9 @@ const Scene = () => {
     const [isTransitioning, setIsTransitioning] = useState(false);
     const [currentSceneBuffer, setCurrentSceneBuffer] = useState<SceneData | null>(null);
     const [nextSceneBuffer, setNextSceneBuffer] = useState<SceneData | null>(null);
-    const { getSceneData, preloadNextScenes } = useScene();
+    const { getSceneData, preloadNextScenes, getShopData, purchaseItem } = useScene();
+
+    const [shop, setShop] = useState<Shop | null>(null);
 
     const fetchData = async () => {
         try {
@@ -207,6 +226,24 @@ const Scene = () => {
         }
     }, [navigate, sceneData, getSceneData]);
 
+    useEffect(() => {
+        const loadShopData = async () => {
+            if (!sceneId) return;
+            const shopData = await getShopData(sceneId);
+            setShop(shopData);
+        };
+        loadShopData();
+    }, [sceneId, getShopData]);
+
+    const handlePurchase = async (shopItemId: number) => {
+        try {
+            const { message, newBalance } = await purchaseItem(shopItemId);
+            alert(message);
+            // You might want to refresh player stats here
+        } catch (error) {
+            alert(error instanceof Error ? error.message : 'Purchase failed');
+        }
+    };
 
     if (loading) {
         return <div className={styles.loading}>Loading your adventure...</div>;
@@ -309,6 +346,31 @@ const Scene = () => {
                         </button>
                     )}
                     {renderNavigation()}
+                </div>
+            )}
+
+            {shop && (
+                <div className={styles.shopContainer}>
+                    <h2 className={styles.shopTitle}>Merchant's Shop</h2>
+                    <div className={styles.shopItems}>
+                        {shop.shopItems.map(item => (
+                            <div key={item.shopItemID} className={styles.shopItem}>
+                                <h3>{item.item.name}</h3>
+                                <p>{item.item.description}</p>
+                                <p className={styles.itemPrice}>
+                                    Price: {item.price} coins
+                                    {item.quantity > 0 && ` (${item.quantity} available)`}
+                                </p>
+                                <button 
+                                    onClick={() => handlePurchase(item.shopItemID)}
+                                    className={styles.buyButton}
+                                    disabled={item.quantity === 0}
+                                >
+                                    {item.quantity === 0 ? 'Out of Stock' : 'Buy'}
+                                </button>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             )}
         </div>

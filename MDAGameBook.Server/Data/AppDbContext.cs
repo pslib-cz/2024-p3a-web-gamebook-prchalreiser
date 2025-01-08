@@ -89,6 +89,33 @@ namespace GameBookASP.Data
                     Price = 0,
                     IsDrinkable = false,
                     Effect = "{}"
+                },
+                new Item
+                {
+                    ItemID = 4,
+                    Name = "Healing Crystal",
+                    Description = "A mystical crystal that instantly restores 50 health points.",
+                    Price = 100,
+                    IsDrinkable = true,
+                    Effect = "{\"health\": 50}"
+                },
+                new Item
+                {
+                    ItemID = 5,
+                    Name = "Energy Drink",
+                    Description = "A fizzy drink that restores 40 stamina points.",
+                    Price = 75,
+                    IsDrinkable = true,
+                    Effect = "{\"stamina\": 40}"
+                },
+                new Item
+                {
+                    ItemID = 6,
+                    Name = "Anti-Withdrawal Potion",
+                    Description = "A bitter potion that reduces withdrawal effects by 30 points.",
+                    Price = 150,
+                    IsDrinkable = true,
+                    Effect = "{\"withdrawal\": -30}"
                 }
             );
 
@@ -126,6 +153,58 @@ namespace GameBookASP.Data
                        .HasForeignKey(e => e.ToLocationID);
 
             });
+
+            // Seed shop for scene 69
+            builder.Entity<Shop>().HasData(
+                new Shop
+                {
+                    ShopID = Guid.Parse("22222222-2222-2222-2222-222222222222"),
+                    LocationID = 69,
+                    ItemsForSale = "[]" // Required due to backward compatibility
+                }
+            );
+
+            // Seed shop items
+            builder.Entity<ShopItem>().HasData(
+                new ShopItem
+                {
+                    ShopItemID = 4,
+                    ItemID = 4, // Healing Crystal
+                    Price = 100,
+                    Quantity = 3,
+                    ShopID = Guid.Parse("22222222-2222-2222-2222-222222222222") // Link to shop
+                },
+                new ShopItem
+                {
+                    ShopItemID = 5,
+                    ItemID = 5, // Energy Drink
+                    Price = 75,
+                    Quantity = 5,
+                    ShopID = Guid.Parse("22222222-2222-2222-2222-222222222222") // Link to shop
+                },
+                new ShopItem
+                {
+                    ShopItemID = 6,
+                    ItemID = 6, // Anti-Withdrawal Potion
+                    Price = 150,
+                    Quantity = 2,
+                    ShopID = Guid.Parse("22222222-2222-2222-2222-222222222222") // Link to shop
+                }
+            );
+
+            // Seed the location
+            builder.Entity<Location>().HasData(
+                new
+                {
+                    LocationID = 69,
+                    Name = "Merchant's Corner",
+                    Description = "A dimly lit shop filled with mysterious potions and magical items. The merchant watches you with keen interest.",
+                    Items = "[]",
+                    HasShop = true,
+                    HasRequiredItem = false,
+                    BackgroundImageUrl = "/images/shop.jpg"
+                }
+            );
         }
     }
 }
