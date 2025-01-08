@@ -7,7 +7,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 const StartingPage = () => {
     const navigate = useNavigate();
-    const { token } = useAuth();
+    const { token, logout } = useAuth();
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -34,15 +34,15 @@ const StartingPage = () => {
                     navigate(`/scene/${locationData.locationID}`);
                 } else {
                     // Pokud neexistuje last location, redirect na start
-                    navigate('/scene/0');
+                    navigate('/');
                 }
             } else {
                 // Pokud neexistuje last location, redirect na start
-                navigate('/scene/0');
+                navigate('/');
             }
         } catch (error) {
             console.error('Failed to fetch last location:', error);
-            navigate('/scene/0');
+            navigate('/');
         } finally {
             setLoading(false);
         }
@@ -57,6 +57,7 @@ const StartingPage = () => {
                         {loading ? "Načítání..." : "Hrát"}
                     </Link>
                     <Link href="/leaderboard">Žebříčky</Link>
+                    <Link href="#" onClick={() => logout()}>Odhlásit se</Link>
                 </div>
                 <div className={styles.spiralWrapper}>
                     <RainbowSpiral />

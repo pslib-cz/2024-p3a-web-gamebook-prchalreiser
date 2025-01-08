@@ -6,6 +6,7 @@ interface AuthContextType {
     token: string | null;
     login: (email: string, password: string) => Promise<void>;
     logout: () => void;
+    register: (email: string, password: string) => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -57,15 +58,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
                         navigate(`/scene/${locationData.locationID}`);
                     } else {
                         // If no last location, redirect to default scene
-                        navigate('/scene/420');
+                        navigate('/');
                     }
                 } else {
                     // If can't fetch last location, redirect to default scene
-                    navigate('/scene/420');
+                    navigate('/');
                 }
             } catch (error) {
                 console.error('Failed to fetch last location:', error);
-                navigate('/scene/420'); // Fallback to default scene
+                navigate('/'); // Fallback to default scene
             }
         } catch (error) {
             localStorage.removeItem("accessToken");
@@ -80,12 +81,38 @@ export function AuthProvider({ children }: AuthProviderProps) {
         navigate("/login");
     };
 
+    const register = async (email: string, password: string) => {
+        try {
+            const response = await fetch("https://localhost:7260/api/user/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ 
+                    email, 
+                    password,
+                    secured: "abcXYZ" // This is required by the backend
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error("Registrace se nezdařila");
+            }
+
+            // After successful registration, log the user in
+            await login(email, password);
+        } catch (error) {
+            throw error;
+        }
+    };
+
     return (
         <AuthContext.Provider value={{
             isAuthenticated: !!token,
             token,
             login,
-            logout
+            logout,
+            register
         }}>
             {children}
         </AuthContext.Provider>

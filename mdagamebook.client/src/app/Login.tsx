@@ -20,14 +20,22 @@ const SignInPage = () => {
     const [error, setError] = useState<Error | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
-    const { login } = useAuth();
+    const [isRegistering, setIsRegistering] = useState<boolean>(false);
+    const { login, register } = useAuth();
 
-    const handleLogin = async (email: string, password: string) => {
+    const handleSubmit = async (email: string, password: string) => {
         setLoading(true);
         try {
-            await login(email, password);
+            if (isRegistering) {
+                await register(email, password);
+            } else {
+                await login(email, password);
+            }
         } catch (error) {
-            setError(new Error("Nesprávné přihlašovací údaje! " + error));
+            setError(new Error(isRegistering ? 
+                "Registrace se nezdařila! " + error : 
+                "Nesprávné přihlašovací údaje! " + error
+            ));
         } finally {
             setLoading(false);
         }
@@ -35,7 +43,7 @@ const SignInPage = () => {
 
     return (
         <div className={styles.loginContainer}>
-            <h1 className={styles.title}>Přihlášení</h1>
+            <h1 className={styles.title}>{isRegistering ? 'Registrace' : 'Přihlášení'}</h1>
             {error && <div className={styles.error}>{error.message}</div>}
             <form
                 onSubmit={(event) => {
@@ -43,7 +51,7 @@ const SignInPage = () => {
                     const form = event.target as HTMLFormElement;
                     const email = form.email.value;
                     const password = form.password.value;
-                    handleLogin(email, password);
+                    handleSubmit(email, password);
                 }}
             >
                 <div className={styles.formGroup}>
@@ -87,7 +95,15 @@ const SignInPage = () => {
                     className={styles.submitButton}
                     disabled={loading}
                 >
-                    {loading ? "Přihlašování..." : "Přihlásit"}
+                    {loading ? "Načítání..." : (isRegistering ? "Registrovat" : "Přihlásit")}
+                </button>
+
+                <button
+                    type="button"
+                    className={styles.switchButton}
+                    onClick={() => setIsRegistering(!isRegistering)}
+                >
+                    {isRegistering ? "Již máte účet? Přihlaste se" : "Nemáte účet? Zaregistrujte se"}
                 </button>
             </form>
         </div>

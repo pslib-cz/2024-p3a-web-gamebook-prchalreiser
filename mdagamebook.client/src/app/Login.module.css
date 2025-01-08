@@ -128,3 +128,17 @@
         background-position: 0% 50%;
     }
 }
+
+.switchButton {
+    margin-top: 1rem;
+    background: none;
+    border: none;
+    color: #666;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.switchButton:hover {
+    color: #888;
+}
