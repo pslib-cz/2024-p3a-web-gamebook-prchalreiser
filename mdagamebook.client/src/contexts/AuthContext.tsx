@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../config/env';
 
 interface AuthContextType {
     isAuthenticated: boolean;
@@ -21,7 +22,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     const login = async (email: string, password: string) => {
         try {
-            const response = await fetch("https://localhost:7260/api/user/login", {
+            const response = await fetch(`${API_URL}/api/user/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -45,7 +46,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
             // Fetch last location and redirect
             try {
-                const locationResponse = await fetch('https://localhost:7260/api/Locations/last-location', {
+                const locationResponse = await fetch(`${API_URL}/api/Locations/last-location`, {
                     headers: {
                         'Authorization': `Bearer ${data.accessToken}`
                     }
@@ -83,7 +84,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     const register = async (email: string, password: string) => {
         try {
-            const response = await fetch("https://localhost:7260/api/user/register", {
+            const response = await fetch(`${API_URL}/api/user/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -120,7 +121,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 }
 
 async function createPlayer(token: string, email: string) {
-    const response = await fetch("https://localhost:7260/api/Players", {
+    const response = await fetch(`${API_URL}/api/Players`, {
         method: "POST",
         headers: {
             "Authorization": `Bearer ${token}`,
@@ -143,7 +144,7 @@ async function createPlayer(token: string, email: string) {
 }
 
 async function verifyToken(token: string) {
-    const response = await fetch("https://localhost:7260/api/user/manage/info", {
+    const response = await fetch(`${API_URL}/api/user/manage/info`, {
         method: "GET",
         headers: {
             "Authorization": `Bearer ${token}`

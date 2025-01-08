@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { useAuth } from './AuthContext';
+import { API_URL } from '../config/env';
 
 interface SceneData {
     id: number;
@@ -45,10 +46,10 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     const fetchSceneData = async (sceneId: string) => {
         const [sceneResponse, linksResponse] = await Promise.all([
-            fetch(`https://localhost:7260/api/Locations/${sceneId}`, {
+            fetch(`${API_URL}/api/Locations/${sceneId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             }),
-            fetch(`https://localhost:7260/api/Links/from/${sceneId}`, {
+            fetch(`${API_URL}/api/Links/from/${sceneId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             })
         ]);
