@@ -2,11 +2,11 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthContext';
 import { SceneProvider } from './contexts/SceneContext';
 // pages
-import StartingPage from './app/StartingPage';
-import Login from './app/Login';
-import Upload from './app/Upload';
-import Scene from './app/Scene';
-import AdminPanel from './app/admin/AdminPanel';
+import StartingPage from './pages/StartingPage';
+import Login from './pages/Login';
+import Upload from './pages/Upload';
+import Scene from './pages/Scene';
+import AdminPanel from './pages/admin/AdminPanel';
 
 const routes = [
   {
