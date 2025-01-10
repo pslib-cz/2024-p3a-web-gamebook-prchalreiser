@@ -352,161 +352,86 @@
 
 .shopContainer {
     position: absolute;
-    right: 40px;
+    right: 20px;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(15, 23, 42, 0.95);
-    padding: 30px;
-    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 25px;
+    border-radius: 15px;
     color: white;
-    width: 380px;
+    max-width: 350px;
     max-height: 80vh;
     overflow-y: auto;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(16px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
-                0 0 0 1px rgba(255, 255, 255, 0.1);
-    z-index: 5;
-    
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
-}
-
-.shopContainer::-webkit-scrollbar {
-    width: 6px;
-}
-
-.shopContainer::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-}
-
-.shopContainer::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
 }
 
 .shopTitle {
     color: #ffd700;
     font-size: 1.8rem;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     text-align: center;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    border-bottom: 2px solid rgba(255, 215, 0, 0.3);
-    padding-bottom: 15px;
 }
 
 .shopItems {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
 }
 
 .shopItem {
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 10px;
     transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.shopItem::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, 
-        transparent, 
-        rgba(255, 215, 0, 0.2), 
-        transparent
-    );
 }
 
 .shopItem:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.15);
     transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .shopItem h3 {
-    margin: 0 0 12px 0;
+    margin: 0 0 10px 0;
     color: #ffd700;
     font-size: 1.4rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
 }
 
 .shopItem p {
-    margin: 8px 0;
+    margin: 5px 0;
     color: #e0e0e0;
     font-size: 1.1rem;
-    line-height: 1.5;
 }
 
 .itemPrice {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 5px;
     color: #ffd700 !important;
-    font-weight: 600;
-    font-size: 1.2rem !important;
-    margin: 15px 0 !important;
-}
-
-.itemPrice::before {
-    content: '💰';
-    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 .buyButton {
-    background: linear-gradient(135deg, #ffd700, #ffb700);
-    color: #1a1a1a;
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
     border: none;
-    padding: 12px 24px;
-    border-radius: 10px;
+    padding: 10px 20px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
     width: 100%;
-    margin-top: 12px;
+    margin-top: 10px;
     font-size: 1.1rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    position: relative;
-    overflow: hidden;
 }
 
 .buyButton:hover {
-    background: linear-gradient(135deg, #ffb700, #ffa500);
+    background: linear-gradient(135deg, #45a049, #3d8b40);
     transform: translateY(-1px);
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-}
-
-.buyButton:active {
-    transform: translateY(1px);
 }
 
 .buyButton:disabled {
-    background: linear-gradient(135deg, #4a4a4a, #3a3a3a);
-    color: #888;
+    background: #666;
     cursor: not-allowed;
-    box-shadow: none;
-}
-
-/* Add responsive design for mobile */
-@media (max-width: 768px) {
-    .shopContainer {
-        position: fixed;
-        right: 50%;
-        transform: translateX(50%) translateY(-50%);
-        width: 90%;
-        max-width: 380px;
-        margin: 0 auto;
-    }
 }

@@ -238,7 +238,7 @@ namespace MDAGameBook.Server.Controllers
                 return BadRequest("Player not found");
             }
 
-            var location = await _context.Locations!.FindAsync(userPlayer.Player.LastLocationID);
+            var location = await _context.Locations!.FindAsync(userPlayer.Player.LastLocationID - 1);
             if (location == null)
             {
                 return NotFound("Last location not found");
