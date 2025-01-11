@@ -38,6 +38,9 @@ const LocationsManager = () => {
             if (response.ok) {
                 const data = await response.json();
                 setLocations(data);
+            } else if (response.status === 403) {
+                // Handle unauthorized access
+                setError('Access denied: Admin privileges required');
             }
         } catch (err) {
             setError('Failed to fetch locations! ' + err);

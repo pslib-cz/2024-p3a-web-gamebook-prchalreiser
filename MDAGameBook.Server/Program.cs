@@ -11,11 +11,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 );
 
 builder.Services.AddControllers();
-builder.Services.AddAuthorization(c =>
-{
-    c.AddPolicy("Admin", p => p.RequireRole("Admin"));
-});
 
+// Configure Identity and API Endpoints together
 builder.Services.AddIdentityApiEndpoints<User>(opt =>
 {
     opt.Password.RequiredLength = 6;
@@ -24,7 +21,15 @@ builder.Services.AddIdentityApiEndpoints<User>(opt =>
     opt.Password.RequireUppercase = false;
     opt.Password.RequireDigit = false;
     opt.SignIn.RequireConfirmedEmail = false;
-}).AddEntityFrameworkStores<AppDbContext>();
+})
+.AddRoles<Role>()  // Add support for roles
+.AddEntityFrameworkStores<AppDbContext>()
+.AddDefaultTokenProviders();
+
+builder.Services.AddAuthorization(c =>
+{
+    c.AddPolicy("Admin", p => p.RequireRole("Admin"));
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -36,7 +41,7 @@ builder.WebHost.ConfigureKestrel(options =>
 
 builder.Services.Configure<FormOptions>(options =>
 {
-    options.MultipartBodyLengthLimit = 12 * 1024 * 1024;  // 12 MB per form ?
+    options.MultipartBodyLengthLimit = 12 * 1024 * 1024;  // 12 MB per form
 });
 
 builder.Services.AddCors(options =>

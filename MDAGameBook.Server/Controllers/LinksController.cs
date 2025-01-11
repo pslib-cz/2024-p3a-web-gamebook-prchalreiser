@@ -48,6 +48,7 @@ namespace MDAGameBook.Server.Controllers
         // PUT: api/Links/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutLink(int id, Link link)
         {
             if (id != link.LinkID)
@@ -97,6 +98,7 @@ namespace MDAGameBook.Server.Controllers
         // POST: api/Links
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Link>> PostLink(Link link)
         {
             if (!ModelState.IsValid)
@@ -130,6 +132,7 @@ namespace MDAGameBook.Server.Controllers
 
         // DELETE: api/Links/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteLink(int id)
         {
             var link = await _context.Links!.FindAsync(id);
@@ -185,6 +188,21 @@ namespace MDAGameBook.Server.Controllers
         private bool LinkExists(int id)
         {
             return _context.Links!.Any(e => e.LinkID == id);
+        }
+
+        private async Task<bool> IsUserAdmin()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return false;
+            }
+
+            var userRoles = await _context.UserRoles.Where(ur => ur.UserId == userId).ToListAsync();
+            var userRoleIds = userRoles.Select(ur => ur.RoleId).ToList();
+            var adminRoleId = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "Admin");
+
+            return adminRoleId != null && userRoleIds.Contains(adminRoleId.Id);
         }
     }
 }
