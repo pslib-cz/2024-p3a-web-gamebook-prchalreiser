@@ -9,7 +9,7 @@ namespace GameBookASP.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<Player>? Players { get; set; }
+        public DbSet<GameModels.Player>? Players { get; set; }
         public DbSet<Location>? Locations { get; set; }
         public DbSet<Link>? Links { get; set; }
         public DbSet<Shop>? Shops { get; set; }
@@ -119,9 +119,8 @@ namespace GameBookASP.Data
                 }
             );
 
-            builder.Entity<Player>().HasData(
-                new Player
-                {
+            builder.Entity<GameBookASP.GameModels.Player>().HasData(
+                new GameBookASP.GameModels.Player {
                     PlayerID = Guid.Parse("11111111-1111-1111-1111-111111111111"), // Example GUID
                     Health = 100,
                     Withdrawal = 0,

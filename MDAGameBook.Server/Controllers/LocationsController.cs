@@ -62,7 +62,7 @@ namespace MDAGameBook.Server.Controllers
             if (userPlayer == null)
             {
                 // Create new player if doesn't exist
-                var player = new Player
+                var player = new GameBookASP.GameModels.Player
                 {
                     PlayerID = Guid.NewGuid(),
                     Health = 100,
