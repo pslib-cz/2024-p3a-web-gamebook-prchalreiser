@@ -173,18 +173,6 @@ namespace MDAGameBook.Server.Migrations
                     b.HasKey("LocationID");
 
                     b.ToTable("Locations");
-
-                    b.HasData(
-                        new
-                        {
-                            LocationID = 69,
-                            BackgroundImageUrl = "/images/shop.jpg",
-                            Description = "A dimly lit shop filled with mysterious potions and magical items. The merchant watches you with keen interest.",
-                            HasRequiredItem = false,
-                            HasShop = true,
-                            Items = "[]",
-                            Name = "Merchant's Corner"
-                        });
                 });
 
             modelBuilder.Entity("GameBookASP.GameModels.Minigame", b =>
@@ -405,7 +393,7 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "937c303e-a51c-4906-9dff-f534bbc050b8",
+                            Id = "6bf7bcf7-2c2b-4096-b853-d7a56867ea4b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -477,15 +465,15 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "89ff1b18-68a9-4072-971f-5c7a0d03b4d4",
+                            Id = "311301f7-eddf-41f0-bd78-6dcfb79c0b2d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ccad9309-4ae7-4dca-a957-98de76e77d44",
+                            ConcurrencyStamp = "639fd0cc-d5e2-4250-9bed-5395b69d368e",
                             Email = "admin@minjiya.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MINJIYA.COM",
                             NormalizedUserName = "ADMIN@MINJIYA.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGy5SuUbf5AMi6M6HRUWoJ0tV7/hsDRIlBEXdb/iydbE7uezCAXcsNwdD5JpQJNt5g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEG0lHYyhrcpO9QNpKuDlTOC2gRan7AT+zh6DRVRBP97eSr7URt6vu2+nU4EZJE3vqg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -578,8 +566,8 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            RoleId = "937c303e-a51c-4906-9dff-f534bbc050b8",
-                            UserId = "89ff1b18-68a9-4072-971f-5c7a0d03b4d4"
+                            RoleId = "6bf7bcf7-2c2b-4096-b853-d7a56867ea4b",
+                            UserId = "311301f7-eddf-41f0-bd78-6dcfb79c0b2d"
                         });
                 });
 

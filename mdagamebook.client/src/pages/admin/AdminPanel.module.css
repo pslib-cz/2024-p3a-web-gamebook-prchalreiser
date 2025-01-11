@@ -419,3 +419,191 @@
     border-radius: 6px;
     font-family: monospace;
 }
+
+/* Add these new styles for PlayerManager */
+.playerHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.playerTitleGroup {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.playerId {
+    font-size: 0.875rem;
+    color: #64748b;
+    padding: 0.25rem 0.75rem;
+    background: #f1f5f9;
+    border-radius: 6px;
+    font-family: monospace;
+}
+
+.playerStats {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.statBadge {
+    padding: 0.375rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+.health {
+    background: linear-gradient(to bottom right, #fee2e2, #fecaca);
+    color: #991b1b;
+    border: 1px solid rgba(153, 27, 27, 0.1);
+}
+
+.stamina {
+    background: linear-gradient(to bottom right, #e0f2fe, #bae6fd);
+    color: #075985;
+    border: 1px solid rgba(7, 89, 133, 0.1);
+}
+
+.withdrawal {
+    background: linear-gradient(to bottom right, #f3e8ff, #e9d5ff);
+    color: #6b21a8;
+    border: 1px solid rgba(107, 33, 168, 0.1);
+}
+
+.coins {
+    background: linear-gradient(to bottom right, #fef9c3, #fde047);
+    color: #854d0e;
+    border: 1px solid rgba(133, 77, 14, 0.1);
+}
+
+.inventorySection {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.inventorySection h5 {
+    color: #1e293b;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.inventoryGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+}
+
+.inventoryItem {
+    background: white;
+    padding: 0.75rem;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.itemName {
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.itemDescription {
+    font-size: 0.875rem;
+    color: #64748b;
+}
+
+.emptyInventory {
+    color: #94a3b8;
+    font-style: italic;
+}
+
+.warningButton {
+    background: white;
+    color: #d97706;
+    border: 1px solid #fcd34d;
+    padding: 0.625rem 1rem;
+}
+
+.warningButton:hover:not(:disabled) {
+    background: #fffbeb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(217, 119, 6, 0.1);
+    border-color: #fbbf24;
+}
+
+.emptyState {
+    text-align: center;
+    padding: 2rem;
+    color: #64748b;
+    font-style: italic;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 2px dashed #e2e8f0;
+}
+
+/* Add these styles for ItemManager */
+.itemInfo {
+    flex: 1;
+}
+
+.itemDetails {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.itemDetails span {
+    padding: 0.25rem 0.75rem;
+    background: #f8fafc;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    color: #475569;
+}
+
+.formCheckbox {
+    margin-right: 0.5rem;
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.location {
+    background: linear-gradient(to bottom right, #dbeafe, #93c5fd);
+    color: #1e40af;
+    border: 1px solid rgba(30, 64, 175, 0.1);
+}
+
+.shopItemForm {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.shopItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: #f8fafc;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+}
+
+.shopItem span {
+    margin-right: 1rem;
+}

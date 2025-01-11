@@ -2,12 +2,17 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LocationsManager from './LocationsManager';
 import LinksManager from './LinksManager';
+import ShopManager from './ShopManager';
+import ItemManager from './ItemManager';
+import PlayerManager from './PlayerManager';
 import styles from './AdminPanel.module.css';
 import { useAuth } from '../../contexts/AuthContext';
 import { API_URL } from '../../config/env';
 
+type TabType = 'locations' | 'links' | 'shops' | 'items' | 'players';
+
 const AdminPanel = () => {
-    const [activeTab, setActiveTab] = useState<'locations' | 'links'>('locations');
+    const [activeTab, setActiveTab] = useState<TabType>('locations');
     const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
     const [error, setError] = useState<string | null>(null);
     const { token } = useAuth();
@@ -16,7 +21,6 @@ const AdminPanel = () => {
     useEffect(() => {
         const checkAdminStatus = async () => {
             try {
-                // Try to fetch locations - this endpoint requires admin role
                 const response = await fetch(`${API_URL}/api/locations`, {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -51,6 +55,23 @@ const AdminPanel = () => {
         return <div className={styles.error}>{error}</div>;
     }
 
+    const renderActiveTab = () => {
+        switch (activeTab) {
+            case 'locations':
+                return <LocationsManager />;
+            case 'links':
+                return <LinksManager />;
+            case 'shops':
+                return <ShopManager />;
+            case 'items':
+                return <ItemManager />;
+            case 'players':
+                return <PlayerManager />;
+            default:
+                return null;
+        }
+    };
+
     return (
         <div className={styles['admin-panel']}>
             <div className={styles.header}>
@@ -68,10 +89,28 @@ const AdminPanel = () => {
                     >
                         Links
                     </button>
+                    <button
+                        className={`${styles.tab} ${activeTab === 'shops' ? styles.active : ''}`}
+                        onClick={() => setActiveTab('shops')}
+                    >
+                        Shops
+                    </button>
+                    <button
+                        className={`${styles.tab} ${activeTab === 'items' ? styles.active : ''}`}
+                        onClick={() => setActiveTab('items')}
+                    >
+                        Items
+                    </button>
+                    <button
+                        className={`${styles.tab} ${activeTab === 'players' ? styles.active : ''}`}
+                        onClick={() => setActiveTab('players')}
+                    >
+                        Players
+                    </button>
                 </div>
             </div>
 
-            {activeTab === 'locations' ? <LocationsManager /> : <LinksManager />}
+            {renderActiveTab()}
         </div>
     );
 };
