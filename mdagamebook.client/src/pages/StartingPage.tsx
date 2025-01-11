@@ -30,20 +30,23 @@ const StartingPage = () => {
 
             if (response.ok) {
                 const locationData = await response.json();
-
                 if (locationData && locationData.locationID) {
                     navigate(`/scene/${locationData.locationID}`);
                 } else {
-                    // Pokud neexistuje last location, redirect na start
-                    navigate('/');
+                    // If no last location exists, start from the first location (420)
+                    navigate('/scene/0');
                 }
+            } else if (response.status === 404) {
+                // Handle 404 by starting from the first location
+                navigate('/scene/0');
             } else {
-                // Pokud neexistuje last location, redirect na start
-                navigate('/');
+                // Handle other errors by redirecting to start
+                navigate('/scene/0');
             }
         } catch (error) {
             console.error('Failed to fetch last location:', error);
-            navigate('/');
+            // On error, try starting from the first location
+            navigate('/scene/0');
         } finally {
             setLoading(false);
         }
