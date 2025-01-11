@@ -120,7 +120,8 @@ namespace GameBookASP.Data
             );
 
             builder.Entity<GameBookASP.GameModels.Player>().HasData(
-                new GameBookASP.GameModels.Player {
+                new GameBookASP.GameModels.Player
+                {
                     PlayerID = Guid.Parse("11111111-1111-1111-1111-111111111111"), // Example GUID
                     Health = 100,
                     Withdrawal = 0,
