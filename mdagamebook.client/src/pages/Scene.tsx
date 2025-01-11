@@ -67,6 +67,7 @@ const SceneBuffer: React.FC<SceneBufferProps> = ({ sceneData, isActive, classNam
                 src={sceneData.backgroundImageUrl}
                 alt={sceneData.name}
                 loading="eager"
+                draggable={false}
             />
         </div>
     );

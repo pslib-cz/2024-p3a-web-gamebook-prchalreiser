@@ -191,20 +191,6 @@ namespace GameBookASP.Data
                     ShopID = Guid.Parse("22222222-2222-2222-2222-222222222222") // Link to shop
                 }
             );
-
-            // Seed the location
-            builder.Entity<Location>().HasData(
-                new
-                {
-                    LocationID = 69,
-                    Name = "Merchant's Corner",
-                    Description = "A dimly lit shop filled with mysterious potions and magical items. The merchant watches you with keen interest.",
-                    Items = "[]",
-                    HasShop = true,
-                    HasRequiredItem = false,
-                    BackgroundImageUrl = "/images/shop.jpg"
-                }
-            );
         }
     }
 }

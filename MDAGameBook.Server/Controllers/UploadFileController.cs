@@ -84,12 +84,12 @@ namespace GameBookASP.Controllers
             {
                 var fileName = Path.GetFileName(file.FileName);
                 var imageContentTypes = new List<string> {
-        "image/jpeg",
-        "image/png",
-        "image/gif",
-        "image/webp",
-        "image/avif"
-    };
+                    "image/jpeg",
+                    "image/png",
+                    "image/gif",
+                    "image/webp",
+                    "image/avif"
+                };
 
                 if (!imageContentTypes.Contains(file.ContentType))
                 {
@@ -101,7 +101,7 @@ namespace GameBookASP.Controllers
                 }
 
                 var imgId = Guid.NewGuid();
-                var relativePath = Path.Combine("Uploads", imgId.ToString() + Path.GetExtension(fileName));
+                var relativePath = Path.Combine("/Uploads", imgId.ToString() + Path.GetExtension(fileName));
                 var filePath = Path.Combine(_environment.WebRootPath, "Uploads", imgId.ToString() + Path.GetExtension(fileName));
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
@@ -127,7 +127,7 @@ namespace GameBookASP.Controllers
                 {
                     Id = imgId,
                     FileName = fileName,
-                    FilePath = relativePath, // This contains "Uploads/[guid][extension]"
+                    FilePath = relativePath, // This now contains "/Uploads/[guid][extension]"
                     FileType = file.ContentType,
                     UploadedAt = DateTime.Now
                 };

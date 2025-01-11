@@ -67,6 +67,11 @@ export default defineConfig({
                 changeOrigin: true,
                 secure: false,
             },
+            "/Uploads": {
+                target,
+                changeOrigin: true,
+                secure: false,
+            },
         },
         port: 51014,
         https: {

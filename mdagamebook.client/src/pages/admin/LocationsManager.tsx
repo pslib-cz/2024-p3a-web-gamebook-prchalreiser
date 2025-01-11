@@ -71,7 +71,7 @@ const LocationsManager = () => {
             if (data && data.length > 0) {
                 const fileInfo = data[0];
                 const fileExtension = fileInfo.fileName.substring(fileInfo.fileName.lastIndexOf('.'));
-                return `${API_URL}/Uploads/${fileInfo.id}${fileExtension}`;
+                return `/Uploads/${fileInfo.id}${fileExtension}`;
             }
             throw new Error('Invalid response from server');
         } catch (error) {

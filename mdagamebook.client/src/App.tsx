@@ -4,7 +4,6 @@ import { SceneProvider } from './contexts/SceneContext';
 // pages
 import StartingPage from './pages/StartingPage';
 import Login from './pages/Login';
-import Upload from './pages/Upload';
 import Scene from './pages/Scene';
 import AdminPanel from './pages/admin/AdminPanel';
 
@@ -20,10 +19,6 @@ const routes = [
   {
     path: "/login",
     element: <Login />
-  },
-  {
-    path: "/upload",
-    element: <Upload />
   },
   {
     path: "/scene/:sceneId",
