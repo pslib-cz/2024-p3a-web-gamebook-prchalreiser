@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import styles from './AdminPanel.module.css';
+import { API_URL } from '../../config/env';
 
 interface Link {
     linkID: number;
@@ -41,7 +42,7 @@ const LinksManager = () => {
 
     const fetchLinks = async () => {
         try {
-            const response = await fetch('https://localhost:7260/api/Links', {
+            const response = await fetch(`${API_URL}/api/Links`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -57,7 +58,7 @@ const LinksManager = () => {
 
     const fetchLocations = async () => {
         try {
-            const response = await fetch('https://localhost:7260/api/Locations', {
+            const response = await fetch(`${API_URL}/api/Locations`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -84,7 +85,7 @@ const LinksManager = () => {
                 toLocationID: parseInt(formData.toLocationID),
             };
 
-            const response = await fetch('https://localhost:7260/api/Links', {
+            const response = await fetch(`${API_URL}/api/Links`, {
                 method: editingLink ? 'PUT' : 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -139,7 +140,7 @@ const LinksManager = () => {
         setError(null);
 
         try {
-            const response = await fetch(`https://localhost:7260/api/Links/${linkId}`, {
+            const response = await fetch(`${API_URL}/api/Links/${linkId}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${token}`,

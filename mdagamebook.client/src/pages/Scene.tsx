@@ -7,6 +7,7 @@ import Link from '../components/Link'; // Adjust the import path as necessary
 import { useAuth } from "../contexts/AuthContext";
 import PlayerStats from '../components/PlayerStats';
 import { useScene } from '../contexts/SceneContext';
+import { API_URL } from '../config/env';
 
 interface SceneData {
     id: number;
@@ -114,7 +115,7 @@ const Scene = () => {
     useEffect(() => {
         const checkForItem = async () => {
             try {
-                const response = await fetch('https://localhost:7260/api/Players/has-item/1', {
+                const response = await fetch(`${API_URL}/api/Players/has-item/1`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -134,7 +135,7 @@ const Scene = () => {
 
     const collectItem = async () => {
         try {
-            const response = await fetch(`https://localhost:7260/api/Locations/${sceneId}/collect-item`, {
+            const response = await fetch(`${API_URL}/api/Locations/${sceneId}/collect-item`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -165,7 +166,7 @@ const Scene = () => {
 
         for (const link of links) {
             try {
-                const response = await fetch(`https://localhost:7260/api/Locations/${link.toLocation.locationID}`, {
+                const response = await fetch(`${API_URL}/api/Locations/${link.toLocation.locationID}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const sceneData = await response.json();
@@ -361,7 +362,7 @@ const Scene = () => {
                                     Price: {item.price} coins
                                     {item.quantity > 0 && ` (${item.quantity} available)`}
                                 </p>
-                                <button 
+                                <button
                                     onClick={() => handlePurchase(item.shopItemID)}
                                     className={styles.buyButton}
                                     disabled={item.quantity === 0}

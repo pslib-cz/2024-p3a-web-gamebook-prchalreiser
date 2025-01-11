@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import styles from './AdminPanel.module.css';
+import { API_URL } from '../../config/env';
 
 interface Location {
     locationID: number;
@@ -29,7 +30,7 @@ const LocationsManager = () => {
 
     const fetchLocations = async () => {
         try {
-            const response = await fetch('https://localhost:7260/api/Locations', {
+            const response = await fetch(`${API_URL}/api/Locations`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -54,7 +55,7 @@ const LocationsManager = () => {
         formData.append('Files', file);
 
         try {
-            const response = await fetch('https://localhost:7260/api/file/upload', {
+            const response = await fetch(`${API_URL}/api/file/upload`, {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -70,7 +71,7 @@ const LocationsManager = () => {
             if (data && data.length > 0) {
                 const fileInfo = data[0];
                 const fileExtension = fileInfo.fileName.substring(fileInfo.fileName.lastIndexOf('.'));
-                return `https://localhost:7260/Uploads/${fileInfo.id}${fileExtension}`;
+                return `${API_URL}/Uploads/${fileInfo.id}${fileExtension}`;
             }
             throw new Error('Invalid response from server');
         } catch (error) {
@@ -97,8 +98,8 @@ const LocationsManager = () => {
             };
 
             const url = editingLocation
-                ? `https://localhost:7260/api/Locations/${editingLocation.locationID}`
-                : 'https://localhost:7260/api/Locations';
+                ? `${API_URL}/api/Locations/${editingLocation.locationID}`
+                : `${API_URL}/api/Locations`;
 
             const response = await fetch(url, {
                 method: editingLocation ? 'PUT' : 'POST',
@@ -156,7 +157,7 @@ const LocationsManager = () => {
         setError(null);
 
         try {
-            const response = await fetch(`https://localhost:7260/api/Locations/${locationId}`, {
+            const response = await fetch(`${API_URL}/api/Locations/${locationId}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${token}`,

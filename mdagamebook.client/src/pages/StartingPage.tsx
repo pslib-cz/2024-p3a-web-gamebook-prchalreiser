@@ -4,6 +4,7 @@ import styles from "./StartingPage.module.css";
 import Link from "../components/Link";
 import RainbowSpiral from "../components/RainbowSpiral";
 import { useAuth } from "../contexts/AuthContext";
+import { API_URL } from '../config/env';
 
 const StartingPage = () => {
     const navigate = useNavigate();
@@ -21,7 +22,7 @@ const StartingPage = () => {
         setLoading(true);
 
         try {
-            const response = await fetch('https://localhost:7260/api/Locations/last-location', {
+            const response = await fetch(`${API_URL}/api/Locations/last-location`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

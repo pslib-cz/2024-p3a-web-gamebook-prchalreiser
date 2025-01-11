@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from './PlayerStats.module.css';
 import { useAuth } from "../contexts/AuthContext";
+import { API_URL } from '../config/env';
 
 interface PlayerStats {
     health: number;
@@ -16,7 +17,7 @@ const PlayerStats = () => {
     useEffect(() => {
         const fetchPlayerStats = async () => {
             try {
-                const response = await fetch('https://localhost:7260/api/Players', {
+                const response = await fetch(`${API_URL}/api/Players`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -43,7 +44,7 @@ const PlayerStats = () => {
                     <div className={styles.statIcon}>❤️</div>
                     <div className={styles.statValue}>
                         <div className={styles.progressBar}>
-                            <div 
+                            <div
                                 className={`${styles.progress} ${styles.healthBar}`}
                                 style={{ width: `${stats.health}%` }}
                             />
@@ -55,7 +56,7 @@ const PlayerStats = () => {
                     <div className={styles.statIcon}>💊</div>
                     <div className={styles.statValue}>
                         <div className={styles.progressBar}>
-                            <div 
+                            <div
                                 className={`${styles.progress} ${styles.withdrawalBar}`}
                                 style={{ width: `${stats.withdrawal}%` }}
                             />
@@ -67,7 +68,7 @@ const PlayerStats = () => {
                     <div className={styles.statIcon}>⚡</div>
                     <div className={styles.statValue}>
                         <div className={styles.progressBar}>
-                            <div 
+                            <div
                                 className={`${styles.progress} ${styles.staminaBar}`}
                                 style={{ width: `${stats.stamina}%` }}
                             />

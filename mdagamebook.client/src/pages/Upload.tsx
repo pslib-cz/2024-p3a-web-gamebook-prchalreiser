@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./Upload.module.css";
+import { API_URL } from '../config/env';
 
 const FileUpload = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -25,7 +26,7 @@ const FileUpload = () => {
         throw new Error("Soubor je příliš velký. Maximální velikost je 16 MB.");
       }
 
-      const response = await fetch("https://localhost:7260/api/file/upload", {
+      const response = await fetch(`${API_URL}/api/file/upload`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -57,7 +58,7 @@ const FileUpload = () => {
     if (!token) {
       console.log("Nejste přihlášen");
     } else {
-      fetch("https://localhost:7260/api/user/manage/info", {
+      fetch(`${API_URL}/api/user/manage/info`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

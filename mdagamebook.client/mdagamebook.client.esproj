@@ -7,6 +7,8 @@
     <ShouldRunBuildScript>false</ShouldRunBuildScript>
     <!-- Folder where production build objects will be placed -->
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist</BuildOutputFolder>
+    <DefaultItemExcludes>$(DefaultItemExcludes);node_modules\**</DefaultItemExcludes>
+    <DebuggerPort>51014</DebuggerPort>
   </PropertyGroup>
   <ItemGroup>
     <None Include=".vscode\launch.json" />
