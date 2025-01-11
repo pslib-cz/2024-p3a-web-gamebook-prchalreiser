@@ -230,5 +230,42 @@ namespace MDAGameBook.Server.Controllers
 
             return NoContent();
         }
+
+        // Add this new endpoint to get shop by location ID
+        [HttpGet("location/{locationId}")]
+        public async Task<ActionResult<object>> GetShopByLocation(int locationId)
+        {
+            var shop = await _context.Shops!
+                .Include(s => s.ShopItems)
+                    .ThenInclude(si => si.Item)
+                .FirstOrDefaultAsync(s => s.LocationID == locationId);
+
+            if (shop == null)
+            {
+                return NotFound();
+            }
+
+            var result = new
+            {
+                shop.ShopID,
+                shop.LocationID,
+                ShopItems = shop.ShopItems.Select(si => new
+                {
+                    si.ShopItemID,
+                    si.ItemID,
+                    si.Price,
+                    si.Quantity,
+                    Item = new
+                    {
+                        si.Item.Name,
+                        si.Item.Description,
+                        si.Item.IsDrinkable,
+                        si.Item.Effect
+                    }
+                })
+            };
+
+            return Ok(result);
+        }
     }
 }

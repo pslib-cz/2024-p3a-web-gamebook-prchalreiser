@@ -350,20 +350,31 @@
     z-index: 4;
 }
 
+.shopWrapper {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 350px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+}
+
 .shopContainer {
-    position: absolute;
+    position: relative;
     right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
     background: rgba(0, 0, 0, 0.85);
     padding: 25px;
     border-radius: 15px;
     color: white;
-    max-width: 350px;
+    width: 100%;
     max-height: 80vh;
     overflow-y: auto;
     border: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
+    pointer-events: auto;
 }
 
 .shopTitle {
@@ -414,7 +425,7 @@
 }
 
 .buyButton {
-    background: linear-gradient(135deg, #4CAF50, #45a049);
+    background: linear-gradient(135deg, #4caf50, #45a049);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -434,4 +445,191 @@
 .buyButton:disabled {
     background: #666;
     cursor: not-allowed;
+}
+
+/* Add these styles at the end of the file */
+.rotateDevice {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.rotateMessage {
+    color: white;
+    font-size: 1.5rem;
+    text-align: center;
+    padding: 2rem;
+    max-width: 80%;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Update the existing media query to handle portrait orientation */
+@media (max-width: 768px) and (orientation: portrait) {
+    .container {
+        visibility: hidden;
+    }
+
+    .rotateDevice {
+        visibility: visible;
+    }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+    .textBox,
+    .textBoxSingle,
+    .textBoxMultiple,
+    .navigationMultiple {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .textBoxSingle {
+        bottom: 20px;
+    }
+
+    .textBoxMultiple {
+        top: 20px;
+    }
+
+    .navigationMultiple {
+        bottom: 20px;
+    }
+
+    .description {
+        font-size: 1rem;
+        line-height: 1.4;
+        margin-bottom: 15px;
+    }
+
+    .choiceButton {
+        font-size: 0.9rem;
+        padding: 10px 20px;
+    }
+
+    .continueButton {
+        padding: 10px;
+    }
+
+    .continueTriangle {
+        width: 32px;
+        height: 32px;
+    }
+
+    .collectButton {
+        font-size: 0.9rem;
+        padding: 10px 20px;
+    }
+
+    /* Adjust shop styling for mobile landscape */
+    .shopWrapper {
+        width: 250px;
+    }
+
+    .shopContainer {
+        right: 10px;
+        padding: 15px;
+        max-height: 90vh;
+    }
+
+    .shopTitle {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+
+    .shopItems {
+        gap: 10px;
+    }
+
+    .shopItem {
+        padding: 10px;
+    }
+
+    .shopItem h3 {
+        font-size: 1rem;
+        margin-bottom: 5px;
+    }
+
+    .shopItem p {
+        font-size: 0.9rem;
+        margin: 3px 0;
+    }
+
+    .buyButton {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+        margin-top: 5px;
+    }
+
+    /* Adjust PlayerStats component spacing */
+    :global(.playerStats) {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Add specific adjustments for very small heights */
+@media (max-height: 500px) and (orientation: landscape) {
+    .textBoxSingle {
+        bottom: 10px;
+    }
+
+    .textBoxMultiple {
+        top: 10px;
+    }
+
+    .navigationMultiple {
+        bottom: 10px;
+    }
+
+    .description {
+        font-size: 0.9rem;
+        line-height: 1.3;
+        margin-bottom: 10px;
+    }
+
+    .shopContainer {
+        padding: 10px;
+        max-height: 85vh;
+    }
+}
+
+/* Add scrollbar styling for the shop container */
+.shopContainer::-webkit-scrollbar {
+    width: 8px;
+}
+
+.shopContainer::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.shopContainer::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.shopContainer::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
 }

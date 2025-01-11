@@ -57,6 +57,11 @@ interface Shop {
     shopItems: ShopItem[];
 }
 
+const truncateText = (text: string, maxLength: number) => {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + '...';
+};
+
 const SceneBuffer: React.FC<SceneBufferProps> = ({ sceneData, isActive, className }) => {
     if (!sceneData) return null;
 
@@ -91,6 +96,17 @@ const Scene = () => {
     const { getSceneData, preloadNextScenes, getShopData, purchaseItem } = useScene();
 
     const [shop, setShop] = useState<Shop | null>(null);
+
+    const [isPortrait, setIsPortrait] = useState(window.innerHeight > window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsPortrait(window.innerHeight > window.innerWidth);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const fetchData = async () => {
         try {
@@ -247,6 +263,16 @@ const Scene = () => {
         }
     };
 
+    const renderDescription = () => {
+        if (!sceneData) return null;
+
+        // Only truncate on mobile landscape
+        if (window.matchMedia('(max-width: 768px) and (orientation: landscape)').matches) {
+            return truncateText(sceneData.description, 300);
+        }
+        return sceneData.description;
+    };
+
     if (loading) {
         return <div className={styles.loading}>Loading your adventure...</div>;
     }
@@ -321,7 +347,7 @@ const Scene = () => {
 
             <div className={links.length === 1 ? styles.textBoxSingle : styles.textBoxMultiple}>
                 <div className={styles.description}>
-                    {sceneData.description}
+                    {renderDescription()}
                 </div>
                 {links.length === 1 && (
                     <div className={styles.navigation}>
@@ -352,26 +378,38 @@ const Scene = () => {
             )}
 
             {shop && (
-                <div className={styles.shopContainer}>
-                    <h2 className={styles.shopTitle}>Merchant's Shop</h2>
-                    <div className={styles.shopItems}>
-                        {shop.shopItems.map(item => (
-                            <div key={item.shopItemID} className={styles.shopItem}>
-                                <h3>{item.item.name}</h3>
-                                <p>{item.item.description}</p>
-                                <p className={styles.itemPrice}>
-                                    Price: {item.price} coins
-                                    {item.quantity > 0 && ` (${item.quantity} available)`}
-                                </p>
-                                <button
-                                    onClick={() => handlePurchase(item.shopItemID)}
-                                    className={styles.buyButton}
-                                    disabled={item.quantity === 0}
-                                >
-                                    {item.quantity === 0 ? 'Out of Stock' : 'Buy'}
-                                </button>
-                            </div>
-                        ))}
+                <div className={styles.shopWrapper}>
+                    <div className={styles.shopContainer}>
+                        <h2 className={styles.shopTitle}>Shop</h2>
+                        <div className={styles.shopItems}>
+                            {shop.shopItems.map(item => (
+                                <div key={item.shopItemID} className={styles.shopItem}>
+                                    <h3>{item.item.name}</h3>
+                                    <p>{window.matchMedia('(max-width: 768px) and (orientation: landscape)').matches
+                                        ? truncateText(item.item.description, 50)
+                                        : item.item.description}</p>
+                                    <p className={styles.itemPrice}>
+                                        {item.price} coins
+                                        {item.quantity > 0 && ` (${item.quantity})`}
+                                    </p>
+                                    <button
+                                        onClick={() => handlePurchase(item.shopItemID)}
+                                        className={styles.buyButton}
+                                        disabled={item.quantity === 0}
+                                    >
+                                        {item.quantity === 0 ? 'Sold Out' : 'Buy'}
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {isPortrait && (
+                <div className={styles.rotateDevice}>
+                    <div className={styles.rotateMessage}>
+                        Please rotate your device to landscape mode for the best experience
                     </div>
                 </div>
             )}
