@@ -87,6 +87,11 @@ namespace MDAGameBook.Server.Controllers
                 return Unauthorized();
             }
 
+            if (string.IsNullOrWhiteSpace(player.Name))
+            {
+                return BadRequest("Player name is required.");
+            }
+
             // Check if user already has a player
             var existingUserPlayer = await _context.UserPlayers!
                 .Include(up => up.Player)

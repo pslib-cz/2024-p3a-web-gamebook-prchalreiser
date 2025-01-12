@@ -7,6 +7,7 @@ public class Player
 {
     [Key]
     public required Guid PlayerID { get; set; }
+    [Required]
     public string Name { get; set; } = string.Empty;
     public int Health { get; set; }
     public int Withdrawal { get; set; }

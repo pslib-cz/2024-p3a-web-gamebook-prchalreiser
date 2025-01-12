@@ -23,11 +23,11 @@ const SignInPage = () => {
     const [isRegistering, setIsRegistering] = useState<boolean>(false);
     const { login, register } = useAuth();
 
-    const handleSubmit = async (email: string, password: string) => {
+    const handleSubmit = async (email: string, password: string, playerName: string) => {
         setLoading(true);
         try {
             if (isRegistering) {
-                await register(email, password);
+                await register(email, password, playerName);
             } else {
                 await login(email, password);
             }
@@ -51,9 +51,26 @@ const SignInPage = () => {
                     const form = event.target as HTMLFormElement;
                     const email = form.email.value;
                     const password = form.password.value;
-                    handleSubmit(email, password);
+                    const playerName = form.playerName?.value || '';
+                    handleSubmit(email, password, playerName);
                 }}
             >
+                {isRegistering && (
+                    <div className={styles.formGroup}>
+                        <label htmlFor="playerName" className={styles.label}>
+                            Player Name
+                        </label>
+                        <div className={styles.inputWrapper}>
+                            <input
+                                type="text"
+                                id="playerName"
+                                name="playerName"
+                                className={styles.input}
+                                required
+                            />
+                        </div>
+                    </div>
+                )}
                 <div className={styles.formGroup}>
                     <label htmlFor="email" className={styles.label}>
                         Email

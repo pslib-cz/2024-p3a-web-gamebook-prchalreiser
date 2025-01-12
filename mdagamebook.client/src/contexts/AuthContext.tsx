@@ -7,7 +7,7 @@ interface AuthContextType {
     token: string | null;
     login: (email: string, password: string) => Promise<void>;
     logout: () => void;
-    register: (email: string, password: string) => Promise<void>;
+    register: (email: string, password: string, playerName: string) => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -82,9 +82,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
         navigate("/login");
     };
 
-    const register = async (email: string, password: string) => {
+    const register = async (email: string, password: string, playerName: string) => {
         try {
-            const response = await fetch(`${API_URL}/api/user/register`, {
+            // First register the user
+            const registerResponse = await fetch(`${API_URL}/api/user/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -96,12 +97,34 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 })
             });
 
-            if (!response.ok) {
-                throw new Error("Registrace se nezdařila");
+            if (!registerResponse.ok) {
+                throw new Error("Registration failed");
             }
 
-            // After successful registration, log the user in
+            // Then login to get the token
             await login(email, password);
+
+            // Now create the player with the name (this will use the token from login)
+            const createPlayerResponse = await fetch(`${API_URL}/api/Players`, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('accessToken')}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    playerID: crypto.randomUUID(),
+                    name: playerName,
+                    health: 100,
+                    withdrawal: 0,
+                    stamina: 100,
+                    coins: 0,
+                    inventory: []
+                })
+            });
+
+            if (!createPlayerResponse.ok) {
+                throw new Error("Failed to create player");
+            }
         } catch (error) {
             throw error;
         }
@@ -121,25 +144,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
 }
 
 async function createPlayer(token: string, email: string) {
-    const response = await fetch(`${API_URL}/api/Players`, {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            playerID: crypto.randomUUID(),
-            name: email,
-            health: 100,
-            withdrawal: 0,
-            stamina: 100,
-            coins: 0,
-            inventory: []
-        })
-    });
+    try {
+        const response = await fetch(`${API_URL}/api/Players/current`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+            }
+        });
 
-    if (!response.ok && response.status !== 409) {
-        throw new Error("Failed to create player");
+        // Only create a new player if one doesn't exist
+        if (!response.ok) {
+            console.log("No player found for this user");
+        }
+    } catch (error) {
+        console.error("Error checking for existing player:", error);
     }
 }
 
