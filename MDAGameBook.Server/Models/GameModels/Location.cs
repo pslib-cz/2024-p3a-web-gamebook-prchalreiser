@@ -18,6 +18,7 @@ public class Location
     public string? BackgroundImageUrl { get; set; }
     public bool HasRequiredItem { get; set; } = false;
     public bool HasShop { get; set; } = false;
+    public bool HasMinigame { get; set; } = false;
     [JsonIgnore]
     public Shop? Shop { get; set; }
 

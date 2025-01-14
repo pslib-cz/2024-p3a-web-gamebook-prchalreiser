@@ -315,7 +315,6 @@ const Scene = () => {
                 const result = await playRPS(minigame.minigameID, choice);
                 setResult(result);
                 
-                // Update the minigame state with the new scores
                 minigame.playerScore = result.playerScore;
                 minigame.computerScore = result.computerScore;
                 minigame.isCompleted = result.isCompleted;
@@ -329,17 +328,28 @@ const Scene = () => {
         return (
             <div className={styles.minigameWrapper}>
                 <div className={styles.minigameContainer}>
-                    <h2>Rock Paper Scissors</h2>
+                    <h2>Rock Paper Scissors Challenge</h2>
                     <p>{minigame.description}</p>
                     <div className={styles.scoreBoard}>
-                        <p>Player: {minigame.playerScore}</p>
-                        <p>Computer: {minigame.computerScore}</p>
+                        <div>
+                            <p>Player</p>
+                            <p>{minigame.playerScore}</p>
+                        </div>
+                        <div>
+                            <p>Computer</p>
+                            <p>{minigame.computerScore}</p>
+                        </div>
                     </div>
                     {result && (
                         <div className={styles.roundResult}>
-                            <p>You chose: {result.playerChoice}</p>
-                            <p>Computer chose: {result.computerChoice}</p>
-                            <p>Result: {result.result.toUpperCase()}</p>
+                            <p>You chose: {result.playerChoice.toUpperCase()}</p>
+                            <p>Computer chose: {result.computerChoice.toUpperCase()}</p>
+                            <p style={{ 
+                                color: result.result === 'win' ? '#4caf50' : 
+                                      result.result === 'lose' ? '#ff5252' : '#ffd700'
+                            }}>
+                                {result.result.toUpperCase()}
+                            </p>
                         </div>
                     )}
                     {!minigame.isCompleted && !loading && (
@@ -367,7 +377,7 @@ const Scene = () => {
                     {minigame.isCompleted && (
                         <div className={styles.gameOver}>
                             <h3>Game Over!</h3>
-                            <p>{minigame.playerScore === 3 ? 'You won!' : 'Computer won!'}</p>
+                            <p>{minigame.playerScore === 3 ? 'Victory!' : 'Better luck next time!'}</p>
                         </div>
                     )}
                 </div>
