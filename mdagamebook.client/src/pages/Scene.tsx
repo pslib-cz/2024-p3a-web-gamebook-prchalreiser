@@ -57,6 +57,25 @@ interface Shop {
     shopItems: ShopItem[];
 }
 
+interface Minigame {
+    minigameID: string;
+    locationID: number;
+    description: string;
+    type: string;
+    isCompleted: boolean;
+    playerScore: number;
+    computerScore: number;
+}
+
+interface RPSResult {
+    playerChoice: string;
+    computerChoice: string;
+    result: string;
+    playerScore: number;
+    computerScore: number;
+    isCompleted: boolean;
+}
+
 const truncateText = (text: string, maxLength: number) => {
     if (text.length <= maxLength) return text;
     return text.substring(0, maxLength) + '...';
@@ -93,9 +112,10 @@ const Scene = () => {
     const [isTransitioning, setIsTransitioning] = useState(false);
     const [currentSceneBuffer, setCurrentSceneBuffer] = useState<SceneData | null>(null);
     const [nextSceneBuffer, setNextSceneBuffer] = useState<SceneData | null>(null);
-    const { getSceneData, preloadNextScenes, getShopData, purchaseItem } = useScene();
+    const { getSceneData, preloadNextScenes, getShopData, purchaseItem, getMinigameData, playRPS } = useScene();
 
     const [shop, setShop] = useState<Shop | null>(null);
+    const [minigame, setMinigame] = useState<Minigame | null>(null);
 
     const [isPortrait, setIsPortrait] = useState(window.innerHeight > window.innerWidth);
 
@@ -253,6 +273,15 @@ const Scene = () => {
         loadShopData();
     }, [sceneId, getShopData]);
 
+    useEffect(() => {
+        const loadMinigameData = async () => {
+            if (!sceneId) return;
+            const minigameData = await getMinigameData(sceneId);
+            setMinigame(minigameData);
+        };
+        loadMinigameData();
+    }, [sceneId, getMinigameData]);
+
     const handlePurchase = async (shopItemId: number) => {
         try {
             const { message, newBalance } = await purchaseItem(shopItemId);
@@ -271,6 +300,57 @@ const Scene = () => {
             return truncateText(sceneData.description, 300);
         }
         return sceneData.description;
+    };
+
+    const RPSGame = ({ minigame }: { minigame: Minigame }) => {
+        const [result, setResult] = useState<RPSResult | null>(null);
+        const [loading, setLoading] = useState(false);
+        const { playRPS } = useScene();
+
+        const handleChoice = async (choice: string) => {
+            try {
+                setLoading(true);
+                const result = await playRPS(minigame.minigameID, choice);
+                setResult(result);
+            } catch (error) {
+                console.error('Failed to play:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        return (
+            <div className={styles.minigameWrapper}>
+                <div className={styles.minigameContainer}>
+                    <h2>Rock Paper Scissors</h2>
+                    <p>{minigame.description}</p>
+                    <div className={styles.scoreBoard}>
+                        <p>Player: {result?.playerScore || minigame.playerScore}</p>
+                        <p>Computer: {result?.computerScore || minigame.computerScore}</p>
+                    </div>
+                    {result && (
+                        <div className={styles.roundResult}>
+                            <p>You chose: {result.playerChoice}</p>
+                            <p>Computer chose: {result.computerChoice}</p>
+                            <p>Result: {result.result.toUpperCase()}</p>
+                        </div>
+                    )}
+                    {!minigame.isCompleted && !loading && (
+                        <div className={styles.choices}>
+                            <button onClick={() => handleChoice('rock')}>Rock</button>
+                            <button onClick={() => handleChoice('paper')}>Paper</button>
+                            <button onClick={() => handleChoice('scissors')}>Scissors</button>
+                        </div>
+                    )}
+                    {minigame.isCompleted && (
+                        <div className={styles.gameOver}>
+                            <h3>Game Over!</h3>
+                            <p>{result?.playerScore === 3 ? 'You won!' : 'Computer won!'}</p>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
     };
 
     if (loading) {
@@ -404,6 +484,10 @@ const Scene = () => {
                         </div>
                     </div>
                 </div>
+            )}
+
+            {minigame && minigame.type === 'RPS' && (
+                <RPSGame minigame={minigame} />
             )}
 
             {isPortrait && (

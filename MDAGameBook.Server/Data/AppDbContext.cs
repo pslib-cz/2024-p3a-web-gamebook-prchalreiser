@@ -191,6 +191,32 @@ namespace GameBookASP.Data
                     ShopID = Guid.Parse("22222222-2222-2222-2222-222222222222") // Link to shop
                 }
             );
+
+            builder.Entity<Location>().HasData(
+                new Location
+                {
+                    LocationID = 55,
+                    Name = "Rock Paper Scissors Challenge",
+                    Description = "A mysterious figure challenges you to a game of Rock Paper Scissors.",
+                    Items = "[]",
+                    BackgroundImageUrl = "/images/rps-background.jpg", // Make sure this image exists or use a different one
+                    HasRequiredItem = false,
+                    HasShop = false
+                }
+            );
+
+            builder.Entity<Minigame>().HasData(
+                new Minigame
+                {
+                    MinigameID = Guid.Parse("33333333-3333-3333-3333-333333333333"),
+                    LocationID = 55,
+                    Description = "Challenge the computer to a game of Rock Paper Scissors! First to 3 wins.",
+                    Type = "RPS",
+                    IsCompleted = false,
+                    PlayerScore = 0,
+                    ComputerScore = 0
+                }
+            );
         }
     }
 }

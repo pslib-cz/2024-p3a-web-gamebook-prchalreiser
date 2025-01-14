@@ -47,12 +47,33 @@ interface Shop {
     shopItems: ShopItem[];
 }
 
+interface Minigame {
+    minigameID: string;
+    locationID: number;
+    description: string;
+    type: string;
+    isCompleted: boolean;
+    playerScore: number;
+    computerScore: number;
+}
+
+interface RPSResult {
+    playerChoice: string;
+    computerChoice: string;
+    result: string;
+    playerScore: number;
+    computerScore: number;
+    isCompleted: boolean;
+}
+
 interface SceneContextType {
     getSceneData: (sceneId: string) => Promise<{ scene: SceneData; links: Link[] }>;
     preloadNextScenes: (links: Link[]) => Promise<void>;
     clearCache: () => void;
     getShopData: (sceneId: string) => Promise<Shop | null>;
     purchaseItem: (shopItemId: number) => Promise<{ message: string; newBalance: number }>;
+    getMinigameData: (sceneId: string) => Promise<Minigame | null>;
+    playRPS: (minigameId: string, playerChoice: string) => Promise<RPSResult>;
 }
 
 const SceneContext = createContext<SceneContextType | null>(null);
@@ -154,13 +175,50 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         return data;
     }, [token]);
 
+    const getMinigameData = useCallback(async (sceneId: string) => {
+        try {
+            const response = await fetch(`${API_URL}/api/Minigames/location/${sceneId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            if (response.ok) {
+                return await response.json();
+            } else if (response.status !== 404) {
+                console.error('Failed to fetch minigame data');
+            }
+            return null;
+        } catch (error) {
+            console.error('Failed to fetch minigame:', error);
+            return null;
+        }
+    }, [token]);
+
+    const playRPS = useCallback(async (minigameId: string, playerChoice: string) => {
+        const response = await fetch(`${API_URL}/api/Minigames/rps/play`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ minigameID: minigameId, playerChoice })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to play RPS');
+        }
+
+        return await response.json();
+    }, [token]);
+
     return (
         <SceneContext.Provider value={{ 
             getSceneData, 
             preloadNextScenes, 
             clearCache,
             getShopData,
-            purchaseItem
+            purchaseItem,
+            getMinigameData,
+            playRPS
         }}>
             {children}
         </SceneContext.Provider>
