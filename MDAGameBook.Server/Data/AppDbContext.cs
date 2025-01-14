@@ -20,6 +20,7 @@ namespace GameBookASP.Data
         public DbSet<Models.File>? Files { get; set; }
         public override DbSet<Models.User> Users { get; set; } = null!;
         public DbSet<UserPlayer>? UserPlayers { get; set; }
+        public DbSet<PlayerMinigame>? PlayerMinigames { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -217,6 +218,18 @@ namespace GameBookASP.Data
                     ComputerScore = 0
                 }
             );
+
+            builder.Entity<PlayerMinigame>()
+                .HasOne(pm => pm.Player)
+                .WithMany()
+                .HasForeignKey(pm => pm.PlayerID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<PlayerMinigame>()
+                .HasOne(pm => pm.Minigame)
+                .WithMany(m => m.PlayerMinigames)
+                .HasForeignKey(pm => pm.MinigameID)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

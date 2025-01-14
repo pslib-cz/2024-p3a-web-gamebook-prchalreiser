@@ -308,10 +308,17 @@ const Scene = () => {
         const { playRPS } = useScene();
 
         const handleChoice = async (choice: string) => {
+            if (loading || minigame.isCompleted) return;
+            
             try {
                 setLoading(true);
                 const result = await playRPS(minigame.minigameID, choice);
                 setResult(result);
+                
+                // Update the minigame state with the new scores
+                minigame.playerScore = result.playerScore;
+                minigame.computerScore = result.computerScore;
+                minigame.isCompleted = result.isCompleted;
             } catch (error) {
                 console.error('Failed to play:', error);
             } finally {
@@ -325,8 +332,8 @@ const Scene = () => {
                     <h2>Rock Paper Scissors</h2>
                     <p>{minigame.description}</p>
                     <div className={styles.scoreBoard}>
-                        <p>Player: {result?.playerScore || minigame.playerScore}</p>
-                        <p>Computer: {result?.computerScore || minigame.computerScore}</p>
+                        <p>Player: {minigame.playerScore}</p>
+                        <p>Computer: {minigame.computerScore}</p>
                     </div>
                     {result && (
                         <div className={styles.roundResult}>
@@ -337,15 +344,30 @@ const Scene = () => {
                     )}
                     {!minigame.isCompleted && !loading && (
                         <div className={styles.choices}>
-                            <button onClick={() => handleChoice('rock')}>Rock</button>
-                            <button onClick={() => handleChoice('paper')}>Paper</button>
-                            <button onClick={() => handleChoice('scissors')}>Scissors</button>
+                            <button 
+                                onClick={() => handleChoice('rock')}
+                                disabled={loading}
+                            >
+                                Rock
+                            </button>
+                            <button 
+                                onClick={() => handleChoice('paper')}
+                                disabled={loading}
+                            >
+                                Paper
+                            </button>
+                            <button 
+                                onClick={() => handleChoice('scissors')}
+                                disabled={loading}
+                            >
+                                Scissors
+                            </button>
                         </div>
                     )}
                     {minigame.isCompleted && (
                         <div className={styles.gameOver}>
                             <h3>Game Over!</h3>
-                            <p>{result?.playerScore === 3 ? 'You won!' : 'Computer won!'}</p>
+                            <p>{minigame.playerScore === 3 ? 'You won!' : 'Computer won!'}</p>
                         </div>
                     )}
                 </div>

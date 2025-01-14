@@ -177,7 +177,7 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     const getMinigameData = useCallback(async (sceneId: string) => {
         try {
-            const response = await fetch(`${API_URL}/api/Minigames/location/${sceneId}`, {
+            const response = await fetch(`${API_URL}/api/Minigames/${sceneId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             
@@ -194,13 +194,13 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }, [token]);
 
     const playRPS = useCallback(async (minigameId: string, playerChoice: string) => {
-        const response = await fetch(`${API_URL}/api/Minigames/rps/play`, {
+        const response = await fetch(`${API_URL}/api/Minigames/${minigameId}/play`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ minigameID: minigameId, playerChoice })
+            body: JSON.stringify({ playerChoice })
         });
 
         if (!response.ok) {

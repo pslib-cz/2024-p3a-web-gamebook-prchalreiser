@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GameBookASP.Data;
 using GameBookASP.GameModels;
+using System.Security.Claims;
 
 namespace MDAGameBook.Server.Controllers
 {
@@ -18,9 +19,24 @@ namespace MDAGameBook.Server.Controllers
             _context = context;
         }
 
-        [HttpGet("location/{locationId}")]
-        public async Task<ActionResult<Minigame>> GetMinigameByLocation(int locationId)
+        [HttpGet("{locationId}")]
+        public async Task<ActionResult<object>> GetMinigame(int locationId)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var userPlayer = await _context.UserPlayers!
+                .Include(up => up.Player)
+                .FirstOrDefaultAsync(up => up.UserId == userId);
+
+            if (userPlayer == null)
+            {
+                return BadRequest("Player not found");
+            }
+
             var minigame = await _context.Minigames!
                 .FirstOrDefaultAsync(m => m.LocationID == locationId);
 
@@ -29,35 +45,87 @@ namespace MDAGameBook.Server.Controllers
                 return NotFound();
             }
 
-            return minigame;
-        }
+            var playerMinigame = await _context.PlayerMinigames!
+                .FirstOrDefaultAsync(pm => 
+                    pm.PlayerID == userPlayer.Player.PlayerID && 
+                    pm.MinigameID == minigame.MinigameID);
 
-        [HttpPost("rps/play")]
-        public async Task<ActionResult<object>> PlayRPS([FromBody] PlayRPSRequest request)
-        {
-            var minigame = await _context.Minigames!
-                .FirstOrDefaultAsync(m => m.MinigameID == request.MinigameID);
-
-            if (minigame == null)
+            if (playerMinigame == null)
             {
-                return NotFound();
+                playerMinigame = new PlayerMinigame
+                {
+                    PlayerMinigameID = Guid.NewGuid(),
+                    PlayerID = userPlayer.Player.PlayerID,
+                    MinigameID = minigame.MinigameID,
+                    IsCompleted = false,
+                    PlayerScore = 0,
+                    ComputerScore = 0
+                };
+                _context.PlayerMinigames!.Add(playerMinigame);
+                await _context.SaveChangesAsync();
             }
 
+            return new
+            {
+                minigame.MinigameID,
+                minigame.LocationID,
+                minigame.Description,
+                minigame.Type,
+                playerMinigame.IsCompleted,
+                playerMinigame.PlayerScore,
+                playerMinigame.ComputerScore
+            };
+        }
+
+        [HttpPost("{minigameId}/play")]
+        public async Task<ActionResult<object>> PlayGame(Guid minigameId, [FromBody] PlayRPSRequest request)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var userPlayer = await _context.UserPlayers!
+                .Include(up => up.Player)
+                .FirstOrDefaultAsync(up => up.UserId == userId);
+
+            if (userPlayer == null)
+            {
+                return BadRequest("Player not found");
+            }
+
+            var playerMinigame = await _context.PlayerMinigames!
+                .FirstOrDefaultAsync(pm => 
+                    pm.PlayerID == userPlayer.Player.PlayerID && 
+                    pm.MinigameID == minigameId);
+
+            if (playerMinigame == null)
+            {
+                return NotFound("Game session not found");
+            }
+
+            if (playerMinigame.IsCompleted)
+            {
+                return BadRequest("Game is already completed");
+            }
+
+            // RPS Game Logic
             var computerChoice = GetRandomChoice();
             var result = DetermineWinner(request.PlayerChoice, computerChoice);
 
             if (result == "win")
             {
-                minigame.PlayerScore++;
+                playerMinigame.PlayerScore++;
             }
             else if (result == "lose")
             {
-                minigame.ComputerScore++;
+                playerMinigame.ComputerScore++;
             }
 
-            if (minigame.PlayerScore >= 3 || minigame.ComputerScore >= 3)
+            if (playerMinigame.PlayerScore >= 3 || playerMinigame.ComputerScore >= 3)
             {
-                minigame.IsCompleted = true;
+                playerMinigame.IsCompleted = true;
             }
 
             await _context.SaveChangesAsync();
@@ -67,9 +135,9 @@ namespace MDAGameBook.Server.Controllers
                 PlayerChoice = request.PlayerChoice,
                 ComputerChoice = computerChoice,
                 Result = result,
-                PlayerScore = minigame.PlayerScore,
-                ComputerScore = minigame.ComputerScore,
-                IsCompleted = minigame.IsCompleted
+                PlayerScore = playerMinigame.PlayerScore,
+                ComputerScore = playerMinigame.ComputerScore,
+                IsCompleted = playerMinigame.IsCompleted
             };
         }
 
@@ -92,11 +160,10 @@ namespace MDAGameBook.Server.Controllers
 
             return "lose";
         }
-    }
 
-    public class PlayRPSRequest
-    {
-        public Guid MinigameID { get; set; }
-        public string PlayerChoice { get; set; } = string.Empty;
+        public class PlayRPSRequest
+        {
+            public string PlayerChoice { get; set; } = string.Empty;
+        }
     }
 } 
