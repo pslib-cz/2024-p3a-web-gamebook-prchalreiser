@@ -1,56 +1,69 @@
 .container {
     position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
+    top: 1rem;
+    right: 1rem;
     z-index: 100;
     font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
 .playerButton {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-    backdrop-filter: blur(10px);
-    padding: 0.75rem 1.25rem;
-    border-radius: 1rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+    backdrop-filter: blur(12px);
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
     transition: all 0.2s ease-in-out;
-    min-width: 180px;
+    min-width: 160px;
 }
 
 .playerButton:hover {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 
+        0 6px 16px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.2),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
 .playerButton span:first-child {
     font-weight: 600;
-    font-size: 1.1em;
-    margin-bottom: 0.25rem;
-    color: rgba(255, 255, 255, 0.95);
+    font-size: 0.95em;
+    margin-bottom: 0.2rem;
+    color: rgba(255, 255, 255, 1);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .location {
-    font-size: 0.85em;
-    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.9);
     font-weight: 400;
+    text-align: center;
+    width: 100%;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .menu {
     position: absolute;
-    top: calc(100% + 0.5rem);
+    top: calc(100% + 0.4rem);
     right: 0;
-    background: linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(10, 10, 10, 0.98));
-    backdrop-filter: blur(10px);
-    border-radius: 0.8rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+    backdrop-filter: blur(12px);
+    border-radius: 0.75rem;
     overflow: hidden;
-    min-width: 180px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 160px;
+    box-shadow: 
+        0 8px 16px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     animation: slideDown 0.2s ease-out;
 }
 
@@ -68,39 +81,45 @@
 .menu button {
     display: flex;
     width: 100%;
-    padding: 0.75rem 1.25rem;
+    padding: 0.5rem 1rem;
     border: none;
     background: none;
     color: rgba(255, 255, 255, 0.9);
     cursor: pointer;
     text-align: left;
-    font-size: 0.95em;
-    transition: all 0.15s ease;
+    font-size: 0.9em;
+    transition: all 0.2s ease-in-out;
     font-weight: 500;
+    align-items: center;
+    border: 1px solid transparent;
 }
 
 .menu button:not(:last-child) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .menu button:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    padding-left: 1.5rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 
+        0 0 10px rgba(0, 0, 0, 0.2),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
-/* Add icons to the buttons */
+/* Update the icons to be more visible */
 .menu button::before {
     content: '';
     display: inline-block;
     width: 18px;
     height: 18px;
     margin-right: 0.75rem;
-    opacity: 0.8;
+    opacity: 0.9;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     vertical-align: text-bottom;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
 }
 
 .menu button:first-child::before {
