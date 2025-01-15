@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import styles from "./Scene.module.css";
 import nextButton from '../assets/nextbutton.svg';
+import homeButton from '../assets/homebutton.svg';
 
 import Link from '../components/Link'; // Adjust the import path as necessary
 import { useAuth } from "../contexts/AuthContext";
@@ -433,6 +434,13 @@ const Scene = () => {
     return (
         <div ref={containerRef} className={styles.container}>
             <PlayerStats />
+            <button 
+                className={styles.homeButton}
+                onClick={() => navigate('/')}
+                aria-label="Return to home"
+            >
+                <img src={homeButton} alt="Home" />
+            </button>
 
             <SceneBuffer
                 sceneData={sceneData}
