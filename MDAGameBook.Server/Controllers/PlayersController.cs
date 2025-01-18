@@ -102,6 +102,9 @@ namespace MDAGameBook.Server.Controllers
                 return Ok(existingUserPlayer.Player);
             }
 
+            // Set initial coins to 50
+            player.Coins = 50;
+
             _context.Players!.Add(player);
             await _context.SaveChangesAsync();
 

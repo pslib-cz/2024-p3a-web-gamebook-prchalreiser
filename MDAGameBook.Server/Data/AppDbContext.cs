@@ -21,6 +21,7 @@ namespace GameBookASP.Data
         public override DbSet<Models.User> Users { get; set; } = null!;
         public DbSet<UserPlayer>? UserPlayers { get; set; }
         public DbSet<PlayerMinigame>? PlayerMinigames { get; set; }
+        public DbSet<PlayerItem>? PlayerItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -127,7 +128,7 @@ namespace GameBookASP.Data
                     Health = 100,
                     Withdrawal = 0,
                     Stamina = 100,
-                    Coins = 0,
+                    Coins = 50,
                     Inventory = new List<Item>()
                 }
             );

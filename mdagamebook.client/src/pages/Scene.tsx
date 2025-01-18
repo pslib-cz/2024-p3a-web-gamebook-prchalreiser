@@ -313,11 +313,30 @@ const Scene = () => {
 
   const handlePurchase = async (shopItemId: number) => {
     try {
-      const { message, newBalance } = await purchaseItem(shopItemId);
-      alert(message);
-      // You might want to refresh player stats here
+        const response = await fetch(`${API_URL}/api/shops/buy`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ shopItemId })
+        });
+
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.message || 'Purchase failed');
+        }
+
+        // Show success message
+        alert(data.message);
+        
+        // Refresh shop data to update quantities
+        const updatedShop = await getShopData(sceneId!);
+        setShop(updatedShop);
+
     } catch (error) {
-      alert(error instanceof Error ? error.message : "Purchase failed");
+        alert(error instanceof Error ? error.message : 'Failed to purchase item');
     }
   };
 

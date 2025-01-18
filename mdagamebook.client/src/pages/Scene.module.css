@@ -64,7 +64,7 @@
 
 .textBoxMultiple {
     composes: textBox;
-    top: 80px;
+    bottom: 200px;
 }
 
 .description {
@@ -510,7 +510,7 @@
     }
 
     .textBoxMultiple {
-        top: 20px;
+        bottom: 100px;
     }
 
     .navigationMultiple {
@@ -596,7 +596,7 @@
     }
 
     .textBoxMultiple {
-        top: 10px;
+        bottom: 80px;
     }
 
     .navigationMultiple {

@@ -17,7 +17,7 @@ const PlayerStats = () => {
     useEffect(() => {
         const fetchPlayerStats = async () => {
             try {
-                const response = await fetch(`${API_URL}/api/Players`, {
+                const response = await fetch(`${API_URL}/api/Players/current`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -25,7 +25,7 @@ const PlayerStats = () => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    setStats(data[0]); // Assuming the first player is the current player
+                    setStats(data); // Now using the current player's data directly
                 }
             } catch (err) {
                 console.error('Failed to fetch player stats:', err);

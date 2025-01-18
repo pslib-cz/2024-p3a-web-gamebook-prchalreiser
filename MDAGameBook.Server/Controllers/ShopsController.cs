@@ -267,5 +267,85 @@ namespace MDAGameBook.Server.Controllers
 
             return Ok(result);
         }
+
+        public class PurchaseItemRequest
+        {
+            public int ShopItemId { get; set; }
+        }
+
+        [HttpPost("buy")]
+        public async Task<ActionResult<object>> PurchaseItem([FromBody] PurchaseItemRequest request)
+        {
+            // Get the current user's ID from claims
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            // Find the shop item
+            var shopItem = await _context.Set<ShopItem>()
+                .Include(si => si.Item)
+                .FirstOrDefaultAsync(si => si.ShopItemID == request.ShopItemId);
+
+            if (shopItem == null)
+            {
+                return NotFound("Shop item not found");
+            }
+
+            // Get the player through UserPlayers relationship
+            var userPlayer = await _context.UserPlayers!
+                .Include(up => up.Player)
+                .FirstOrDefaultAsync(up => up.UserId == userId);
+
+            if (userPlayer?.Player == null)
+            {
+                return NotFound("Player not found");
+            }
+
+            var player = userPlayer.Player;
+
+            // Check if player has enough coins
+            if (player.Coins < shopItem.Price)
+            {
+                return BadRequest("Not enough coins");
+            }
+
+            // Check if item is in stock
+            if (shopItem.Quantity <= 0)
+            {
+                return BadRequest("Item out of stock");
+            }
+
+            try
+            {
+                // Deduct coins from player
+                player.Coins -= shopItem.Price;
+
+                // Add item to player's inventory
+                var playerItem = new PlayerItem
+                {
+                    PlayerId = player.PlayerID,
+                    ItemId = shopItem.ItemID,
+                    Quantity = 1
+                };
+
+                // Decrease shop item quantity
+                shopItem.Quantity--;
+
+                _context.PlayerItems!.Add(playerItem);
+                await _context.SaveChangesAsync();
+
+                return Ok(new
+                {
+                    message = $"Successfully purchased {shopItem.Item.Name}",
+                    newBalance = player.Coins
+                });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while processing the purchase");
+            }
+        }
     }
 }
