@@ -9,6 +9,8 @@ interface SceneData {
     items: string;
     backgroundImageUrl: string;
     hasRequiredItem: boolean;
+    hasShop: boolean;
+    hasMinigame: boolean;
 }
 
 interface Link {
@@ -66,6 +68,13 @@ interface RPSResult {
     isCompleted: boolean;
 }
 
+interface PlayerStats {
+    health: number;
+    withdrawal: number;
+    stamina: number;
+    coins: number;
+}
+
 interface SceneContextType {
     getSceneData: (sceneId: string) => Promise<{ scene: SceneData; links: Link[] }>;
     preloadNextScenes: (links: Link[]) => Promise<void>;
@@ -74,6 +83,7 @@ interface SceneContextType {
     purchaseItem: (shopItemId: number) => Promise<{ message: string; newBalance: number }>;
     getMinigameData: (sceneId: string) => Promise<Minigame | null>;
     playRPS: (minigameId: string, playerChoice: string) => Promise<RPSResult>;
+    getPlayerStats: () => Promise<PlayerStats>;
 }
 
 const SceneContext = createContext<SceneContextType | null>(null);
@@ -83,6 +93,7 @@ const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [sceneCache, setSceneCache] = useState<SceneCache>({});
     const [shopCache, setShopCache] = useState<{ [key: string]: Shop }>({});
+    const [playerStatsCache, setPlayerStatsCache] = useState<PlayerStats | null>(null);
     const { token } = useAuth();
 
     const fetchSceneData = async (sceneId: string) => {
@@ -210,6 +221,30 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         return await response.json();
     }, [token]);
 
+    const getPlayerStats = useCallback(async () => {
+        if (playerStatsCache) {
+            return playerStatsCache;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/api/Players/current`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                const stats = await response.json();
+                setPlayerStatsCache(stats);
+                return stats;
+            }
+            throw new Error('Failed to fetch player stats');
+        } catch (error) {
+            console.error('Failed to fetch player stats:', error);
+            throw error;
+        }
+    }, [token, playerStatsCache]);
+
     return (
         <SceneContext.Provider value={{ 
             getSceneData, 
@@ -218,7 +253,8 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             getShopData,
             purchaseItem,
             getMinigameData,
-            playRPS
+            playRPS,
+            getPlayerStats,
         }}>
             {children}
         </SceneContext.Provider>

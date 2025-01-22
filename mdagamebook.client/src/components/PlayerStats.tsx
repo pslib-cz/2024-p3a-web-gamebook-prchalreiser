@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './PlayerStats.module.css';
-import { useAuth } from "../contexts/AuthContext";
-import { API_URL } from '../config/env';
+import { useScene } from "../contexts/SceneContext";
 
 interface PlayerStats {
     health: number;
@@ -12,28 +11,43 @@ interface PlayerStats {
 
 const PlayerStats = () => {
     const [stats, setStats] = useState<PlayerStats | null>(null);
-    const { token } = useAuth();
+    const [isLoading, setIsLoading] = useState(true);
+    const { getPlayerStats } = useScene();
 
     useEffect(() => {
-        const fetchPlayerStats = async () => {
+        const loadStats = async () => {
             try {
-                const response = await fetch(`${API_URL}/api/Players/current`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    setStats(data); // Now using the current player's data directly
-                }
+                const playerStats = await getPlayerStats();
+                setStats(playerStats);
             } catch (err) {
                 console.error('Failed to fetch player stats:', err);
+            } finally {
+                setIsLoading(false);
             }
         };
 
-        fetchPlayerStats();
-    }, [token]);
+        loadStats();
+    }, [getPlayerStats]);
+
+    // Add a loading state that maintains the same dimensions
+    if (isLoading && !stats) {
+        return (
+            <div className={styles.statsContainer}>
+                <div className={`${styles.statBar} ${styles.loading}`}>
+                    {/* Skeleton loading state that matches the layout */}
+                    <div className={styles.stat}>
+                        <div className={styles.statIcon}>❤️</div>
+                        <div className={styles.statValue}>
+                            <div className={styles.progressBar}>
+                                <div className={styles.progressSkeleton} />
+                            </div>
+                        </div>
+                    </div>
+                    {/* Repeat for other stats... */}
+                </div>
+            </div>
+        );
+    }
 
     if (!stats) return null;
 

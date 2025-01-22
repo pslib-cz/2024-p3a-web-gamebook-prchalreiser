@@ -9,6 +9,8 @@ interface Location {
     description: string;
     backgroundImageUrl: string;
     hasRequiredItem: boolean;
+    hasShop: boolean;
+    hasMinigame: boolean;
     items: string;
 }
 
@@ -25,6 +27,8 @@ const LocationsManager = () => {
         name: '',
         description: '',
         hasRequiredItem: false,
+        hasShop: false,
+        hasMinigame: false,
         items: '[]'
     });
 
@@ -136,6 +140,8 @@ const LocationsManager = () => {
             name: location.name,
             description: location.description,
             hasRequiredItem: location.hasRequiredItem,
+            hasShop: location.hasShop,
+            hasMinigame: location.hasMinigame,
             items: location.items
         });
     };
@@ -145,6 +151,8 @@ const LocationsManager = () => {
             name: '',
             description: '',
             hasRequiredItem: false,
+            hasShop: false,
+            hasMinigame: false,
             items: '[]'
         });
         setFile(null);
@@ -207,7 +215,6 @@ const LocationsManager = () => {
                         value={formData.description}
                         onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                         className={`${styles.formInput} ${styles.formTextarea}`}
-                        required
                     />
                 </div>
 
@@ -233,6 +240,34 @@ const LocationsManager = () => {
                         />
                         <label className={styles.checkboxLabel}>
                             Has Required Item
+                        </label>
+                    </label>
+                </div>
+
+                <div className={styles.formGroup}>
+                    <label>
+                        <input
+                            type="checkbox"
+                            checked={formData.hasShop}
+                            onChange={(e) => setFormData(prev => ({ ...prev, hasShop: e.target.checked }))}
+                            className={styles.checkbox}
+                        />
+                        <label className={styles.checkboxLabel}>
+                            Has Shop
+                        </label>
+                    </label>
+                </div>
+
+                <div className={styles.formGroup}>
+                    <label>
+                        <input
+                            type="checkbox"
+                            checked={formData.hasMinigame}
+                            onChange={(e) => setFormData(prev => ({ ...prev, hasMinigame: e.target.checked }))}
+                            className={styles.checkbox}
+                        />
+                        <label className={styles.checkboxLabel}>
+                            Has Minigame
                         </label>
                     </label>
                 </div>
@@ -267,6 +302,12 @@ const LocationsManager = () => {
                             <div className={styles.locationMeta}>
                                 {location.hasRequiredItem && (
                                     <span className={styles.badge}>Requires Item</span>
+                                )}
+                                {location.hasShop && (
+                                    <span className={styles.badge}>Has Shop</span>
+                                )}
+                                {location.hasMinigame && (
+                                    <span className={styles.badge}>Has Minigame</span>
                                 )}
                             </div>
                         </div>

@@ -17,6 +17,8 @@ interface SceneData {
   items: string;
   backgroundImageUrl: string;
   hasRequiredItem: boolean;
+  hasShop: boolean;
+  hasMinigame: boolean;
 }
 
 interface Link {
@@ -130,6 +132,7 @@ const Scene = () => {
     purchaseItem,
     getMinigameData,
     playRPS,
+    getPlayerStats,
   } = useScene();
 
   const [shop, setShop] = useState<Shop | null>(null);
@@ -260,23 +263,22 @@ const Scene = () => {
       try {
         setIsTransitioning(true);
 
-        const { scene: nextSceneData } = await getSceneData(
-          nextSceneId.toString()
-        );
-
-        // Pre-load the next image
-        await new Promise((resolve, reject) => {
-          const img = new Image();
-          img.onload = resolve;
-          img.onerror = reject;
-          img.src = nextSceneData.backgroundImageUrl;
-        });
+        // Parallel loading of scene data, next image, and player stats
+        const [{ scene: nextSceneData }, playerStats] = await Promise.all([
+          getSceneData(nextSceneId.toString()),
+          getPlayerStats(),
+          new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = resolve;
+            img.onerror = reject;
+            img.src = nextSceneData.backgroundImageUrl;
+          })
+        ]);
 
         setCurrentSceneBuffer(sceneData);
         setNextSceneBuffer(nextSceneData);
         setSceneData(nextSceneData);
 
-        // Eliminace bílého flashbangu při přechodu mezi scénami
         await new Promise((resolve) => requestAnimationFrame(resolve));
         await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -290,26 +292,26 @@ const Scene = () => {
         setNextSceneBuffer(null);
       }
     },
-    [navigate, sceneData, getSceneData]
+    [navigate, sceneData, getSceneData, getPlayerStats]
   );
 
   useEffect(() => {
     const loadShopData = async () => {
-      if (!sceneId) return;
+      if (!sceneId || !sceneData?.hasShop) return;
       const shopData = await getShopData(sceneId);
       setShop(shopData);
     };
     loadShopData();
-  }, [sceneId, getShopData]);
+  }, [sceneId, getShopData, sceneData?.hasShop]);
 
   useEffect(() => {
     const loadMinigameData = async () => {
-      if (!sceneId) return;
+      if (!sceneId || !sceneData?.hasMinigame) return;
       const minigameData = await getMinigameData(sceneId);
       setMinigame(minigameData);
     };
     loadMinigameData();
-  }, [sceneId, getMinigameData]);
+  }, [sceneId, getMinigameData, sceneData?.hasMinigame]);
 
   const handlePurchase = async (shopItemId: number) => {
     try {
@@ -343,12 +345,12 @@ const Scene = () => {
   const renderDescription = () => {
     if (!sceneData) return null;
 
+    // If there's no description, don't render anything
+    if (!sceneData.description) return null;
+
     // Only truncate on mobile landscape
-    if (
-      window.matchMedia("(max-width: 768px) and (orientation: landscape)")
-        .matches
-    ) {
-      return truncateText(sceneData.description, 300);
+    if (window.matchMedia("(max-width: 768px) and (orientation: landscape)").matches) {
+        return truncateText(sceneData.description, 300);
     }
     return sceneData.description;
   };
@@ -528,23 +530,39 @@ const Scene = () => {
         </>
       )}
 
-      <div
-        className={
-          links.length === 1 ? styles.textBoxSingle : styles.textBoxMultiple
-        }
-      >
-        <div className={styles.description}>{renderDescription()}</div>
-        {links.length === 1 && (
-          <div className={styles.navigation}>
-            {sceneData.hasRequiredItem && !hasItem && (
-              <button className={styles.collectButton} onClick={collectItem}>
-                Sebrat item
-              </button>
-            )}
-            {renderNavigation()}
+      {sceneData.description && (
+        <div
+          className={
+            links.length === 1 ? styles.textBoxSingle : styles.textBoxMultiple
+          }
+        >
+          <div className={styles.description}>
+            {renderDescription()}
           </div>
-        )}
-      </div>
+          {links.length === 1 && (
+            <div className={styles.navigation}>
+              {sceneData.hasRequiredItem && !hasItem && (
+                <button className={styles.collectButton} onClick={collectItem}>
+                  Sebrat item
+                </button>
+              )}
+              {renderNavigation()}
+            </div>
+          )}
+        </div>
+      )}
+
+      {!sceneData.description && links.length === 1 && (
+        <div className={styles.navigationSingle}>
+          {sceneData.hasRequiredItem && !hasItem && (
+            <button className={styles.collectButton} onClick={collectItem}>
+              Sebrat item
+            </button>
+          )}
+          {renderNavigation()}
+        </div>
+      )}
+
       {links.length > 1 && (
         <div className={styles.navigationMultiple}>
           {sceneData.hasRequiredItem && !hasItem && (

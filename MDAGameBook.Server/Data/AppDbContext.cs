@@ -15,7 +15,6 @@ namespace GameBookASP.Data
         public DbSet<Shop>? Shops { get; set; }
         public DbSet<Item>? Items { get; set; }
         public DbSet<Minigame>? Minigames { get; set; }
-        public DbSet<FightMinigame>? FightMinigames { get; set; }
 
         public DbSet<Models.File>? Files { get; set; }
         public override DbSet<Models.User> Users { get; set; } = null!;
