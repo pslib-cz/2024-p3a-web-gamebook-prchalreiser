@@ -9,6 +9,12 @@ import { useAuth } from "../contexts/AuthContext";
 import PlayerStats from "../components/PlayerStats";
 import { useScene } from "../contexts/SceneContext";
 import { API_URL } from "../config/env";
+import { LoadingSpinner } from '../components/atoms/LoadingSpinner';
+import { ErrorMessage } from '../components/atoms/ErrorMessage';
+import { HomeButton } from '../components/atoms/HomeButton';
+import { CollectButton } from '../components/atoms/CollectButton';
+import { SceneNavigation } from '../components/molecules/SceneNavigation';
+import { Shop } from '../components/molecules/Shop';
 
 interface SceneData {
   id: number;
@@ -21,7 +27,7 @@ interface SceneData {
   hasMinigame: boolean;
 }
 
-interface Link {
+interface SceneLink {
   linkID: number;
   fromLocationID: number;
   toLocationID: number;
@@ -114,7 +120,7 @@ const Scene = () => {
   const [error, setError] = useState<string | null>(null);
   const [hasItem, setHasItem] = useState(false);
   const { token, logout } = useAuth();
-  const [links, setLinks] = useState<Link[]>([]);
+  const [links, setLinks] = useState<SceneLink[]>([]);
   const navigate = useNavigate();
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -156,7 +162,7 @@ const Scene = () => {
       setLoading(true);
       const { scene, links } = await getSceneData(sceneId!);
       setSceneData(scene);
-      setLinks(links);
+      setLinks(links as SceneLink[]);
       // Preload next scenes immediately
       preloadNextScenes(links);
     } catch (err) {
@@ -443,69 +449,21 @@ const Scene = () => {
   };
 
   if (loading) {
-    return <div className={styles.loading}>Loading your adventure...</div>;
+    return <LoadingSpinner />;
   }
 
   if (error) {
-    return <div className={styles.error}>{error}</div>;
+    return <ErrorMessage message={error} />;
   }
 
   if (!sceneData) {
-    return <div className={styles.error}>No scene data found</div>;
+    return <ErrorMessage message="No scene data found" />;
   }
-
-  const renderNavigation = () => {
-    if (links.length === 1) {
-      const link = links[0];
-      return (
-        <button
-          className={styles.continueButton}
-          onClick={() =>
-            handleNavigation(`/scene/${link.toLocation.locationID}`)
-          }
-          aria-label={link.name || "Continue to next scene"}
-        >
-          {link.name ? (
-            <span className={styles.linkName}>{link.name}</span>
-          ) : (
-            <img
-              src={nextButton}
-              alt="Next"
-              className={styles.continueTriangle}
-            />
-          )}
-        </button>
-      );
-    }
-
-    return (
-      <div className={styles.multipleChoices}>
-        {links.map((link) => (
-          <Link
-            key={link.linkID}
-            href={`/scene/${link.toLocation.locationID}`}
-            className={styles.choiceButton}
-            onClick={() =>
-              handleNavigation(`/scene/${link.toLocation.locationID}`)
-            }
-          >
-            {link.name || `Go to ${link.toLocation.name}`}
-          </Link>
-        ))}
-      </div>
-    );
-  };
 
   return (
     <div ref={containerRef} className={styles.container}>
       <PlayerStats />
-      <button
-        className={styles.homeButton}
-        onClick={() => navigate("/")}
-        aria-label="Return to home"
-      >
-        <img src={homeButton} alt="Home" />
-      </button>
+      <HomeButton onClick={() => navigate("/")} />
 
       <SceneBuffer
         sceneData={sceneData}
@@ -531,22 +489,16 @@ const Scene = () => {
       )}
 
       {sceneData.description && (
-        <div
-          className={
-            links.length === 1 ? styles.textBoxSingle : styles.textBoxMultiple
-          }
-        >
+        <div className={links.length === 1 ? styles.textBoxSingle : styles.textBoxMultiple}>
           <div className={styles.description}>
             {renderDescription()}
           </div>
           {links.length === 1 && (
             <div className={styles.navigation}>
               {sceneData.hasRequiredItem && !hasItem && (
-                <button className={styles.collectButton} onClick={collectItem}>
-                  Sebrat item
-                </button>
+                <CollectButton onClick={collectItem} />
               )}
-              {renderNavigation()}
+              <SceneNavigation links={links} onNavigate={handleNavigation} />
             </div>
           )}
         </div>
@@ -555,57 +507,22 @@ const Scene = () => {
       {!sceneData.description && links.length === 1 && (
         <div className={styles.navigationSingle}>
           {sceneData.hasRequiredItem && !hasItem && (
-            <button className={styles.collectButton} onClick={collectItem}>
-              Sebrat item
-            </button>
+            <CollectButton onClick={collectItem} />
           )}
-          {renderNavigation()}
+          <SceneNavigation links={links} onNavigate={handleNavigation} />
         </div>
       )}
 
       {links.length > 1 && (
         <div className={styles.navigationMultiple}>
           {sceneData.hasRequiredItem && !hasItem && (
-            <button className={styles.collectButton} onClick={collectItem}>
-              Sebrat item
-            </button>
+            <CollectButton onClick={collectItem} />
           )}
-          {renderNavigation()}
+          <SceneNavigation links={links} onNavigate={handleNavigation} />
         </div>
       )}
 
-      {shop && (
-        <div className={styles.shopWrapper}>
-          <div className={styles.shopContainer}>
-            <h2 className={styles.shopTitle}>Shop</h2>
-            <div className={styles.shopItems}>
-              {shop.shopItems.map((item) => (
-                <div key={item.shopItemID} className={styles.shopItem}>
-                  <h3>{item.item.name}</h3>
-                  <p>
-                    {window.matchMedia(
-                      "(max-width: 768px) and (orientation: landscape)"
-                    ).matches
-                      ? truncateText(item.item.description, 50)
-                      : item.item.description}
-                  </p>
-                  <p className={styles.itemPrice}>
-                    {item.price} coins
-                    {item.quantity > 0 && ` (${item.quantity})`}
-                  </p>
-                  <button
-                    onClick={() => handlePurchase(item.shopItemID)}
-                    className={styles.buyButton}
-                    disabled={item.quantity === 0}
-                  >
-                    {item.quantity === 0 ? "Sold Out" : "Buy"}
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      {shop && <Shop shopItems={shop.shopItems} onPurchase={handlePurchase} />}
 
       {minigame && minigame.type === "RPS" && <RPSGame minigame={minigame} />}
 

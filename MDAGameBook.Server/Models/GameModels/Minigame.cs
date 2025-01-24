@@ -19,6 +19,7 @@ public class Minigame
     [NotMapped]
     public int ComputerScore { get; set; } = 0;
 
+
     public Location Location { get; set; } = null!;
     public ICollection<PlayerMinigame> PlayerMinigames { get; set; } = new List<PlayerMinigame>();
 }

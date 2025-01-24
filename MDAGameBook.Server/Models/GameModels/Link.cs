@@ -14,9 +14,12 @@ public class Link
     [ForeignKey("ToLocation")]
     public int ToLocationID { get; set; }
     public int? RequiredItemId { get; set; }
-    public bool? Condition { get; set; }
+    [StringLength(100)]
     public string? Name { get; set; }
 
-    public virtual Location? FromLocation { get; set; }
-    public virtual Location? ToLocation { get; set; }
+    [ForeignKey("RequiredItemId")]
+    public virtual Item? RequiredItem { get; set; }
+
+    public virtual Location FromLocation { get; set; } = null!;
+    public virtual Location ToLocation { get; set; } = null!;
 }
