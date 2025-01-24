@@ -146,14 +146,12 @@ namespace GameBookASP.Data
             {
                 options.HasKey(e => e.LinkID);
                 options.HasOne(e => e.FromLocation)
-                       .WithMany(loc => loc.OutgoingLinks)
-                       .HasForeignKey(e => e.FromLocationID)
-                       .OnDelete(DeleteBehavior.Restrict);
+                       .WithMany()
+                       .HasForeignKey(e => e.FromLocationID);
 
                 options.HasOne(e => e.ToLocation)
-                       .WithMany(loc => loc.IncomingLinks)
-                       .HasForeignKey(e => e.ToLocationID)
-                       .OnDelete(DeleteBehavior.Restrict);
+                       .WithMany()
+                       .HasForeignKey(e => e.ToLocationID);
 
             });
 
@@ -232,37 +230,6 @@ namespace GameBookASP.Data
                 .WithMany(m => m.PlayerMinigames)
                 .HasForeignKey(pm => pm.MinigameID)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            // Configure Link relationships
-            builder.Entity<Link>()
-                .HasOne(l => l.FromLocation)
-                .WithMany(loc => loc.OutgoingLinks)
-                .HasForeignKey(l => l.FromLocationID)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Link>()
-                .HasOne(l => l.ToLocation)
-                .WithMany(loc => loc.IncomingLinks)
-                .HasForeignKey(l => l.ToLocationID)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // Configure Location relationships
-            builder.Entity<Location>()
-                .HasOne(l => l.Shop)
-                .WithOne(s => s.Location)
-                .HasForeignKey<Shop>(s => s.LocationID);
-
-            builder.Entity<Location>()
-                .HasMany(l => l.Minigames)
-                .WithOne(m => m.Location)
-                .HasForeignKey(m => m.LocationID);
-
-            // Configure proper indexing
-            builder.Entity<Link>()
-                .HasIndex(l => new { l.FromLocationID, l.ToLocationID });
-
-            builder.Entity<Location>()
-                .HasIndex(l => l.Name);
         }
     }
 }

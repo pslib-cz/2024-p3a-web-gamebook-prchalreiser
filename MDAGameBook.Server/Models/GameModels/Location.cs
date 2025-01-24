@@ -7,27 +7,28 @@ public class Location
 {
     [Key]
     public int LocationID { get; set; }
-
-    [Required]
-    [StringLength(100)]
     public string Name { get; set; } = string.Empty;
-
-    [StringLength(1000)] // Reasonable max length for descriptions
     public string? Description { get; set; }
-
-    [StringLength(500)] // URL length limit
+    private string _items = "[]";
+    public string Items
+    {
+        get => _items;
+        set => _items = string.IsNullOrEmpty(value) ? "[]" : value;
+    }
     public string? BackgroundImageUrl { get; set; }
+    public bool HasRequiredItem { get; set; } = false;
+    public bool HasShop { get; set; } = false;
+    public bool HasMinigame { get; set; } = false;
+    [JsonIgnore]
+    public Shop? Shop { get; set; }
 
-    public bool HasRequiredItem { get; set; }
-    public bool HasShop { get; set; }
-    public bool HasMinigame { get; set; }
+    public void SetItems(int[] items)
+    {
+        _items = JsonSerializer.Serialize(items);
+    }
 
-    // Remove the Items string property and replace with proper relationships
-    public virtual ICollection<Item> AvailableItems { get; set; } = new List<Item>();
-    
-    // Add navigation properties for better relationship management
-    public virtual ICollection<Link> OutgoingLinks { get; set; } = new List<Link>();
-    public virtual ICollection<Link> IncomingLinks { get; set; } = new List<Link>();
-    public virtual Shop? Shop { get; set; }
-    public virtual ICollection<Minigame> Minigames { get; set; } = new List<Minigame>();
+    public int[] GetItems()
+    {
+        return JsonSerializer.Deserialize<int[]>(_items) ?? Array.Empty<int>();
+    }
 }
