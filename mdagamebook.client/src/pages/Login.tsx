@@ -42,87 +42,93 @@ const SignInPage = () => {
     };
 
     return (
-        <div className={styles.loginContainer}>
-            <h1 className={styles.title}>{isRegistering ? 'Registrace' : 'Přihlášení'}</h1>
-            {error && <div className={styles.error}>{error.message}</div>}
-            <form
-                onSubmit={(event) => {
-                    event.preventDefault();
-                    const form = event.target as HTMLFormElement;
-                    const email = form.email.value;
-                    const password = form.password.value;
-                    const playerName = form.playerName?.value || '';
-                    handleSubmit(email, password, playerName);
-                }}
-            >
-                {isRegistering && (
+        <div className={styles.pageContainer}>
+            <div className={styles.loginContainer}>
+                <div className={styles.glowEffect} />
+                <h1 className={styles.title}>{isRegistering ? 'Registrace' : 'Přihlášení'}</h1>
+                {error && <div className={styles.error}>{error.message}</div>}
+                <form
+                    onSubmit={(event) => {
+                        event.preventDefault();
+                        const form = event.target as HTMLFormElement;
+                        const email = form.email.value;
+                        const password = form.password.value;
+                        const playerName = form.playerName?.value || '';
+                        handleSubmit(email, password, playerName);
+                    }}
+                >
+                    {isRegistering && (
+                        <div className={styles.formGroup}>
+                            <label htmlFor="playerName" className={styles.label}>
+                                Jméno Postavy
+                            </label>
+                            <div className={styles.inputWrapper}>
+                                <input
+                                    type="text"
+                                    id="playerName"
+                                    name="playerName"
+                                    className={styles.input}
+                                    placeholder="Zadejte jméno postavy"
+                                    required
+                                />
+                            </div>
+                        </div>
+                    )}
                     <div className={styles.formGroup}>
-                        <label htmlFor="playerName" className={styles.label}>
-                            Player Name
+                        <label htmlFor="email" className={styles.label}>
+                            Email
                         </label>
                         <div className={styles.inputWrapper}>
                             <input
-                                type="text"
-                                id="playerName"
-                                name="playerName"
+                                type="email"
+                                id="email"
+                                name="email"
                                 className={styles.input}
+                                placeholder="vas@email.cz"
                                 required
                             />
                         </div>
                     </div>
-                )}
-                <div className={styles.formGroup}>
-                    <label htmlFor="email" className={styles.label}>
-                        Email
-                    </label>
-                    <div className={styles.inputWrapper}>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            className={styles.input}
-                            required
-                        />
+                    <div className={styles.formGroup}>
+                        <label htmlFor="password" className={styles.label}>
+                            Heslo
+                        </label>
+                        <div className={styles.inputWrapper}>
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                id="password"
+                                name="password"
+                                className={styles.input}
+                                placeholder="••••••••"
+                                required
+                            />
+                            <button
+                                type="button"
+                                className={styles.togglePassword}
+                                onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? "Skrýt heslo" : "Zobrazit heslo"}
+                            >
+                                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div className={styles.formGroup}>
-                    <label htmlFor="password" className={styles.label}>
-                        Password
-                    </label>
-                    <div className={styles.inputWrapper}>
-                        <input
-                            type={showPassword ? "text" : "password"}
-                            id="password"
-                            name="password"
-                            className={styles.input}
-                            required
-                        />
-                        <button
-                            type="button"
-                            className={styles.togglePassword}
-                            onClick={() => setShowPassword(!showPassword)}
-                            aria-label={showPassword ? "Hide password" : "Show password"}
-                        >
-                            {showPassword ? <EyeOffIcon /> : <EyeIcon />}
-                        </button>
-                    </div>
-                </div>
-                <button
-                    type="submit"
-                    className={styles.submitButton}
-                    disabled={loading}
-                >
-                    {loading ? "Načítání..." : (isRegistering ? "Registrovat" : "Přihlásit")}
-                </button>
+                    <button
+                        type="submit"
+                        className={styles.submitButton}
+                        disabled={loading}
+                    >
+                        {loading ? "Načítání..." : (isRegistering ? "Registrovat" : "Přihlásit")}
+                    </button>
 
-                <button
-                    type="button"
-                    className={styles.switchButton}
-                    onClick={() => setIsRegistering(!isRegistering)}
-                >
-                    {isRegistering ? "Již máte účet? Přihlaste se" : "Nemáte účet? Zaregistrujte se"}
-                </button>
-            </form>
+                    <button
+                        type="button"
+                        className={styles.switchButton}
+                        onClick={() => setIsRegistering(!isRegistering)}
+                    >
+                        {isRegistering ? "Již máte účet? Přihlaste se" : "Nemáte účet? Zaregistrujte se"}
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };

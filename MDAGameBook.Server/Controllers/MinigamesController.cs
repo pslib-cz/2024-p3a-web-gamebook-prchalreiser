@@ -20,7 +20,30 @@ namespace MDAGameBook.Server.Controllers
         }
 
         [HttpGet("{locationId}")]
-        public async Task<ActionResult<object>> GetMinigame(int locationId)
+        public async Task<ActionResult<object>> GetMinigameByLocation(int locationId)
+        {
+            var minigame = await _context.Minigames!
+                .FirstOrDefaultAsync(m => m.LocationID == locationId);
+
+            if (minigame == null)
+            {
+                return NotFound();
+            }
+
+            return new
+            {
+                minigame.MinigameID,
+                minigame.LocationID,
+                minigame.Description,
+                minigame.Type,
+                minigame.OpponentName,
+                minigame.WinLocationID,
+                minigame.LoseLocationID
+            };
+        }
+
+        [HttpGet("play/{locationId}")]
+        public async Task<ActionResult<object>> GetPlayerMinigame(int locationId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userId == null)
@@ -71,6 +94,9 @@ namespace MDAGameBook.Server.Controllers
                 minigame.LocationID,
                 minigame.Description,
                 minigame.Type,
+                minigame.OpponentName,
+                minigame.WinLocationID,
+                minigame.LoseLocationID,
                 playerMinigame.IsCompleted,
                 playerMinigame.PlayerScore,
                 playerMinigame.ComputerScore
@@ -141,6 +167,42 @@ namespace MDAGameBook.Server.Controllers
             };
         }
 
+        [HttpPost("{locationId}")]
+        public async Task<ActionResult<object>> CreateOrUpdateMinigame(int locationId, [FromBody] MinigameUpdateRequest request)
+        {
+            var minigame = await _context.Minigames!
+                .FirstOrDefaultAsync(m => m.LocationID == locationId);
+
+            if (minigame == null)
+            {
+                minigame = new Minigame
+                {
+                    MinigameID = Guid.NewGuid(),
+                    LocationID = locationId,
+                    Type = request.Type
+                };
+                _context.Minigames!.Add(minigame);
+            }
+
+            minigame.Description = request.Description;
+            minigame.OpponentName = request.OpponentName;
+            minigame.WinLocationID = request.WinLocationID;
+            minigame.LoseLocationID = request.LoseLocationID;
+
+            await _context.SaveChangesAsync();
+
+            return new
+            {
+                minigame.MinigameID,
+                minigame.LocationID,
+                minigame.Description,
+                minigame.Type,
+                minigame.OpponentName,
+                minigame.WinLocationID,
+                minigame.LoseLocationID
+            };
+        }
+
         private string GetRandomChoice()
         {
             string[] choices = { "rock", "paper", "scissors" };
@@ -164,6 +226,15 @@ namespace MDAGameBook.Server.Controllers
         public class PlayRPSRequest
         {
             public string PlayerChoice { get; set; } = string.Empty;
+        }
+
+        public class MinigameUpdateRequest
+        {
+            public string Description { get; set; } = string.Empty;
+            public string OpponentName { get; set; } = string.Empty;
+            public int WinLocationID { get; set; }
+            public int LoseLocationID { get; set; }
+            public string Type { get; set; } = "RPS";
         }
     }
 } 

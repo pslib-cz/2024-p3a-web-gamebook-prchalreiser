@@ -3,6 +3,16 @@ import { useAuth } from '../../contexts/AuthContext';
 import styles from './AdminPanel.module.css';
 import { API_URL } from '../../config/env';
 
+interface Minigame {
+    minigameID: string;
+    locationID: number;
+    description: string;
+    type: string;
+    opponentName: string;
+    winLocationID: number;
+    loseLocationID: number;
+}
+
 interface Location {
     locationID: number;
     name: string;
@@ -12,6 +22,7 @@ interface Location {
     hasShop: boolean;
     hasMinigame: boolean;
     items: string;
+    minigame?: Minigame;
 }
 
 const LocationsManager = () => {
@@ -32,6 +43,14 @@ const LocationsManager = () => {
         items: '[]'
     });
 
+    const [minigameData, setMinigameData] = useState({
+        description: '',
+        opponentName: '',
+        winLocationID: 0,
+        loseLocationID: 0,
+        type: 'RPS'
+    });
+
     const fetchLocations = async () => {
         try {
             const response = await fetch(`${API_URL}/api/Locations`, {
@@ -41,7 +60,23 @@ const LocationsManager = () => {
             });
             if (response.ok) {
                 const data = await response.json();
-                setLocations(data);
+                const locationsWithMinigames = await Promise.all(
+                    data.map(async (location: Location) => {
+                        if (location.hasMinigame) {
+                            const minigameResponse = await fetch(`${API_URL}/api/Minigames/${location.locationID}`, {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            });
+                            if (minigameResponse.ok) {
+                                const minigameData = await minigameResponse.json();
+                                return { ...location, minigame: minigameData };
+                            }
+                        }
+                        return location;
+                    })
+                );
+                setLocations(locationsWithMinigames);
             } else if (response.status === 403) {
                 // Handle unauthorized access
                 setError('Access denied: Admin privileges required');
@@ -124,7 +159,29 @@ const LocationsManager = () => {
                 throw new Error(`Failed to ${editingLocation ? 'update' : 'create'} location`);
             }
 
-            setSuccess(`Location ${editingLocation ? 'updated' : 'created'} successfully!`);
+            if (formData.hasMinigame) {
+                const minigameResponse = await fetch(
+                    `${API_URL}/api/Minigames/${editingLocation?.locationID}`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${token}`,
+                        },
+                        body: JSON.stringify({
+                            ...minigameData,
+                            locationID: editingLocation?.locationID,
+                            type: 'RPS'
+                        }),
+                    }
+                );
+
+                if (!minigameResponse.ok) {
+                    throw new Error('Failed to update minigame settings');
+                }
+            }
+
+            setSuccess('Location and minigame settings updated successfully!');
             fetchLocations();
             resetForm();
         } catch (err) {
@@ -144,6 +201,25 @@ const LocationsManager = () => {
             hasMinigame: location.hasMinigame,
             items: location.items
         });
+        
+        if (location.minigame) {
+            setMinigameData({
+                description: location.minigame.description || '',
+                opponentName: location.minigame.opponentName || '',
+                winLocationID: location.minigame.winLocationID || 0,
+                loseLocationID: location.minigame.loseLocationID || 0,
+                type: 'RPS'
+            });
+        } else {
+            // Reset minigame data when editing a location without minigame
+            setMinigameData({
+                description: '',
+                opponentName: '',
+                winLocationID: 0,
+                loseLocationID: 0,
+                type: 'RPS'
+            });
+        }
     };
 
     const resetForm = () => {
@@ -157,6 +233,13 @@ const LocationsManager = () => {
         });
         setFile(null);
         setEditingLocation(null);
+        setMinigameData({
+            description: '',
+            opponentName: '',
+            winLocationID: 0,
+            loseLocationID: 0,
+            type: 'RPS'
+        });
     };
 
     const handleDelete = async (locationId: number) => {
@@ -271,6 +354,67 @@ const LocationsManager = () => {
                         </label>
                     </label>
                 </div>
+
+                {formData.hasMinigame && (
+                    <div className={styles.minigameSettings}>
+                        <h3>Minigame Settings</h3>
+                        
+                        <div className={styles.formGroup}>
+                            <label htmlFor="minigameDescription">Game Description:</label>
+                            <textarea
+                                id="minigameDescription"
+                                value={minigameData.description}
+                                onChange={(e) => setMinigameData(prev => ({
+                                    ...prev,
+                                    description: e.target.value
+                                }))}
+                                className={`${styles.formInput} ${styles.formTextarea}`}
+                            />
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label htmlFor="opponentName">Opponent Name:</label>
+                            <input
+                                type="text"
+                                id="opponentName"
+                                value={minigameData.opponentName}
+                                onChange={(e) => setMinigameData(prev => ({
+                                    ...prev,
+                                    opponentName: e.target.value
+                                }))}
+                                className={styles.formInput}
+                            />
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label htmlFor="winLocationID">Win Location ID:</label>
+                            <input
+                                type="number"
+                                id="winLocationID"
+                                value={minigameData.winLocationID}
+                                onChange={(e) => setMinigameData(prev => ({
+                                    ...prev,
+                                    winLocationID: parseInt(e.target.value)
+                                }))}
+                                className={styles.formInput}
+                            />
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label htmlFor="loseLocationID">Lose Location ID:</label>
+                            <input
+                                type="number"
+                                id="loseLocationID"
+                                value={minigameData.loseLocationID}
+                                onChange={(e) => setMinigameData(prev => ({
+                                    ...prev,
+                                    loseLocationID: parseInt(e.target.value)
+                                }))}
+                                className={styles.formInput}
+                            />
+                        </div>
+                    </div>
+                )}
 
                 <button
                     type="submit"

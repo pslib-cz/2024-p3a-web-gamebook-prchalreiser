@@ -3,6 +3,7 @@ using System;
 using GameBookASP.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MDAGameBook.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250127180703_minigame")]
+    partial class minigame
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
@@ -157,7 +160,7 @@ namespace MDAGameBook.Server.Migrations
                             LocationID = 55,
                             BackgroundImageUrl = "/images/rps-background.jpg",
                             Description = "A mysterious figure challenges you to a game of Rock Paper Scissors.",
-                            HasMinigame = true,
+                            HasMinigame = false,
                             HasRequiredItem = false,
                             HasShop = false,
                             Items = "[]",
@@ -202,12 +205,12 @@ namespace MDAGameBook.Server.Migrations
                         new
                         {
                             MinigameID = new Guid("550e8400-e29b-41d4-a716-446655440000"),
-                            Description = "Challenge the mysterious stranger to a game of Rock Paper Scissors! First to 3 wins.",
-                            LocationID = 55,
-                            LoseLocationID = 57,
+                            Description = "Rock Paper Scissors Challenge",
+                            LocationID = 1,
+                            LoseLocationID = 3,
                             OpponentName = "Mysterious Stranger",
                             Type = "RPS",
-                            WinLocationID = 56
+                            WinLocationID = 2
                         });
                 });
 
@@ -463,7 +466,7 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "80462a9b-d956-498f-8273-92d1cd8b2b6b",
+                            Id = "53d8ea19-c63d-49bd-85af-6c670fb81cf2",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -535,15 +538,15 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2d4ce928-d755-4965-9487-64dcdc75beb4",
+                            Id = "fcbcd934-260a-4138-8474-5e215c351a64",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4f9d9387-4746-480a-b6f2-778ddee0e648",
+                            ConcurrencyStamp = "d62e3693-1625-47c6-829e-e23f60b9893f",
                             Email = "admin@minjiya.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MINJIYA.COM",
                             NormalizedUserName = "ADMIN@MINJIYA.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOESIwbAAguuKPMLbedb2LgCGil7HrqCujU5cLLnoVIGoHqgUxdFQXGo0cH9do0gKA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMgiDeLo9oaRSz8TVMApA5SSEbjbbl4rAw95BkcMFJeb5wn2/h61nriU+cw01OZtOw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -636,8 +639,8 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            RoleId = "80462a9b-d956-498f-8273-92d1cd8b2b6b",
-                            UserId = "2d4ce928-d755-4965-9487-64dcdc75beb4"
+                            RoleId = "53d8ea19-c63d-49bd-85af-6c670fb81cf2",
+                            UserId = "fcbcd934-260a-4138-8474-5e215c351a64"
                         });
                 });
 

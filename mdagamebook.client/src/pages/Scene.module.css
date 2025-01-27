@@ -57,24 +57,31 @@
     opacity: 1;
 }
 
-.textBoxSingle {
-    composes: textBox;
-    bottom: 80px;
-}
-
+.textBoxSingle,
 .textBoxMultiple {
-    composes: textBox;
-    bottom: 200px;
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 30vh;
+    overflow-y: auto;
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    z-index: 10;
 }
 
 .description {
-    font-size: 1.4rem;
-    line-height: 1.8;
-    margin-bottom: 35px;
-    color: #f0f0f0;
-    font-family: "Lato", system-ui, sans-serif;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    opacity: 1;
+    color: #ffffff;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
 }
 
 .navigation {
@@ -83,17 +90,18 @@
     justify-content: flex-end;
     align-items: center;
     opacity: 1;
+    margin-top: 1rem;
 }
 
 .navigationMultiple {
     position: absolute;
-    bottom: 80px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    width: 80%;
-    max-width: 1200px;
-    z-index: 2;
-    opacity: 1;
+    width: 90%;
+    max-width: 800px;
+    padding: 1rem;
+    z-index: 5;
 }
 
 .continueButton {
@@ -132,32 +140,31 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 30px;
+    gap: 1rem;
+    flex-wrap: wrap;
     width: 100%;
-    margin-inline: auto;
 }
 
 .choiceButton {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 16px;
-    padding: 15px 30px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    text-decoration: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    opacity: 0;
-    transform: translateY(20px);
-    animation: slideUpFade 0.5s ease-out forwards;
+    width: auto !important;
+    min-width: 150px;
+    max-width: 300px;
+    font-size: 1rem !important;
+    padding: 0.75rem 1.5rem !important;
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.8) 0%, rgba(255, 20, 147, 0.8) 100%) !important;
+    backdrop-filter: blur(5px);
+    border-radius: 12px !important;
+    text-align: center;
+    transition: all 0.2s ease !important;
+    flex: 0 1 auto;
 }
 
 .choiceButton:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px) !important;
+    background: linear-gradient(135deg, rgba(255, 131, 195, 0.9) 0%, rgba(255, 20, 147, 0.9) 100%) !important;
+    box-shadow: 
+        0 8px 25px rgba(255, 105, 180, 0.4),
+        0 4px 8px rgba(0, 0, 0, 0.2) !important;
 }
 
 .collectButton {
@@ -206,9 +213,27 @@
 
 /* Mobile styles */
 @media (max-width: 768px) {
-    .multipleChoices {
-        flex-direction: column;
-        gap: 20px;
+    .textBoxSingle,
+    .textBoxMultiple {
+        width: 85%;
+        padding: 1rem;
+        max-height: 25vh;
+    }
+
+    .description {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .navigationMultiple {
+        width: 85%;
+        bottom: 10px;
+    }
+
+    .choiceButton {
+        min-width: 120px;
+        font-size: 0.9rem !important;
+        padding: 0.6rem 1.2rem !important;
     }
 
     .textBox,
@@ -220,11 +245,11 @@
     }
 
     .textBoxMultiple {
-        top: 40px;
+        bottom: 100px;
     }
 
     .navigationMultiple {
-        bottom: 40px;
+        bottom: 10px;
     }
 
     .description {
@@ -351,14 +376,11 @@
 }
 
 .shopWrapper {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
+    position: relative;
+    width: 100%;
     max-width: 600px;
+    margin: 0 auto;
     z-index: 5;
-    pointer-events: none;
 }
 
 .shopContainer {
@@ -367,11 +389,10 @@
     border-radius: 20px;
     color: white;
     width: 100%;
-    max-height: 80vh;
+    max-height: 60vh;
     overflow-y: auto;
     border: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
-    pointer-events: auto;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
@@ -460,13 +481,9 @@
 
 /* Mobile landscape adjustments */
 @media (max-width: 768px) and (orientation: landscape) {
-    .shopWrapper {
-        width: 95%;
-    }
-
     .shopContainer {
+        max-height: 50vh;
         padding: 20px;
-        max-height: 85vh;
     }
 
     .shopTitle {
@@ -564,11 +581,12 @@
     }
 
     .textBoxMultiple {
-        bottom: 100px;
+        bottom: 90px;
+        max-height: 25vh;
     }
 
     .navigationMultiple {
-        bottom: 20px;
+        bottom: 5px;
     }
 
     .description {
@@ -579,7 +597,7 @@
 
     .choiceButton {
         font-size: 0.9rem;
-        padding: 10px 20px;
+        padding: 0.5rem 1rem !important;
     }
 
     .continueButton {
@@ -641,6 +659,10 @@
         padding: 10px;
         font-size: 0.9rem;
     }
+
+    .navigation {
+        margin-top: 0.5rem;
+    }
 }
 
 /* Add specific adjustments for very small heights */
@@ -689,179 +711,90 @@
 }
 
 .minigameWrapper {
-    position: fixed;
-    top: 50%;
+    position: absolute;
+    bottom: 2rem;
     left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
+    transform: translateX(-50%);
     width: 90%;
     max-width: 800px;
-    padding: 20px;
+    z-index: 10;
 }
 
 .minigameContainer {
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(15px);
-    border-radius: 24px;
-    padding: 40px;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 2rem;
     color: white;
     text-align: center;
     border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-.minigameContainer h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #f0f0f0;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.minigameContainer p {
-    font-size: 1.4rem;
-    line-height: 1.8;
-    margin-bottom: 25px;
-    color: #f0f0f0;
-    font-family: "Lato", system-ui, sans-serif;
+.minigameDescription {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: #ffffff;
 }
 
 .scoreBoard {
     display: flex;
-    justify-content: space-around;
-    margin: 30px 0;
-    font-size: 1.6em;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    justify-content: center;
+    gap: 4rem;
+    margin: 1.5rem 0;
+    font-size: 1.2rem;
 }
 
 .choices {
     display: flex;
     justify-content: center;
-    gap: 30px;
-    margin-top: 30px;
+    gap: 1rem;
+    margin-top: 2rem;
 }
 
 .choices button {
-    background: rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.8) 0%, rgba(255, 20, 147, 0.8) 100%);
     color: white;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 16px;
-    padding: 15px 30px;
-    font-size: 1.2rem;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
 }
 
-.choices button:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-    border-color: rgba(255, 255, 255, 0.4);
-}
-
-.choices button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
+.choices button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, rgba(255, 131, 195, 0.9) 0%, rgba(255, 20, 147, 0.9) 100%);
 }
 
 .roundResult {
-    margin: 30px 0;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    animation: fadeIn 0.3s ease-out;
-}
-
-.roundResult p {
-    margin: 10px 0;
-    font-size: 1.2rem;
-}
-
-.gameOver {
-    margin-top: 30px;
-    padding: 30px;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    animation: slideUpFade 0.5s ease-out;
-}
-
-.gameOver h3 {
-    font-size: 2rem;
-    color: #ffd700;
-    margin-bottom: 15px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.gameOver p {
     font-size: 1.4rem;
-    color: #f0f0f0;
+    margin: 1rem 0;
+    color: #ffd700;
 }
 
 /* Mobile landscape adjustments */
 @media (max-width: 768px) and (orientation: landscape) {
-    .minigameWrapper {
-        padding: 10px;
-    }
-
     .minigameContainer {
-        padding: 20px;
+        padding: 1rem;
     }
 
-    .minigameContainer h2 {
-        font-size: 1.4rem;
-        margin-bottom: 10px;
-    }
-
-    .minigameContainer p {
+    .minigameDescription {
         font-size: 1rem;
-        line-height: 1.4;
-        margin-bottom: 15px;
+        margin-bottom: 1rem;
     }
 
     .scoreBoard {
-        margin: 15px 0;
-        font-size: 1.2em;
-        padding: 10px;
-    }
-
-    .choices {
-        gap: 15px;
-        margin-top: 15px;
+        gap: 2rem;
+        font-size: 1rem;
+        margin: 1rem 0;
     }
 
     .choices button {
-        padding: 10px 20px;
+        padding: 0.5rem 1rem;
         font-size: 1rem;
-    }
-
-    .roundResult {
-        margin: 15px 0;
-        padding: 10px;
-    }
-
-    .roundResult p {
-        font-size: 1rem;
-        margin: 5px 0;
-    }
-
-    .gameOver {
-        margin-top: 15px;
-        padding: 15px;
-    }
-
-    .gameOver h3 {
-        font-size: 1.4rem;
-        margin-bottom: 10px;
-    }
-
-    .gameOver p {
-        font-size: 1.1rem;
     }
 }
 
@@ -918,5 +851,98 @@
     .navigationSingle {
         bottom: 20px;
         width: 95%;
+    }
+}
+
+/* Add smooth scrollbar for the text box */
+.textBoxSingle::-webkit-scrollbar,
+.textBoxMultiple::-webkit-scrollbar {
+    width: 6px;
+}
+
+.textBoxSingle::-webkit-scrollbar-track,
+.textBoxMultiple::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.textBoxSingle::-webkit-scrollbar-thumb,
+.textBoxMultiple::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+.textBoxSingle::-webkit-scrollbar-thumb:hover,
+.textBoxMultiple::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* Add new flex container */
+.sceneContentWrapper {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    z-index: 10;
+}
+
+/* Update text box styles */
+.textBoxMultiple {
+    position: relative;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    border-radius: 16px;
+    width: 100%;
+    max-height: 30vh;
+    overflow-y: auto;
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Update navigation styles */
+.navigationMultiple {
+    position: relative;
+    width: 100%;
+    padding: 0.5rem;
+}
+
+/* Update choice buttons */
+.choiceButton {
+    width: auto !important;
+    min-width: 180px !important;
+    max-width: 400px !important;
+    font-size: 1.2rem !important;
+    padding: 1rem 2rem !important;
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.8) 0%, rgba(255, 20, 147, 0.8) 100%) !important;
+    backdrop-filter: blur(5px);
+    border-radius: 12px !important;
+    text-align: center;
+    transition: all 0.2s ease !important;
+    flex: 0 1 auto;
+}
+
+/* Mobile landscape adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+    .sceneContentWrapper {
+        bottom: 1rem;
+        gap: 1rem;
+    }
+
+    .textBoxMultiple {
+        max-height: 25vh;
+        padding: 1rem;
+    }
+
+    .choiceButton {
+        min-width: 150px !important;
+        font-size: 1rem !important;
+        padding: 0.75rem 1.5rem !important;
     }
 }

@@ -69,6 +69,9 @@ interface Minigame {
   isCompleted: boolean;
   playerScore: number;
   computerScore: number;
+  opponentName: string;
+  winLocationID: number;
+  loseLocationID: number;
 }
 
 interface RPSResult {
@@ -156,7 +159,7 @@ const Scene = () => {
       setLoading(true);
       const { scene, links } = await getSceneData(sceneId!);
       setSceneData(scene);
-      setLinks(links);
+      setLinks(links as Link[]);
       // Preload next scenes immediately
       preloadNextScenes(links);
     } catch (err) {
@@ -361,84 +364,59 @@ const Scene = () => {
     const { playRPS } = useScene();
 
     const handleChoice = async (choice: string) => {
-      if (loading || minigame.isCompleted) return;
+        if (loading || minigame.isCompleted) return;
 
-      try {
-        setLoading(true);
-        const result = await playRPS(minigame.minigameID, choice);
-        setResult(result);
+        try {
+            setLoading(true);
+            const result = await playRPS(minigame.minigameID, choice);
+            setResult(result);
 
-        minigame.playerScore = result.playerScore;
-        minigame.computerScore = result.computerScore;
-        minigame.isCompleted = result.isCompleted;
-      } catch (error) {
-        console.error("Failed to play:", error);
-      } finally {
-        setLoading(false);
-      }
+            if (result.isCompleted) {
+                // Game is over, handle navigation based on win/lose
+                const targetLocationId = result.playerScore >= 3 ? minigame.winLocationID : minigame.loseLocationID;
+                await handleNavigation(`/scene/${targetLocationId}`);
+            }
+        } catch (error) {
+            console.error("Failed to play:", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
-      <div className={styles.minigameWrapper}>
-        <div className={styles.minigameContainer}>
-          <h2>Rock Paper Scissors Challenge</h2>
-          <p>{minigame.description}</p>
-          <div className={styles.scoreBoard}>
-            <div>
-              <p>Player</p>
-              <p>{minigame.playerScore}</p>
+        <div className={styles.minigameWrapper}>
+            <div className={styles.minigameContainer}>
+                <p className={styles.minigameDescription}>{minigame.description}</p>
+                <div className={styles.scoreBoard}>
+                    <div>
+                        <p>Player</p>
+                        <p>{minigame.playerScore}</p>
+                    </div>
+                    <div>
+                        <p>{minigame.opponentName}</p>
+                        <p>{minigame.computerScore}</p>
+                    </div>
+                </div>
+                {result && !minigame.isCompleted && (
+                    <div className={styles.roundResult}>
+                        <p>Round {result.result.toUpperCase()}</p>
+                    </div>
+                )}
+                {!minigame.isCompleted && !loading && (
+                    <div className={styles.choices}>
+                        <button onClick={() => handleChoice("rock")} disabled={loading}>
+                            Rock
+                        </button>
+                        <button onClick={() => handleChoice("paper")} disabled={loading}>
+                            Paper
+                        </button>
+                        <button onClick={() => handleChoice("scissors")} disabled={loading}>
+                            Scissors
+                        </button>
+                    </div>
+                )}
             </div>
-            <div>
-              <p>Computer</p>
-              <p>{minigame.computerScore}</p>
-            </div>
-          </div>
-          {result && (
-            <div className={styles.roundResult}>
-              <p>You chose: {result.playerChoice.toUpperCase()}</p>
-              <p>Computer chose: {result.computerChoice.toUpperCase()}</p>
-              <p
-                style={{
-                  color:
-                    result.result === "win"
-                      ? "#4caf50"
-                      : result.result === "lose"
-                      ? "#ff5252"
-                      : "#ffd700",
-                }}
-              >
-                {result.result.toUpperCase()}
-              </p>
-            </div>
-          )}
-          {!minigame.isCompleted && !loading && (
-            <div className={styles.choices}>
-              <button onClick={() => handleChoice("rock")} disabled={loading}>
-                Rock
-              </button>
-              <button onClick={() => handleChoice("paper")} disabled={loading}>
-                Paper
-              </button>
-              <button
-                onClick={() => handleChoice("scissors")}
-                disabled={loading}
-              >
-                Scissors
-              </button>
-            </div>
-          )}
-          {minigame.isCompleted && (
-            <div className={styles.gameOver}>
-              <h3>Game Over!</h3>
-              <p>
-                {minigame.playerScore === 3
-                  ? "Victory!"
-                  : "Better luck next time!"}
-              </p>
-            </div>
-          )}
         </div>
-      </div>
     );
   };
 
@@ -530,17 +508,49 @@ const Scene = () => {
         </>
       )}
 
-      {sceneData.description && (
-        <div
-          className={
-            links.length === 1 ? styles.textBoxSingle : styles.textBoxMultiple
-          }
-        >
-          <div className={styles.description}>
-            {renderDescription()}
+      {/* Shop content */}
+      {shop && (
+        <div className={styles.sceneContentWrapper}>
+          <div className={styles.shopWrapper}>
+            <div className={styles.shopContainer}>
+              <h2 className={styles.shopTitle}>Shop</h2>
+              <div className={styles.shopItems}>
+                {shop.shopItems.map((item) => (
+                  <div key={item.shopItemID} className={styles.shopItem}>
+                    <h3>{item.item.name}</h3>
+                    <p>
+                      {window.matchMedia("(max-width: 768px) and (orientation: landscape)").matches
+                        ? truncateText(item.item.description, 50)
+                        : item.item.description}
+                    </p>
+                    <p className={styles.itemPrice}>
+                      {item.price} coins
+                      {item.quantity > 0 && ` (${item.quantity})`}
+                    </p>
+                    <button
+                      onClick={() => handlePurchase(item.shopItemID)}
+                      className={styles.buyButton}
+                      disabled={item.quantity === 0}
+                    >
+                      {item.quantity === 0 ? "Sold Out" : "Buy"}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-          {links.length === 1 && (
+          {/* Add navigation below shop */}
+          {links.length === 1 ? (
             <div className={styles.navigation}>
+              {sceneData.hasRequiredItem && !hasItem && (
+                <button className={styles.collectButton} onClick={collectItem}>
+                  Sebrat item
+                </button>
+              )}
+              {renderNavigation()}
+            </div>
+          ) : (
+            <div className={styles.navigationMultiple}>
               {sceneData.hasRequiredItem && !hasItem && (
                 <button className={styles.collectButton} onClick={collectItem}>
                   Sebrat item
@@ -552,58 +562,34 @@ const Scene = () => {
         </div>
       )}
 
-      {!sceneData.description && links.length === 1 && (
-        <div className={styles.navigationSingle}>
-          {sceneData.hasRequiredItem && !hasItem && (
-            <button className={styles.collectButton} onClick={collectItem}>
-              Sebrat item
-            </button>
-          )}
-          {renderNavigation()}
-        </div>
-      )}
-
-      {links.length > 1 && (
-        <div className={styles.navigationMultiple}>
-          {sceneData.hasRequiredItem && !hasItem && (
-            <button className={styles.collectButton} onClick={collectItem}>
-              Sebrat item
-            </button>
-          )}
-          {renderNavigation()}
-        </div>
-      )}
-
-      {shop && (
-        <div className={styles.shopWrapper}>
-          <div className={styles.shopContainer}>
-            <h2 className={styles.shopTitle}>Shop</h2>
-            <div className={styles.shopItems}>
-              {shop.shopItems.map((item) => (
-                <div key={item.shopItemID} className={styles.shopItem}>
-                  <h3>{item.item.name}</h3>
-                  <p>
-                    {window.matchMedia(
-                      "(max-width: 768px) and (orientation: landscape)"
-                    ).matches
-                      ? truncateText(item.item.description, 50)
-                      : item.item.description}
-                  </p>
-                  <p className={styles.itemPrice}>
-                    {item.price} coins
-                    {item.quantity > 0 && ` (${item.quantity})`}
-                  </p>
-                  <button
-                    onClick={() => handlePurchase(item.shopItemID)}
-                    className={styles.buyButton}
-                    disabled={item.quantity === 0}
-                  >
-                    {item.quantity === 0 ? "Sold Out" : "Buy"}
-                  </button>
-                </div>
-              ))}
+      {/* Regular scene content */}
+      {!shop && sceneData.description && (
+        <div className={styles.sceneContentWrapper}>
+          <div className={styles.textBoxMultiple}>
+            <div className={styles.description}>
+              {renderDescription()}
             </div>
+            {links.length === 1 && (
+              <div className={styles.navigation}>
+                {sceneData.hasRequiredItem && !hasItem && (
+                  <button className={styles.collectButton} onClick={collectItem}>
+                    Sebrat item
+                  </button>
+                )}
+                {renderNavigation()}
+              </div>
+            )}
           </div>
+          {links.length > 1 && (
+            <div className={styles.navigationMultiple}>
+              {sceneData.hasRequiredItem && !hasItem && (
+                <button className={styles.collectButton} onClick={collectItem}>
+                  Sebrat item
+                </button>
+              )}
+              {renderNavigation()}
+            </div>
+          )}
         </div>
       )}
 

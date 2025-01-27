@@ -188,8 +188,10 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     const getMinigameData = useCallback(async (sceneId: string) => {
         try {
-            const response = await fetch(`${API_URL}/api/Minigames/${sceneId}`, {
-                headers: { 'Authorization': `Bearer ${token}` }
+            const response = await fetch(`${API_URL}/api/Minigames/play/${sceneId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             });
             
             if (response.ok) {

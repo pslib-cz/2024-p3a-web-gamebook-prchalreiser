@@ -200,24 +200,26 @@ namespace GameBookASP.Data
                     Name = "Rock Paper Scissors Challenge",
                     Description = "A mysterious figure challenges you to a game of Rock Paper Scissors.",
                     Items = "[]",
-                    BackgroundImageUrl = "/images/rps-background.jpg", // Make sure this image exists or use a different one
+                    BackgroundImageUrl = "/images/rps-background.jpg",
                     HasRequiredItem = false,
-                    HasShop = false
+                    HasShop = false,
+                    HasMinigame = true
                 }
             );
 
-            builder.Entity<Minigame>().HasData(
-                new Minigame
-                {
-                    MinigameID = Guid.Parse("33333333-3333-3333-3333-333333333333"),
-                    LocationID = 55,
-                    Description = "Challenge the computer to a game of Rock Paper Scissors! First to 3 wins.",
-                    Type = "RPS",
-                    IsCompleted = false,
-                    PlayerScore = 0,
-                    ComputerScore = 0
-                }
-            );
+            builder.Entity<Minigame>()
+                .HasData(
+                    new Minigame
+                    {
+                        MinigameID = Guid.Parse("550e8400-e29b-41d4-a716-446655440000"),
+                        LocationID = 55,
+                        Description = "Challenge the mysterious stranger to a game of Rock Paper Scissors! First to 3 wins.",
+                        Type = "RPS",
+                        OpponentName = "Mysterious Stranger",
+                        WinLocationID = 56,
+                        LoseLocationID = 57
+                    }
+                );
 
             builder.Entity<PlayerMinigame>()
                 .HasOne(pm => pm.Player)
