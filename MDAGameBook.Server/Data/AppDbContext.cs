@@ -93,15 +93,6 @@ namespace GameBookASP.Data
                 },
                 new Item
                 {
-                    ItemID = 4,
-                    Name = "Healing Crystal",
-                    Description = "A mystical crystal that instantly restores 50 health points.",
-                    Price = 100,
-                    IsDrinkable = true,
-                    Effect = "{\"health\": 50}"
-                },
-                new Item
-                {
                     ItemID = 5,
                     Name = "Energy Drink",
                     Description = "A fizzy drink that restores 40 stamina points.",
@@ -117,6 +108,15 @@ namespace GameBookASP.Data
                     Price = 150,
                     IsDrinkable = true,
                     Effect = "{\"withdrawal\": -30}"
+                },
+                new Item
+                {
+                    ItemID = 7,
+                    Name = "Mysterious Crystal",
+                    Description = "A strange crystal that pulses with an otherworldly energy.",
+                    Price = 0,
+                    IsDrinkable = false,
+                    Effect = "{}"
                 }
             );
 
@@ -204,6 +204,17 @@ namespace GameBookASP.Data
                     HasRequiredItem = false,
                     HasShop = false,
                     HasMinigame = true
+                },
+                new Location
+                {
+                    LocationID = 101,
+                    Name = "Crystal Chamber",
+                    Description = "A dimly lit chamber where a mysterious crystal floats in the air.",
+                    Items = "[7]",
+                    BackgroundImageUrl = "/images/crystal-chamber.jpg",
+                    HasRequiredItem = false,
+                    HasShop = false,
+                    HasMinigame = false
                 }
             );
 

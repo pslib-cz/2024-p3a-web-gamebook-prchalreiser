@@ -43,6 +43,38 @@ namespace MDAGameBook.Server.Controllers
                 return Unauthorized();
             }
 
+            // Get user player with inventory
+            var userPlayer = await _context.UserPlayers!
+                .Include(up => up.Player)
+                    .ThenInclude(p => p.Inventory)
+                .FirstOrDefaultAsync(up => up.UserId == userId);
+
+            // Check for crystal and dangerous locations
+            if (userPlayer?.Player?.Inventory != null &&
+                (id == 109 || id == 110 || id == 111))
+            {
+                bool hasCrystal = userPlayer.Player.Inventory.Any(item =>
+                    item.Name.ToLower().Contains("crystal"));
+
+                if (hasCrystal)
+                {
+                    // Redirect to death location (113)
+                    var deathLocation = await _context.Locations!
+                        .Include(l => l.Shop)
+                            .ThenInclude(s => s!.ShopItems)
+                                .ThenInclude(si => si.Item)
+                        .FirstOrDefaultAsync(l => l.LocationID == 113);
+
+                    if (deathLocation != null)
+                    {
+                        // Update player's last location
+                        userPlayer.Player.LastLocationID = 113;
+                        await _context.SaveChangesAsync();
+                        return deathLocation;
+                    }
+                }
+            }
+
             var location = await _context.Locations!
                 .Include(l => l.Shop)
                     .ThenInclude(s => s!.ShopItems)
@@ -53,11 +85,6 @@ namespace MDAGameBook.Server.Controllers
             {
                 return NotFound();
             }
-
-            var userPlayer = await _context.UserPlayers!
-                .Include(up => up.Player)
-                    .ThenInclude(p => p.Inventory)
-                .FirstOrDefaultAsync(up => up.UserId == userId);
 
             if (userPlayer == null)
             {
@@ -183,7 +210,7 @@ namespace MDAGameBook.Server.Controllers
                 var locationItems = JsonSerializer.Deserialize<int[]>(location.Items ?? "[]");
                 if (locationItems == null || !locationItems.Any())
                 {
-                    return BadRequest(new { message = $"No items to collect at this location. Items: {location.Items}" });
+                    return BadRequest(new { message = "No items to collect at this location." });
                 }
 
                 foreach (var itemId in locationItems)
@@ -213,6 +240,13 @@ namespace MDAGameBook.Server.Controllers
                     location.Items = JsonSerializer.Serialize(remainingItems);
 
                     await _context.SaveChangesAsync();
+
+                    // Special message for crystal
+                    if (item.Name.ToLower().Contains("crystal"))
+                    {
+                        return Ok(new { message = "You've collected the mysterious crystal. You feel an ominous energy emanating from it..." });
+                    }
+
                     return Ok(new { message = $"{item.Name} collected successfully!" });
                 }
 
