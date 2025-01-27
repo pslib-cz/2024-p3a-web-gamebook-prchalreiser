@@ -361,20 +361,32 @@ const Scene = () => {
   const RPSGame = ({ minigame }: { minigame: Minigame }) => {
     const [result, setResult] = useState<RPSResult | null>(null);
     const [loading, setLoading] = useState(false);
+    const [gameState, setGameState] = useState({
+        playerScore: minigame.playerScore,
+        computerScore: minigame.computerScore,
+        isCompleted: minigame.isCompleted
+    });
     const { playRPS } = useScene();
 
     const handleChoice = async (choice: string) => {
-        if (loading || minigame.isCompleted) return;
+        if (loading || gameState.isCompleted) return;
 
         try {
             setLoading(true);
             const result = await playRPS(minigame.minigameID, choice);
             setResult(result);
+            
+            // Update game state with new scores
+            setGameState({
+                playerScore: result.playerScore,
+                computerScore: result.computerScore,
+                isCompleted: result.isCompleted
+            });
 
             if (result.isCompleted) {
                 // Game is over, handle navigation based on win/lose
                 const targetLocationId = result.playerScore >= 3 ? minigame.winLocationID : minigame.loseLocationID;
-                await handleNavigation(`/scene/${targetLocationId}`);
+                navigate(`/scene/${targetLocationId}`);
             }
         } catch (error) {
             console.error("Failed to play:", error);
@@ -389,20 +401,20 @@ const Scene = () => {
                 <p className={styles.minigameDescription}>{minigame.description}</p>
                 <div className={styles.scoreBoard}>
                     <div>
-                        <p>Player</p>
-                        <p>{minigame.playerScore}</p>
+                        <p>You</p>
+                        <p>{gameState.playerScore}</p>
                     </div>
                     <div>
                         <p>{minigame.opponentName}</p>
-                        <p>{minigame.computerScore}</p>
+                        <p>{gameState.computerScore}</p>
                     </div>
                 </div>
-                {result && !minigame.isCompleted && (
+                {result && !gameState.isCompleted && (
                     <div className={styles.roundResult}>
                         <p>Round {result.result.toUpperCase()}</p>
                     </div>
                 )}
-                {!minigame.isCompleted && !loading && (
+                {!gameState.isCompleted && !loading && (
                     <div className={styles.choices}>
                         <button onClick={() => handleChoice("rock")} disabled={loading}>
                             Rock
