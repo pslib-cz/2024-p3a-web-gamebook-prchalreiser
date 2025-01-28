@@ -13,8 +13,6 @@ public class Minigame
     public string OpponentName { get; set; } = "Computer";
     public int WinLocationID { get; set; }
     public int LoseLocationID { get; set; }
-    public string? Number1 { get; set; }
-    public string? Number2 { get; set; }
 
     public Location Location { get; set; } = null!;
     public ICollection<PlayerMinigame> PlayerMinigames { get; set; } = new List<PlayerMinigame>();

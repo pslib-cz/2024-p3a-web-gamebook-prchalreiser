@@ -61,6 +61,15 @@ namespace MDAGameBook.Server.Migrations
                         },
                         new
                         {
+                            ItemID = 4,
+                            Description = "A mystical crystal that instantly restores 50 health points.",
+                            Effect = "{\"health\": 50}",
+                            IsDrinkable = true,
+                            Name = "Healing Crystal",
+                            Price = 100
+                        },
+                        new
+                        {
                             ItemID = 5,
                             Description = "A fizzy drink that restores 40 stamina points.",
                             Effect = "{\"stamina\": 40}",
@@ -76,15 +85,6 @@ namespace MDAGameBook.Server.Migrations
                             IsDrinkable = true,
                             Name = "Anti-Withdrawal Potion",
                             Price = 150
-                        },
-                        new
-                        {
-                            ItemID = 7,
-                            Description = "A strange crystal that pulses with an otherworldly energy.",
-                            Effect = "{}",
-                            IsDrinkable = false,
-                            Name = "Mysterious Crystal",
-                            Price = 0
                         });
                 });
 
@@ -150,6 +150,19 @@ namespace MDAGameBook.Server.Migrations
                     b.HasKey("LocationID");
 
                     b.ToTable("Locations");
+
+                    b.HasData(
+                        new
+                        {
+                            LocationID = 55,
+                            BackgroundImageUrl = "/images/rps-background.jpg",
+                            Description = "A mysterious figure challenges you to a game of Rock Paper Scissors.",
+                            HasMinigame = true,
+                            HasRequiredItem = false,
+                            HasShop = false,
+                            Items = "[]",
+                            Name = "Rock Paper Scissors Challenge"
+                        });
                 });
 
             modelBuilder.Entity("GameBookASP.GameModels.Minigame", b =>
@@ -168,12 +181,6 @@ namespace MDAGameBook.Server.Migrations
                     b.Property<int>("LoseLocationID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Number1")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Number2")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("OpponentName")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -190,6 +197,18 @@ namespace MDAGameBook.Server.Migrations
                     b.HasIndex("LocationID");
 
                     b.ToTable("Minigames");
+
+                    b.HasData(
+                        new
+                        {
+                            MinigameID = new Guid("550e8400-e29b-41d4-a716-446655440000"),
+                            Description = "Challenge the mysterious stranger to a game of Rock Paper Scissors! First to 3 wins.",
+                            LocationID = 55,
+                            LoseLocationID = 57,
+                            OpponentName = "Mysterious Stranger",
+                            Type = "RPS",
+                            WinLocationID = 56
+                        });
                 });
 
             modelBuilder.Entity("GameBookASP.GameModels.Player", b =>
@@ -444,7 +463,7 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a80ea326-efd8-49dc-b275-fa030ef75e16",
+                            Id = "80462a9b-d956-498f-8273-92d1cd8b2b6b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -516,15 +535,15 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "51c7c7ad-297f-485c-bb58-d7f322a65df2",
+                            Id = "2d4ce928-d755-4965-9487-64dcdc75beb4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e1dfb8e8-5397-4775-9dfd-efe876407504",
+                            ConcurrencyStamp = "4f9d9387-4746-480a-b6f2-778ddee0e648",
                             Email = "admin@minjiya.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MINJIYA.COM",
                             NormalizedUserName = "ADMIN@MINJIYA.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEQQg7MpZqwp2Em5Ezv6+CFRAlG0OOTgZVDzoSVkDohmdzfGjjHXwdHr4drqQjxfRg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOESIwbAAguuKPMLbedb2LgCGil7HrqCujU5cLLnoVIGoHqgUxdFQXGo0cH9do0gKA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -617,8 +636,8 @@ namespace MDAGameBook.Server.Migrations
                     b.HasData(
                         new
                         {
-                            RoleId = "a80ea326-efd8-49dc-b275-fa030ef75e16",
-                            UserId = "51c7c7ad-297f-485c-bb58-d7f322a65df2"
+                            RoleId = "80462a9b-d956-498f-8273-92d1cd8b2b6b",
+                            UserId = "2d4ce928-d755-4965-9487-64dcdc75beb4"
                         });
                 });
 

@@ -69,8 +69,8 @@ namespace MDAGameBook.Server.Controllers
             }
 
             var playerMinigame = await _context.PlayerMinigames!
-                .FirstOrDefaultAsync(pm =>
-                    pm.PlayerID == userPlayer.Player.PlayerID &&
+                .FirstOrDefaultAsync(pm => 
+                    pm.PlayerID == userPlayer.Player.PlayerID && 
                     pm.MinigameID == minigame.MinigameID);
 
             if (playerMinigame == null)
@@ -122,8 +122,8 @@ namespace MDAGameBook.Server.Controllers
             }
 
             var playerMinigame = await _context.PlayerMinigames!
-                .FirstOrDefaultAsync(pm =>
-                    pm.PlayerID == userPlayer.Player.PlayerID &&
+                .FirstOrDefaultAsync(pm => 
+                    pm.PlayerID == userPlayer.Player.PlayerID && 
                     pm.MinigameID == minigameId);
 
             if (playerMinigame == null)
@@ -167,68 +167,6 @@ namespace MDAGameBook.Server.Controllers
             };
         }
 
-        [HttpPost("{minigameId}/play-numbers")]
-        public async Task<ActionResult<object>> PlayNumberGame(Guid minigameId, [FromBody] PlayNumbersRequest request)
-        {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null)
-            {
-                return Unauthorized();
-            }
-
-            var userPlayer = await _context.UserPlayers!
-                .Include(up => up.Player)
-                .FirstOrDefaultAsync(up => up.UserId == userId);
-
-            if (userPlayer == null)
-            {
-                return BadRequest("Player not found");
-            }
-
-            var minigame = await _context.Minigames!
-                .FirstOrDefaultAsync(m => m.MinigameID == minigameId);
-
-            if (minigame == null)
-            {
-                return NotFound("Game not found");
-            }
-
-            var playerMinigame = await _context.PlayerMinigames!
-                .FirstOrDefaultAsync(pm =>
-                    pm.PlayerID == userPlayer.Player.PlayerID &&
-                    pm.MinigameID == minigameId);
-
-            if (playerMinigame == null)
-            {
-                playerMinigame = new PlayerMinigame
-                {
-                    PlayerMinigameID = Guid.NewGuid(),
-                    PlayerID = userPlayer.Player.PlayerID,
-                    MinigameID = minigameId,
-                    IsCompleted = false,
-                    PlayerScore = 0,
-                    ComputerScore = 0
-                };
-                _context.PlayerMinigames!.Add(playerMinigame);
-            }
-
-            bool isCorrect = (request.Number1.ToString() == minigame.Number1 &&
-                             request.Number2.ToString() == minigame.Number2) ||
-                            (request.Number1.ToString() == minigame.Number2 &&
-                             request.Number2.ToString() == minigame.Number1);
-
-            playerMinigame.IsCompleted = true;
-            playerMinigame.PlayerScore = isCorrect ? 1 : 0;
-
-            await _context.SaveChangesAsync();
-
-            return new
-            {
-                IsCorrect = isCorrect,
-                IsCompleted = true
-            };
-        }
-
         [HttpPost("{locationId}")]
         public async Task<ActionResult<object>> CreateOrUpdateMinigame(int locationId, [FromBody] MinigameUpdateRequest request)
         {
@@ -250,9 +188,6 @@ namespace MDAGameBook.Server.Controllers
             minigame.OpponentName = request.OpponentName;
             minigame.WinLocationID = request.WinLocationID;
             minigame.LoseLocationID = request.LoseLocationID;
-            minigame.Type = request.Type;
-            minigame.Number1 = request.Number1;
-            minigame.Number2 = request.Number2;
 
             await _context.SaveChangesAsync();
 
@@ -264,9 +199,7 @@ namespace MDAGameBook.Server.Controllers
                 minigame.Type,
                 minigame.OpponentName,
                 minigame.WinLocationID,
-                minigame.LoseLocationID,
-                minigame.Number1,
-                minigame.Number2
+                minigame.LoseLocationID
             };
         }
 
@@ -302,14 +235,6 @@ namespace MDAGameBook.Server.Controllers
             public int WinLocationID { get; set; }
             public int LoseLocationID { get; set; }
             public string Type { get; set; } = "RPS";
-            public string? Number1 { get; set; }
-            public string? Number2 { get; set; }
-        }
-
-        public class PlayNumbersRequest
-        {
-            public int Number1 { get; set; }
-            public int Number2 { get; set; }
         }
     }
-}
+} 

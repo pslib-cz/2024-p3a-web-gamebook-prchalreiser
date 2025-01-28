@@ -48,9 +48,7 @@ const LocationsManager = () => {
         opponentName: '',
         winLocationID: 0,
         loseLocationID: 0,
-        type: 'RPS',
-        number1: '',
-        number2: ''
+        type: 'RPS'
     });
 
     const fetchLocations = async () => {
@@ -163,7 +161,7 @@ const LocationsManager = () => {
 
             if (formData.hasMinigame) {
                 const minigameResponse = await fetch(
-                    `${API_URL}/api/Minigames/${editingLocation?.locationID || locationResult.locationID}`,
+                    `${API_URL}/api/Minigames/${editingLocation?.locationID}`,
                     {
                         method: 'POST',
                         headers: {
@@ -172,10 +170,8 @@ const LocationsManager = () => {
                         },
                         body: JSON.stringify({
                             ...minigameData,
-                            locationID: editingLocation?.locationID || locationResult.locationID,
-                            type: minigameData.type,
-                            number1: minigameData.number1,
-                            number2: minigameData.number2
+                            locationID: editingLocation?.locationID,
+                            type: 'RPS'
                         }),
                     }
                 );
@@ -205,16 +201,14 @@ const LocationsManager = () => {
             hasMinigame: location.hasMinigame,
             items: location.items
         });
-
+        
         if (location.minigame) {
             setMinigameData({
                 description: location.minigame.description || '',
                 opponentName: location.minigame.opponentName || '',
                 winLocationID: location.minigame.winLocationID || 0,
                 loseLocationID: location.minigame.loseLocationID || 0,
-                type: 'RPS',
-                number1: location.minigame.number1 || '',
-                number2: location.minigame.number2 || ''
+                type: 'RPS'
             });
         } else {
             // Reset minigame data when editing a location without minigame
@@ -223,9 +217,7 @@ const LocationsManager = () => {
                 opponentName: '',
                 winLocationID: 0,
                 loseLocationID: 0,
-                type: 'RPS',
-                number1: '',
-                number2: ''
+                type: 'RPS'
             });
         }
     };
@@ -246,9 +238,7 @@ const LocationsManager = () => {
             opponentName: '',
             winLocationID: 0,
             loseLocationID: 0,
-            type: 'RPS',
-            number1: '',
-            number2: ''
+            type: 'RPS'
         });
     };
 
@@ -368,23 +358,7 @@ const LocationsManager = () => {
                 {formData.hasMinigame && (
                     <div className={styles.minigameSettings}>
                         <h3>Minigame Settings</h3>
-
-                        <div className={styles.formGroup}>
-                            <label htmlFor="minigameType">Game Type:</label>
-                            <select
-                                id="minigameType"
-                                value={minigameData.type}
-                                onChange={(e) => setMinigameData(prev => ({
-                                    ...prev,
-                                    type: e.target.value
-                                }))}
-                                className={styles.formSelect}
-                            >
-                                <option value="RPS">Rock Paper Scissors</option>
-                                <option value="NUMBERS">Number Guess</option>
-                            </select>
-                        </div>
-
+                        
                         <div className={styles.formGroup}>
                             <label htmlFor="minigameDescription">Game Description:</label>
                             <textarea
@@ -439,38 +413,6 @@ const LocationsManager = () => {
                                 className={styles.formInput}
                             />
                         </div>
-
-                        {minigameData.type === 'NUMBERS' && (
-                            <>
-                                <div className={styles.formGroup}>
-                                    <label htmlFor="number1">First Number:</label>
-                                    <input
-                                        type="text"
-                                        id="number1"
-                                        value={minigameData.number1}
-                                        onChange={(e) => setMinigameData(prev => ({
-                                            ...prev,
-                                            number1: e.target.value
-                                        }))}
-                                        className={styles.formInput}
-                                    />
-                                </div>
-
-                                <div className={styles.formGroup}>
-                                    <label htmlFor="number2">Second Number:</label>
-                                    <input
-                                        type="text"
-                                        id="number2"
-                                        value={minigameData.number2}
-                                        onChange={(e) => setMinigameData(prev => ({
-                                            ...prev,
-                                            number2: e.target.value
-                                        }))}
-                                        className={styles.formInput}
-                                    />
-                                </div>
-                            </>
-                        )}
                     </div>
                 )}
 

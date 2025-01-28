@@ -72,8 +72,6 @@ interface Minigame {
   opponentName: string;
   winLocationID: number;
   loseLocationID: number;
-  number1?: string;
-  number2?: string;
 }
 
 interface RPSResult {
@@ -100,8 +98,9 @@ const SceneBuffer: React.FC<SceneBufferProps> = ({
   return (
     <div className={`${styles.sceneBuffer} ${className || ""}`}>
       <img
-        className={`${styles.backgroundImage} ${!isActive ? styles.backgroundImageHidden : ""
-          }`}
+        className={`${styles.backgroundImage} ${
+          !isActive ? styles.backgroundImageHidden : ""
+        }`}
         src={sceneData.backgroundImageUrl}
         alt={sceneData.name}
         loading="eager"
@@ -319,30 +318,30 @@ const Scene = () => {
 
   const handlePurchase = async (shopItemId: number) => {
     try {
-      const response = await fetch(`${API_URL}/api/shops/buy`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ shopItemId })
-      });
+        const response = await fetch(`${API_URL}/api/shops/buy`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ shopItemId })
+        });
 
-      const data = await response.json();
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.message || 'Purchase failed');
+        }
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Purchase failed');
-      }
-
-      // Show success message
-      alert(data.message);
-
-      // Refresh shop data to update quantities
-      const updatedShop = await getShopData(sceneId!);
-      setShop(updatedShop);
+        // Show success message
+        alert(data.message);
+        
+        // Refresh shop data to update quantities
+        const updatedShop = await getShopData(sceneId!);
+        setShop(updatedShop);
 
     } catch (error) {
-      alert(error instanceof Error ? error.message : 'Failed to purchase item');
+        alert(error instanceof Error ? error.message : 'Failed to purchase item');
     }
   };
 
@@ -354,7 +353,7 @@ const Scene = () => {
 
     // Only truncate on mobile landscape
     if (window.matchMedia("(max-width: 768px) and (orientation: landscape)").matches) {
-      return truncateText(sceneData.description, 300);
+        return truncateText(sceneData.description, 300);
     }
     return sceneData.description;
   };
@@ -363,145 +362,73 @@ const Scene = () => {
     const [result, setResult] = useState<RPSResult | null>(null);
     const [loading, setLoading] = useState(false);
     const [gameState, setGameState] = useState({
-      playerScore: minigame.playerScore,
-      computerScore: minigame.computerScore,
-      isCompleted: minigame.isCompleted
+        playerScore: minigame.playerScore,
+        computerScore: minigame.computerScore,
+        isCompleted: minigame.isCompleted
     });
     const { playRPS } = useScene();
 
     const handleChoice = async (choice: string) => {
-      if (loading || gameState.isCompleted) return;
+        if (loading || gameState.isCompleted) return;
 
-      try {
-        setLoading(true);
-        const result = await playRPS(minigame.minigameID, choice);
-        setResult(result);
+        try {
+            setLoading(true);
+            const result = await playRPS(minigame.minigameID, choice);
+            setResult(result);
+            
+            // Update game state with new scores
+            setGameState({
+                playerScore: result.playerScore,
+                computerScore: result.computerScore,
+                isCompleted: result.isCompleted
+            });
 
-        // Update game state with new scores
-        setGameState({
-          playerScore: result.playerScore,
-          computerScore: result.computerScore,
-          isCompleted: result.isCompleted
-        });
-
-        if (result.isCompleted) {
-          // Game is over, handle navigation based on win/lose
-          const targetLocationId = result.playerScore >= 3 ? minigame.winLocationID : minigame.loseLocationID;
-          navigate(`/scene/${targetLocationId}`);
+            if (result.isCompleted) {
+                // Game is over, handle navigation based on win/lose
+                const targetLocationId = result.playerScore >= 3 ? minigame.winLocationID : minigame.loseLocationID;
+                navigate(`/scene/${targetLocationId}`);
+            }
+        } catch (error) {
+            console.error("Failed to play:", error);
+        } finally {
+            setLoading(false);
         }
-      } catch (error) {
-        console.error("Failed to play:", error);
-      } finally {
-        setLoading(false);
-      }
     };
 
     return (
-      <div className={styles.minigameWrapper}>
-        <div className={styles.minigameContainer}>
-          <p className={styles.minigameDescription}>{minigame.description}</p>
-          <div className={styles.scoreBoard}>
-            <div>
-              <p>You</p>
-              <p>{gameState.playerScore}</p>
+        <div className={styles.minigameWrapper}>
+            <div className={styles.minigameContainer}>
+                <p className={styles.minigameDescription}>{minigame.description}</p>
+                <div className={styles.scoreBoard}>
+                    <div>
+                        <p>You</p>
+                        <p>{gameState.playerScore}</p>
+                    </div>
+                    <div>
+                        <p>{minigame.opponentName}</p>
+                        <p>{gameState.computerScore}</p>
+                    </div>
+                </div>
+                {result && !gameState.isCompleted && (
+                    <div className={styles.roundResult}>
+                        <p>Round {result.result.toUpperCase()}</p>
+                    </div>
+                )}
+                {!gameState.isCompleted && !loading && (
+                    <div className={styles.choices}>
+                        <button onClick={() => handleChoice("rock")} disabled={loading}>
+                            Rock
+                        </button>
+                        <button onClick={() => handleChoice("paper")} disabled={loading}>
+                            Paper
+                        </button>
+                        <button onClick={() => handleChoice("scissors")} disabled={loading}>
+                            Scissors
+                        </button>
+                    </div>
+                )}
             </div>
-            <div>
-              <p>{minigame.opponentName}</p>
-              <p>{gameState.computerScore}</p>
-            </div>
-          </div>
-          {result && !gameState.isCompleted && (
-            <div className={styles.roundResult}>
-              <p>Round {result.result.toUpperCase()}</p>
-            </div>
-          )}
-          {!gameState.isCompleted && !loading && (
-            <div className={styles.choices}>
-              <button onClick={() => handleChoice("rock")} disabled={loading}>
-                Rock
-              </button>
-              <button onClick={() => handleChoice("paper")} disabled={loading}>
-                Paper
-              </button>
-              <button onClick={() => handleChoice("scissors")} disabled={loading}>
-                Scissors
-              </button>
-            </div>
-          )}
         </div>
-      </div>
-    );
-  };
-
-  const NumberGuessGame = ({ minigame }: { minigame: Minigame }) => {
-    const [numbers, setNumbers] = useState({ number1: '', number2: '' });
-    const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
-    const { token } = useAuth();
-
-    const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
-      if (loading) return;
-
-      try {
-        setLoading(true);
-        const response = await fetch(`${API_URL}/api/Minigames/${minigame.minigameID}/play-numbers`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            number1: parseInt(numbers.number1),
-            number2: parseInt(numbers.number2)
-          })
-        });
-
-        if (!response.ok) {
-          throw new Error('Nepodařilo se odeslat čísla');
-        }
-
-        const result = await response.json();
-        const targetLocationId = result.isCorrect ? minigame.winLocationID : minigame.loseLocationID;
-        navigate(`/scene/${targetLocationId}`);
-      } catch (error) {
-        console.error('Chyba při hraní:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    return (
-      <div className={styles.minigameWrapper}>
-        <div className={styles.minigameContainer}>
-          <p className={styles.minigameDescription}>{minigame.description}</p>
-          <form onSubmit={handleSubmit} className={styles.numberGuessForm}>
-            <div className={styles.numberInputs}>
-              <input
-                type="number"
-                value={numbers.number1}
-                onChange={(e) => setNumbers(prev => ({ ...prev, number1: e.target.value }))}
-                placeholder="První číslo"
-                required
-              />
-              <input
-                type="number"
-                value={numbers.number2}
-                onChange={(e) => setNumbers(prev => ({ ...prev, number2: e.target.value }))}
-                placeholder="Druhé číslo"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className={styles.numberGuessButton}
-            >
-              {loading ? 'Odesílám...' : 'Potvrdit čísla'}
-            </button>
-          </form>
-        </div>
-      </div>
     );
   };
 
@@ -678,13 +605,7 @@ const Scene = () => {
         </div>
       )}
 
-      {minigame && (
-        minigame.type === "RPS" ? (
-          <RPSGame minigame={minigame} />
-        ) : minigame.type === "NUMBERS" ? (
-          <NumberGuessGame minigame={minigame} />
-        ) : null
-      )}
+      {minigame && minigame.type === "RPS" && <RPSGame minigame={minigame} />}
 
       {isPortrait && (
         <div className={styles.rotateDevice}>
