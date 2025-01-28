@@ -84,6 +84,7 @@ interface SceneContextType {
     getMinigameData: (sceneId: string) => Promise<Minigame | null>;
     playRPS: (minigameId: string, playerChoice: string) => Promise<RPSResult>;
     getPlayerStats: () => Promise<PlayerStats>;
+    playerStatsVersion: number;
 }
 
 const SceneContext = createContext<SceneContextType | null>(null);
@@ -94,6 +95,7 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const [sceneCache, setSceneCache] = useState<SceneCache>({});
     const [shopCache, setShopCache] = useState<{ [key: string]: Shop }>({});
     const [playerStatsCache, setPlayerStatsCache] = useState<PlayerStats | null>(null);
+    const [playerStatsVersion, setPlayerStatsVersion] = useState(0);
     const { token } = useAuth();
 
     const fetchSceneData = async (sceneId: string) => {
@@ -224,10 +226,6 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }, [token]);
 
     const getPlayerStats = useCallback(async () => {
-        if (playerStatsCache) {
-            return playerStatsCache;
-        }
-
         try {
             const response = await fetch(`${API_URL}/api/Players/current`, {
                 headers: {
@@ -237,7 +235,7 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
             if (response.ok) {
                 const stats = await response.json();
-                setPlayerStatsCache(stats);
+                setPlayerStatsVersion(v => v + 1);
                 return stats;
             }
             throw new Error('Failed to fetch player stats');
@@ -245,7 +243,7 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             console.error('Failed to fetch player stats:', error);
             throw error;
         }
-    }, [token, playerStatsCache]);
+    }, [token]);
 
     return (
         <SceneContext.Provider value={{
@@ -257,6 +255,7 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             getMinigameData,
             playRPS,
             getPlayerStats,
+            playerStatsVersion,
         }}>
             {children}
         </SceneContext.Provider>

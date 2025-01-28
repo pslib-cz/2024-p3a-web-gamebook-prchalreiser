@@ -19,6 +19,7 @@ const Scene = () => {
   const [currentSceneBuffer, setCurrentSceneBuffer] = useState<SceneData | null>(null);
   const [nextSceneBuffer, setNextSceneBuffer] = useState<SceneData | null>(null);
   const [isPortrait, setIsPortrait] = useState(window.innerHeight > window.innerWidth);
+  const [sceneTransitions, setSceneTransitions] = useState(0);
 
   const { token } = useAuth();
   const navigate = useNavigate();
@@ -113,9 +114,31 @@ const Scene = () => {
       try {
         setIsTransitioning(true);
 
-        const [{ scene: nextSceneData }, playerStats] = await Promise.all([
+        // Increment scene transitions and update withdrawal every 2 scenes
+        const newTransitions = sceneTransitions + 1;
+        setSceneTransitions(newTransitions);
+        
+        if (newTransitions % 2 === 0) {
+          // Update withdrawal every 2 scenes
+          const response = await fetch(`${API_URL}/api/Players/update-withdrawal`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ increase: 5 })
+          });
+
+          if (!response.ok) {
+            console.error('Failed to update withdrawal');
+          } else {
+            // Immediately fetch updated player stats after withdrawal change
+            await getPlayerStats();
+          }
+        }
+
+        const [{ scene: nextSceneData }] = await Promise.all([
           getSceneData(locationId.toString()),
-          getPlayerStats(),
           new Promise((resolve, reject) => {
             const img = new Image();
             img.onload = resolve;
@@ -141,7 +164,7 @@ const Scene = () => {
         setNextSceneBuffer(null);
       }
     },
-    [navigate, sceneData, getSceneData, getPlayerStats]
+    [navigate, sceneData, getSceneData, getPlayerStats, sceneTransitions, token]
   );
 
   useEffect(() => {

@@ -12,7 +12,7 @@ interface PlayerStats {
 const PlayerStats = () => {
     const [stats, setStats] = useState<PlayerStats | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const { getPlayerStats } = useScene();
+    const { getPlayerStats, playerStatsVersion } = useScene();
 
     useEffect(() => {
         const loadStats = async () => {
@@ -27,7 +27,7 @@ const PlayerStats = () => {
         };
 
         loadStats();
-    }, [getPlayerStats]);
+    }, [getPlayerStats, playerStatsVersion]);
 
     // Add a loading state that maintains the same dimensions
     if (isLoading && !stats) {

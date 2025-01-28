@@ -190,5 +190,34 @@ namespace MDAGameBook.Server.Controllers
             return userPlayer.Player;
         }
 
+        [HttpPost("update-withdrawal")]
+        public async Task<ActionResult> UpdateWithdrawal([FromBody] UpdateWithdrawalRequest request)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var userPlayer = await _context.UserPlayers!
+                .Include(up => up.Player)
+                .FirstOrDefaultAsync(up => up.UserId == userId);
+
+            if (userPlayer?.Player == null)
+            {
+                return NotFound("Player not found");
+            }
+
+            userPlayer.Player.Withdrawal = Math.Min(100, userPlayer.Player.Withdrawal + request.Increase);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { withdrawal = userPlayer.Player.Withdrawal });
+        }
+
+        public class UpdateWithdrawalRequest
+        {
+            public int Increase { get; set; }
+        }
+
     }
 }
