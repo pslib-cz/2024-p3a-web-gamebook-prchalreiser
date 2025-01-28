@@ -203,7 +203,13 @@ const Scene = () => {
       }
 
       alert(data.message);
-      const updatedShop = await getShopData(sceneId!);
+      
+      // Refresh both shop and player stats
+      const [updatedShop] = await Promise.all([
+        getShopData(sceneId!),
+        getPlayerStats() // This will trigger PlayerStats component update
+      ]);
+      
       setShop(updatedShop);
 
     } catch (error) {

@@ -117,6 +117,15 @@ namespace GameBookASP.Data
                     Price = 0,
                     IsDrinkable = false,
                     Effect = "{}"
+                },
+                new Item
+                {
+                    ItemID = 8,
+                    Name = "Zhadný nápoj",
+                    Description = "A mysterious potion that reduces withdrawal by 50 points.",
+                    Price = 100,
+                    IsDrinkable = true,
+                    Effect = "{\"withdrawal\": -50}"
                 }
             );
 

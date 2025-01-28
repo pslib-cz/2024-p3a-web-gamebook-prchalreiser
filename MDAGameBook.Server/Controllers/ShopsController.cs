@@ -330,6 +330,27 @@ namespace MDAGameBook.Server.Controllers
                     Quantity = 1
                 };
 
+                // Apply item effects if it's drinkable
+                if (shopItem.Item.IsDrinkable)
+                {
+                    var effect = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>(shopItem.Item.Effect);
+                    if (effect != null)
+                    {
+                        if (effect.TryGetValue("withdrawal", out int withdrawalChange))
+                        {
+                            player.Withdrawal = Math.Max(0, Math.Min(100, player.Withdrawal + withdrawalChange));
+                        }
+                        if (effect.TryGetValue("health", out int healthChange))
+                        {
+                            player.Health = Math.Max(0, Math.Min(100, player.Health + healthChange));
+                        }
+                        if (effect.TryGetValue("stamina", out int staminaChange))
+                        {
+                            player.Stamina = Math.Max(0, Math.Min(100, player.Stamina + staminaChange));
+                        }
+                    }
+                }
+
                 // Decrease shop item quantity
                 shopItem.Quantity--;
 
@@ -339,7 +360,10 @@ namespace MDAGameBook.Server.Controllers
                 return Ok(new
                 {
                     message = $"Successfully purchased {shopItem.Item.Name}",
-                    newBalance = player.Coins
+                    newBalance = player.Coins,
+                    newWithdrawal = player.Withdrawal,
+                    newHealth = player.Health,
+                    newStamina = player.Stamina
                 });
             }
             catch (Exception)
