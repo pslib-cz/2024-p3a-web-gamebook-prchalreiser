@@ -71,8 +71,7 @@
     max-width: 800px;
     max-height: 30vh;
     overflow-y: auto;
-    box-shadow: 
-        0 4px 20px rgba(0, 0, 0, 0.4),
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4),
         0 0 0 1px rgba(255, 255, 255, 0.1);
     z-index: 10;
 }
@@ -151,7 +150,11 @@
     max-width: 300px;
     font-size: 1rem !important;
     padding: 0.75rem 1.5rem !important;
-    background: linear-gradient(135deg, rgba(255, 105, 180, 0.8) 0%, rgba(255, 20, 147, 0.8) 100%) !important;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 105, 180, 0.8) 0%,
+        rgba(255, 20, 147, 0.8) 100%
+    ) !important;
     backdrop-filter: blur(5px);
     border-radius: 12px !important;
     text-align: center;
@@ -161,9 +164,12 @@
 
 .choiceButton:hover {
     transform: translateY(-2px) !important;
-    background: linear-gradient(135deg, rgba(255, 131, 195, 0.9) 0%, rgba(255, 20, 147, 0.9) 100%) !important;
-    box-shadow: 
-        0 8px 25px rgba(255, 105, 180, 0.4),
+    background: linear-gradient(
+        135deg,
+        rgba(255, 131, 195, 0.9) 0%,
+        rgba(255, 20, 147, 0.9) 100%
+    ) !important;
+    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4),
         0 4px 8px rgba(0, 0, 0, 0.2) !important;
 }
 
@@ -754,7 +760,11 @@
 }
 
 .choices button {
-    background: linear-gradient(135deg, rgba(255, 105, 180, 0.8) 0%, rgba(255, 20, 147, 0.8) 100%);
+    background: linear-gradient(
+        135deg,
+        rgba(255, 105, 180, 0.8) 0%,
+        rgba(255, 20, 147, 0.8) 100%
+    );
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;
@@ -766,7 +776,11 @@
 
 .choices button:hover:not(:disabled) {
     transform: translateY(-2px);
-    background: linear-gradient(135deg, rgba(255, 131, 195, 0.9) 0%, rgba(255, 20, 147, 0.9) 100%);
+    background: linear-gradient(
+        135deg,
+        rgba(255, 131, 195, 0.9) 0%,
+        rgba(255, 20, 147, 0.9) 100%
+    );
 }
 
 .roundResult {
@@ -901,8 +915,7 @@
     width: 100%;
     max-height: 30vh;
     overflow-y: auto;
-    box-shadow: 
-        0 4px 20px rgba(0, 0, 0, 0.4),
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4),
         0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
@@ -920,7 +933,11 @@
     max-width: 400px !important;
     font-size: 1.2rem !important;
     padding: 1rem 2rem !important;
-    background: linear-gradient(135deg, rgba(255, 105, 180, 0.8) 0%, rgba(255, 20, 147, 0.8) 100%) !important;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 105, 180, 0.8) 0%,
+        rgba(255, 20, 147, 0.8) 100%
+    ) !important;
     backdrop-filter: blur(5px);
     border-radius: 12px !important;
     text-align: center;
@@ -945,4 +962,80 @@
         font-size: 1rem !important;
         padding: 0.75rem 1.5rem !important;
     }
+}
+
+.numberGuessForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.numberInputs {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.numberInputs input {
+    padding: 0.75rem;
+    font-size: 1.4rem;
+    width: 120px;
+    text-align: center;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transition: all 0.2s ease;
+}
+
+.numberInputs input:focus {
+    border-color: #2563eb;
+    outline: none;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+}
+
+.numberInputs input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.numberGuessButton {
+    padding: 0.75rem 2rem;
+    font-size: 1.2rem;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: fit-content;
+    margin: 0 auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.numberGuessButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+.numberGuessButton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.minigameDescription {
+    color: white;
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }

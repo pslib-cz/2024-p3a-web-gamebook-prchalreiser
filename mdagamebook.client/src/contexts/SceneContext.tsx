@@ -150,7 +150,7 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             const response = await fetch(`${API_URL}/api/Shops/location/${sceneId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            
+
             if (response.ok) {
                 const shopData = await response.json();
                 setShopCache(prev => ({
@@ -193,7 +193,7 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                     Authorization: `Bearer ${token}`
                 }
             });
-            
+
             if (response.ok) {
                 return await response.json();
             } else if (response.status !== 404) {
@@ -248,9 +248,9 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }, [token, playerStatsCache]);
 
     return (
-        <SceneContext.Provider value={{ 
-            getSceneData, 
-            preloadNextScenes, 
+        <SceneContext.Provider value={{
+            getSceneData,
+            preloadNextScenes,
             clearCache,
             getShopData,
             purchaseItem,
