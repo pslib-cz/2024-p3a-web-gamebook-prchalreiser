@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./StartingPage.module.css";
-import Link from "../components/Link";
+import Link from "../components/atoms/Link";
 import RainbowSpiral from "../components/RainbowSpiral";
 import PlayerInfo from "../components/PlayerInfo";
 import { useAuth } from "../contexts/AuthContext";
@@ -76,9 +76,9 @@ const StartingPage = () => {
     return (
         <div className={styles.container}>
             {playerData && (
-                <PlayerInfo 
-                    playerName={playerData.name} 
-                    lastLocation={playerData.lastLocationID} 
+                <PlayerInfo
+                    playerName={playerData.name}
+                    lastLocation={playerData.lastLocationID}
                 />
             )}
             <h1 className={styles.title}>Multidimenzionální absťák</h1>

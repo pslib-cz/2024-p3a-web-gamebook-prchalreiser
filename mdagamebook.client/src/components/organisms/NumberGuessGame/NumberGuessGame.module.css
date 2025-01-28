@@ -1,0 +1,40 @@
+.minigameWrapper {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 800px;
+  z-index: 10;
+}
+
+.minigameContainer {
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 2rem;
+  color: white;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.minigameDescription {
+  color: white;
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .minigameContainer {
+    padding: 1rem;
+  }
+
+  .minigameDescription {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+} 

@@ -1,0 +1,58 @@
+.minigameWrapper {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 800px;
+  z-index: 10;
+}
+
+.minigameContainer {
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 2rem;
+  color: white;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.minigameDescription {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  color: #ffffff;
+}
+
+.scoreBoard {
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  margin: 1.5rem 0;
+  font-size: 1.2rem;
+}
+
+.roundResult {
+  font-size: 1.4rem;
+  margin: 1rem 0;
+  color: #ffd700;
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .minigameContainer {
+    padding: 1rem;
+  }
+
+  .minigameDescription {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .scoreBoard {
+    gap: 2rem;
+    font-size: 1rem;
+    margin: 1rem 0;
+  }
+} 

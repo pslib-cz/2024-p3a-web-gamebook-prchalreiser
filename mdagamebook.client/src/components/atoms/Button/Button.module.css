@@ -1,0 +1,72 @@
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Staatliches", system-ui;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 0.9rem 2rem;
+    background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+    border: none;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3),
+        0 2px 4px rgba(0, 0, 0, 0.1), inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4),
+        0 4px 8px rgba(0, 0, 0, 0.2), inset 0 -2px 0 rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #ff83c3 0%, #ff1493 100%);
+}
+
+.button:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(255, 105, 180, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2),
+        inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #ff1493 0%, #ff69b4 100%);
+}
+
+/* Variant styles */
+.primary {
+    /* Default styles already applied */
+}
+
+.secondary {
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+}
+
+.collect {
+    background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+}
+
+.buy {
+    background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+    color: #000;
+}
+
+@media screen and (min-width: 1200px) {
+    .button {
+        font-size: 1.2rem;
+        padding: 1.1rem 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .button {
+        width: 100%;
+        font-size: 0.9rem;
+        padding: 0.8rem 1.5rem;
+    }
+}

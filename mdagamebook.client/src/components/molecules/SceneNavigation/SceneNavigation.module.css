@@ -1,0 +1,63 @@
+.navigation {
+    display: flex;
+    gap: 2rem;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.navigationMultiple {
+    width: 100%;
+    padding: 0.5rem;
+}
+
+.singleLink {
+    display: flex;
+    align-items: center;
+}
+
+.multipleLinks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.continueButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: absolute;
+    bottom: 3.5rem; /* Adjust this value to position it more up */
+    right: -1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.continueTriangle {
+    width: 32px;
+    height: 32px;
+    opacity: 0.9;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.continueButton:hover .continueTriangle {
+    transform: translateX(8px) scale(1.1);
+    opacity: 1;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))
+        drop-shadow(0 0 6px rgba(255, 255, 255, 0.2));
+}
+
+.continueButton:active .continueTriangle {
+    transform: translateX(4px) scale(0.95);
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+    .navigation {
+        margin-top: 0.5rem;
+    }
+}

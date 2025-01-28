@@ -1,0 +1,29 @@
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #1a1a1a;
+  opacity: 1;
+  transition: background 0.5s ease-in-out;
+}
+
+.transitionOut {
+  z-index: 2;
+  animation: fadeOut 0.5s ease-in-out forwards;
+}
+
+.transitionIn {
+  z-index: 3;
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+} 

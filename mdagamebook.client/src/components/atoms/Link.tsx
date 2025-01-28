@@ -15,7 +15,7 @@ const StyledLink = styled(RouterLink)`
     font-family: 'Staatliches', system-ui;
     color: #ffffff;
     text-decoration: none;
-    font-size: 1.4rem;
+    font-size: 1rem; // Reduced font size
     padding: 0.9rem 2rem;
     background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
     border: none;
@@ -64,13 +64,13 @@ const StyledLink = styled(RouterLink)`
     }
 
     @media screen and (min-width: 1200px) {
-        font-size: 3rem;
+        font-size: 2rem; // Reduced font size
         padding: 1.1rem 2.5rem;
     }
 
     @media (max-width: 768px) {
         width: 100%;
-        font-size: 1.3rem;
+        font-size: 0.9rem; // Reduced font size
         padding: 0.8rem 1.5rem;
     }
 `

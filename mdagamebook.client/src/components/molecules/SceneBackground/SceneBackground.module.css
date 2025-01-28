@@ -1,0 +1,43 @@
+.sceneBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.backgroundImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
+}
+
+.backgroundImageHidden {
+  opacity: 0;
+}
+
+.transitionOut {
+  z-index: 2;
+  animation: fadeOut 0.5s ease-in-out forwards;
+}
+
+.transitionIn {
+  z-index: 3;
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+} 

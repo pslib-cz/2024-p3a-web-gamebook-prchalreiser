@@ -1,115 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect, useRef, useCallback } from "react";
-import styles from "./Scene.module.css";
-import nextButton from "../assets/nextbutton.svg";
-import homeButton from "../assets/homebutton.svg";
-
-import Link from "../components/Link"; // Adjust the import path as necessary
+import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import PlayerStats from "../components/PlayerStats";
 import { useScene } from "../contexts/SceneContext";
 import { API_URL } from "../config/env";
-
-interface SceneData {
-  id: number;
-  name: string;
-  description: string;
-  items: string;
-  backgroundImageUrl: string;
-  hasRequiredItem: boolean;
-  hasShop: boolean;
-  hasMinigame: boolean;
-}
-
-interface Link {
-  linkID: number;
-  fromLocationID: number;
-  toLocationID: number;
-  requiredItemId: number | null;
-  name: string | null;
-  toLocation: {
-    locationID: number;
-    name: string;
-  };
-}
-
-interface PreloadedImages {
-  [key: number]: HTMLImageElement;
-}
-
-interface SceneBufferProps {
-  sceneData: SceneData | null;
-  isActive: boolean;
-  isTransitioning: boolean;
-  className?: string;
-}
-
-interface ShopItem {
-  shopItemID: number;
-  itemID: number;
-  price: number;
-  quantity: number;
-  item: {
-    name: string;
-    description: string;
-  };
-}
-
-interface Shop {
-  shopID: string;
-  locationID: number;
-  shopItems: ShopItem[];
-}
-
-interface Minigame {
-  minigameID: string;
-  locationID: number;
-  description: string;
-  type: string;
-  isCompleted: boolean;
-  playerScore: number;
-  computerScore: number;
-  opponentName: string;
-  winLocationID: number;
-  loseLocationID: number;
-  number1?: string;
-  number2?: string;
-}
-
-interface RPSResult {
-  playerChoice: string;
-  computerChoice: string;
-  result: string;
-  playerScore: number;
-  computerScore: number;
-  isCompleted: boolean;
-}
-
-const truncateText = (text: string, maxLength: number) => {
-  if (text.length <= maxLength) return text;
-  return text.substring(0, maxLength) + "...";
-};
-
-const SceneBuffer: React.FC<SceneBufferProps> = ({
-  sceneData,
-  isActive,
-  className,
-}) => {
-  if (!sceneData) return null;
-
-  return (
-    <div className={`${styles.sceneBuffer} ${className || ""}`}>
-      <img
-        className={`${styles.backgroundImage} ${!isActive ? styles.backgroundImageHidden : ""
-          }`}
-        src={sceneData.backgroundImageUrl}
-        alt={sceneData.name}
-        loading="eager"
-        draggable={false}
-      />
-    </div>
-  );
-};
+import SceneTemplate from "../components/templates/SceneTemplate/SceneTemplate";
+import { SceneData, Link, ShopData, Minigame } from '../types';
 
 const Scene = () => {
   const { sceneId } = useParams<{ sceneId: string }>();
@@ -117,34 +12,24 @@ const Scene = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [hasItem, setHasItem] = useState(false);
-  const { token, logout } = useAuth();
   const [links, setLinks] = useState<Link[]>([]);
-  const navigate = useNavigate();
-
-  const containerRef = useRef<HTMLDivElement>(null);
-
+  const [shop, setShop] = useState<ShopData | null>(null);
+  const [minigame, setMinigame] = useState<Minigame | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [currentSceneBuffer, setCurrentSceneBuffer] =
-    useState<SceneData | null>(null);
-  const [nextSceneBuffer, setNextSceneBuffer] = useState<SceneData | null>(
-    null
-  );
+  const [currentSceneBuffer, setCurrentSceneBuffer] = useState<SceneData | null>(null);
+  const [nextSceneBuffer, setNextSceneBuffer] = useState<SceneData | null>(null);
+  const [isPortrait, setIsPortrait] = useState(window.innerHeight > window.innerWidth);
+
+  const { token } = useAuth();
+  const navigate = useNavigate();
   const {
     getSceneData,
     preloadNextScenes,
     getShopData,
-    purchaseItem,
     getMinigameData,
     playRPS,
     getPlayerStats,
   } = useScene();
-
-  const [shop, setShop] = useState<Shop | null>(null);
-  const [minigame, setMinigame] = useState<Minigame | null>(null);
-
-  const [isPortrait, setIsPortrait] = useState(
-    window.innerHeight > window.innerWidth
-  );
 
   useEffect(() => {
     const handleResize = () => {
@@ -160,8 +45,7 @@ const Scene = () => {
       setLoading(true);
       const { scene, links } = await getSceneData(sceneId!);
       setSceneData(scene);
-      setLinks(links as Link[]);
-      // Preload next scenes immediately
+      setLinks(links);
       preloadNextScenes(links);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unexpected error");
@@ -174,7 +58,7 @@ const Scene = () => {
     if (sceneId) {
       fetchData();
     }
-  }, [sceneId, token, logout]);
+  }, [sceneId]);
 
   useEffect(() => {
     const checkForItem = async () => {
@@ -197,7 +81,7 @@ const Scene = () => {
     checkForItem();
   }, [sceneId, token]);
 
-  const collectItem = async () => {
+  const handleCollectItem = async () => {
     try {
       const response = await fetch(
         `${API_URL}/api/Locations/${sceneId}/collect-item`,
@@ -218,58 +102,19 @@ const Scene = () => {
 
       setHasItem(true);
       alert(data.message);
-
-      // Refresh the scene data after collecting the item
       fetchData();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to collect item");
     }
   };
 
-  const preloadImages = useCallback(async () => {
-    if (!links || !links.length) return;
-
-    const newPreloadedImages: PreloadedImages = {};
-
-    for (const link of links) {
-      try {
-        const response = await fetch(
-          `${API_URL}/api/Locations/${link.toLocation.locationID}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        const sceneData = await response.json();
-
-        if (sceneData.backgroundImageUrl) {
-          const img = new Image();
-          img.src = sceneData.backgroundImageUrl;
-          await new Promise((resolve, reject) => {
-            img.onload = resolve;
-            img.onerror = reject;
-          });
-          newPreloadedImages[link.toLocation.locationID] = img;
-        }
-      } catch (error) {
-        console.error("Failed to preload image:", error);
-      }
-    }
-  }, [links, token]);
-
-  useEffect(() => {
-    preloadImages();
-  }, [sceneData, preloadImages]);
-
   const handleNavigation = useCallback(
-    async (path: string) => {
-      const nextSceneId = parseInt(path.split("/").pop() || "");
-
+    async (locationId: number) => {
       try {
         setIsTransitioning(true);
 
-        // Parallel loading of scene data, next image, and player stats
         const [{ scene: nextSceneData }, playerStats] = await Promise.all([
-          getSceneData(nextSceneId.toString()),
+          getSceneData(locationId.toString()),
           getPlayerStats(),
           new Promise((resolve, reject) => {
             const img = new Image();
@@ -286,10 +131,10 @@ const Scene = () => {
         await new Promise((resolve) => requestAnimationFrame(resolve));
         await new Promise((resolve) => setTimeout(resolve, 500));
 
-        navigate(path, { replace: true });
+        navigate(`/scene/${locationId}`, { replace: true });
       } catch (error) {
         console.error("Navigation failed:", error);
-        navigate(path);
+        navigate(`/scene/${locationId}`);
       } finally {
         setIsTransitioning(false);
         setCurrentSceneBuffer(null);
@@ -334,10 +179,7 @@ const Scene = () => {
         throw new Error(data.message || 'Purchase failed');
       }
 
-      // Show success message
       alert(data.message);
-
-      // Refresh shop data to update quantities
       const updatedShop = await getShopData(sceneId!);
       setShop(updatedShop);
 
@@ -346,354 +188,66 @@ const Scene = () => {
     }
   };
 
-  const renderDescription = () => {
-    if (!sceneData) return null;
-
-    // If there's no description, don't render anything
-    if (!sceneData.description) return null;
-
-    // Only truncate on mobile landscape
-    if (window.matchMedia("(max-width: 768px) and (orientation: landscape)").matches) {
-      return truncateText(sceneData.description, 300);
+  const handlePlayRPS = async (minigameId: string, choice: string) => {
+    const result = await playRPS(minigameId, choice);
+    if (result.isCompleted) {
+      const targetLocationId = result.playerScore >= 3 ? minigame.winLocationID : minigame.loseLocationID;
+      navigate(`/scene/${targetLocationId}`);
     }
-    return sceneData.description;
+    return result;
   };
 
-  const RPSGame = ({ minigame }: { minigame: Minigame }) => {
-    const [result, setResult] = useState<RPSResult | null>(null);
-    const [loading, setLoading] = useState(false);
-    const [gameState, setGameState] = useState({
-      playerScore: minigame.playerScore,
-      computerScore: minigame.computerScore,
-      isCompleted: minigame.isCompleted
-    });
-    const { playRPS } = useScene();
+  const handlePlayNumberGuess = async (numbers: { number1: string; number2: string }) => {
+    try {
+      const response = await fetch(`${API_URL}/api/Minigames/${minigame.minigameID}/play-numbers`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          number1: parseInt(numbers.number1),
+          number2: parseInt(numbers.number2)
+        })
+      });
 
-    const handleChoice = async (choice: string) => {
-      if (loading || gameState.isCompleted) return;
-
-      try {
-        setLoading(true);
-        const result = await playRPS(minigame.minigameID, choice);
-        setResult(result);
-
-        // Update game state with new scores
-        setGameState({
-          playerScore: result.playerScore,
-          computerScore: result.computerScore,
-          isCompleted: result.isCompleted
-        });
-
-        if (result.isCompleted) {
-          // Game is over, handle navigation based on win/lose
-          const targetLocationId = result.playerScore >= 3 ? minigame.winLocationID : minigame.loseLocationID;
-          navigate(`/scene/${targetLocationId}`);
-        }
-      } catch (error) {
-        console.error("Failed to play:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    return (
-      <div className={styles.minigameWrapper}>
-        <div className={styles.minigameContainer}>
-          <p className={styles.minigameDescription}>{minigame.description}</p>
-          <div className={styles.scoreBoard}>
-            <div>
-              <p>You</p>
-              <p>{gameState.playerScore}</p>
-            </div>
-            <div>
-              <p>{minigame.opponentName}</p>
-              <p>{gameState.computerScore}</p>
-            </div>
-          </div>
-          {result && !gameState.isCompleted && (
-            <div className={styles.roundResult}>
-              <p>Round {result.result.toUpperCase()}</p>
-            </div>
-          )}
-          {!gameState.isCompleted && !loading && (
-            <div className={styles.choices}>
-              <button onClick={() => handleChoice("rock")} disabled={loading}>
-                Rock
-              </button>
-              <button onClick={() => handleChoice("paper")} disabled={loading}>
-                Paper
-              </button>
-              <button onClick={() => handleChoice("scissors")} disabled={loading}>
-                Scissors
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  };
-
-  const NumberGuessGame = ({ minigame }: { minigame: Minigame }) => {
-    const [numbers, setNumbers] = useState({ number1: '', number2: '' });
-    const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
-    const { token } = useAuth();
-
-    const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
-      if (loading) return;
-
-      try {
-        setLoading(true);
-        const response = await fetch(`${API_URL}/api/Minigames/${minigame.minigameID}/play-numbers`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            number1: parseInt(numbers.number1),
-            number2: parseInt(numbers.number2)
-          })
-        });
-
-        if (!response.ok) {
-          throw new Error('Nepodařilo se odeslat čísla');
-        }
-
-        const result = await response.json();
-        const targetLocationId = result.isCorrect ? minigame.winLocationID : minigame.loseLocationID;
-        navigate(`/scene/${targetLocationId}`);
-      } catch (error) {
-        console.error('Chyba při hraní:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    return (
-      <div className={styles.minigameWrapper}>
-        <div className={styles.minigameContainer}>
-          <p className={styles.minigameDescription}>{minigame.description}</p>
-          <form onSubmit={handleSubmit} className={styles.numberGuessForm}>
-            <div className={styles.numberInputs}>
-              <input
-                type="number"
-                value={numbers.number1}
-                onChange={(e) => setNumbers(prev => ({ ...prev, number1: e.target.value }))}
-                placeholder="První číslo"
-                required
-              />
-              <input
-                type="number"
-                value={numbers.number2}
-                onChange={(e) => setNumbers(prev => ({ ...prev, number2: e.target.value }))}
-                placeholder="Druhé číslo"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className={styles.numberGuessButton}
-            >
-              {loading ? 'Odesílám...' : 'Potvrdit čísla'}
-            </button>
-          </form>
-        </div>
-      </div>
-    );
+      const result = await response.json();
+      const targetLocationId = result.isCorrect ? minigame.winLocationID : minigame.loseLocationID;
+      navigate(`/scene/${targetLocationId}`);
+    } catch (error) {
+      console.error('Failed to play:', error);
+    }
   };
 
   if (loading) {
-    return <div className={styles.loading}>Loading your adventure...</div>;
+    return <div>Loading your adventure...</div>;
   }
 
   if (error) {
-    return <div className={styles.error}>{error}</div>;
+    return <div>{error}</div>;
   }
 
   if (!sceneData) {
-    return <div className={styles.error}>No scene data found</div>;
+    return <div>No scene data found</div>;
   }
 
-  const renderNavigation = () => {
-    if (links.length === 1) {
-      const link = links[0];
-      return (
-        <button
-          className={styles.continueButton}
-          onClick={() =>
-            handleNavigation(`/scene/${link.toLocation.locationID}`)
-          }
-          aria-label={link.name || "Continue to next scene"}
-        >
-          {link.name ? (
-            <span className={styles.linkName}>{link.name}</span>
-          ) : (
-            <img
-              src={nextButton}
-              alt="Next"
-              className={styles.continueTriangle}
-            />
-          )}
-        </button>
-      );
-    }
-
-    return (
-      <div className={styles.multipleChoices}>
-        {links.map((link) => (
-          <Link
-            key={link.linkID}
-            href={`/scene/${link.toLocation.locationID}`}
-            className={styles.choiceButton}
-            onClick={() =>
-              handleNavigation(`/scene/${link.toLocation.locationID}`)
-            }
-          >
-            {link.name || `Go to ${link.toLocation.name}`}
-          </Link>
-        ))}
-      </div>
-    );
-  };
-
   return (
-    <div ref={containerRef} className={styles.container}>
-      <PlayerStats />
-      <button
-        className={styles.homeButton}
-        onClick={() => navigate("/")}
-        aria-label="Return to home"
-      >
-        <img src={homeButton} alt="Home" />
-      </button>
-
-      <SceneBuffer
-        sceneData={sceneData}
-        isActive={!isTransitioning}
-        isTransitioning={isTransitioning}
-      />
-
-      {isTransitioning && (
-        <>
-          <SceneBuffer
-            sceneData={currentSceneBuffer}
-            isActive={false}
-            isTransitioning={true}
-            className={styles.transitionOut}
-          />
-          <SceneBuffer
-            sceneData={nextSceneBuffer}
-            isActive={true}
-            isTransitioning={true}
-            className={styles.transitionIn}
-          />
-        </>
-      )}
-
-      {/* Shop content */}
-      {shop && (
-        <div className={styles.sceneContentWrapper}>
-          <div className={styles.shopWrapper}>
-            <div className={styles.shopContainer}>
-              <h2 className={styles.shopTitle}>Shop</h2>
-              <div className={styles.shopItems}>
-                {shop.shopItems.map((item) => (
-                  <div key={item.shopItemID} className={styles.shopItem}>
-                    <h3>{item.item.name}</h3>
-                    <p>
-                      {window.matchMedia("(max-width: 768px) and (orientation: landscape)").matches
-                        ? truncateText(item.item.description, 50)
-                        : item.item.description}
-                    </p>
-                    <p className={styles.itemPrice}>
-                      {item.price} coins
-                      {item.quantity > 0 && ` (${item.quantity})`}
-                    </p>
-                    <button
-                      onClick={() => handlePurchase(item.shopItemID)}
-                      className={styles.buyButton}
-                      disabled={item.quantity === 0}
-                    >
-                      {item.quantity === 0 ? "Sold Out" : "Buy"}
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-          {/* Add navigation below shop */}
-          {links.length === 1 ? (
-            <div className={styles.navigation}>
-              {sceneData.hasRequiredItem && !hasItem && (
-                <button className={styles.collectButton} onClick={collectItem}>
-                  Sebrat item
-                </button>
-              )}
-              {renderNavigation()}
-            </div>
-          ) : (
-            <div className={styles.navigationMultiple}>
-              {sceneData.hasRequiredItem && !hasItem && (
-                <button className={styles.collectButton} onClick={collectItem}>
-                  Sebrat item
-                </button>
-              )}
-              {renderNavigation()}
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Regular scene content */}
-      {!shop && sceneData.description && (
-        <div className={styles.sceneContentWrapper}>
-          <div className={styles.textBoxMultiple}>
-            <div className={styles.description}>
-              {renderDescription()}
-            </div>
-            {links.length === 1 && (
-              <div className={styles.navigation}>
-                {sceneData.hasRequiredItem && !hasItem && (
-                  <button className={styles.collectButton} onClick={collectItem}>
-                    Sebrat item
-                  </button>
-                )}
-                {renderNavigation()}
-              </div>
-            )}
-          </div>
-          {links.length > 1 && (
-            <div className={styles.navigationMultiple}>
-              {sceneData.hasRequiredItem && !hasItem && (
-                <button className={styles.collectButton} onClick={collectItem}>
-                  Sebrat item
-                </button>
-              )}
-              {renderNavigation()}
-            </div>
-          )}
-        </div>
-      )}
-
-      {minigame && (
-        minigame.type === "RPS" ? (
-          <RPSGame minigame={minigame} />
-        ) : minigame.type === "NUMBERS" ? (
-          <NumberGuessGame minigame={minigame} />
-        ) : null
-      )}
-
-      {isPortrait && (
-        <div className={styles.rotateDevice}>
-          <div className={styles.rotateMessage}>
-            Please rotate your device to landscape mode for the best experience
-          </div>
-        </div>
-      )}
-    </div>
+    <SceneTemplate
+      sceneData={sceneData}
+      links={links}
+      shop={shop}
+      minigame={minigame}
+      isPortrait={isPortrait}
+      isTransitioning={isTransitioning}
+      currentSceneBuffer={currentSceneBuffer}
+      nextSceneBuffer={nextSceneBuffer}
+      hasItem={hasItem}
+      onNavigate={handleNavigation}
+      onCollectItem={handleCollectItem}
+      onPurchase={handlePurchase}
+      onPlayRPS={handlePlayRPS}
+      onPlayNumberGuess={handlePlayNumberGuess}
+    />
   );
 };
 
