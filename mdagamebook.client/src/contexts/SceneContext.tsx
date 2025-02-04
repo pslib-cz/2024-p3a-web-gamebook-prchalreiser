@@ -75,10 +75,6 @@ interface PlayerStats {
     coins: number;
 }
 
-interface ImageCache {
-    [url: string]: boolean;
-}
-
 interface SceneContextType {
     getSceneData: (sceneId: string) => Promise<{ scene: SceneData; links: Link[] }>;
     preloadNextScenes: (links: Link[]) => Promise<void>;
@@ -100,7 +96,6 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const [shopCache, setShopCache] = useState<{ [key: string]: Shop }>({});
     const [playerStatsCache, setPlayerStatsCache] = useState<PlayerStats | null>(null);
     const [playerStatsVersion, setPlayerStatsVersion] = useState(0);
-    const [imageCache, setImageCache] = useState<ImageCache>({});
     const { token } = useAuth();
 
     const fetchSceneData = async (sceneId: string) => {
@@ -123,32 +118,15 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         return { scene, links };
     };
 
-    const preloadImage = useCallback(async (url: string): Promise<void> => {
-        if (imageCache[url]) return;
-
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.onload = () => {
-                setImageCache(prev => ({ ...prev, [url]: true }));
-                resolve();
-            };
-            img.onerror = reject;
-            img.src = url;
-        });
-    }, [imageCache]);
-
     const getSceneData = useCallback(async (sceneId: string) => {
         const now = Date.now();
         const cached = sceneCache[sceneId];
 
         if (cached && now - cached.timestamp < CACHE_DURATION) {
-            await preloadImage(cached.scene.backgroundImageUrl);
             return { scene: cached.scene, links: cached.links };
         }
 
         const { scene, links } = await fetchSceneData(sceneId);
-        
-        await preloadImage(scene.backgroundImageUrl);
 
         setSceneCache(prev => ({
             ...prev,
@@ -156,20 +134,17 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         }));
 
         return { scene, links };
-    }, [token, sceneCache, preloadImage]);
+    }, [token, sceneCache]);
 
     const preloadNextScenes = useCallback(async (links: Link[]) => {
-        const preloadPromises = links.map(async link => {
-            const { scene } = await getSceneData(link.toLocation.locationID.toString());
-            return preloadImage(scene.backgroundImageUrl);
-        });
-        
-        Promise.all(preloadPromises).catch(console.error);
-    }, [getSceneData, preloadImage]);
+        const preloadPromises = links.map(link =>
+            getSceneData(link.toLocation.locationID.toString())
+        );
+        await Promise.all(preloadPromises);
+    }, [getSceneData]);
 
     const clearCache = useCallback(() => {
         setSceneCache({});
-        setImageCache({});
     }, []);
 
     const getShopData = useCallback(async (sceneId: string) => {
