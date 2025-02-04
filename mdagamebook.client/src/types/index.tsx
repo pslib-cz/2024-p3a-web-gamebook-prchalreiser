@@ -45,11 +45,11 @@ export interface MinigameBase {
     description: string;
     winLocationID: number;
     loseLocationID: number;
+    opponentName: string;
 }
 
 export interface RPSMinigame extends MinigameBase {
     type: 'RPS';
-    opponentName: string;
     playerScore: number;
     computerScore: number;
     isCompleted: boolean;
@@ -107,6 +107,7 @@ export interface SceneContentProps {
     hasItem: boolean;
     onCollectItem: () => void;
     isPortrait: boolean;
+    minigame: Minigame | null;
 }
 
 export interface SceneNavigationProps {
@@ -144,7 +145,7 @@ export interface SceneProps {
 export interface SceneTemplateProps {
     sceneData: SceneData;
     links: Link[];
-    shop: Shop | null;
+    shop: ShopData | null;
     minigame: Minigame | null;
     isPortrait: boolean;
     isTransitioning: boolean;
@@ -154,7 +155,7 @@ export interface SceneTemplateProps {
     onNavigate: (locationId: number) => void;
     onCollectItem: () => void;
     onPurchase: (itemId: number) => void;
-    onPlayRPS: (minigameId: string, choice: string) => Promise<RPSResult>;
+    onPlayRPS: (minigameId: string, choice: string) => Promise<RPSResult | void>;
     onPlayNumberGuess: (numbers: { number1: string; number2: string }) => Promise<void>;
 }
 

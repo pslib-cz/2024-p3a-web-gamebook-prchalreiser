@@ -41,25 +41,44 @@ const Scene = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      const { scene, links } = await getSceneData(sceneId!);
-      setSceneData(scene);
-      setLinks(links);
-      preloadNextScenes(links);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Unexpected error");
-    } finally {
-      setLoading(false);
-    }
+  const preloadImage = (url: string): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve();
+      img.onerror = reject;
+      img.src = url;
+    });
   };
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const { scene, links } = await getSceneData(sceneId!);
+        
+        // Preload current scene image
+        await preloadImage(scene.backgroundImageUrl);
+        
+        setSceneData(scene);
+        setLinks(links);
+        
+        // Preload all linked scenes' images in the background
+        links.forEach(link => {
+          getSceneData(link.toLocation.locationID.toString())
+            .then(({ scene }) => preloadImage(scene.backgroundImageUrl))
+            .catch(console.error);
+        });
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Unexpected error");
+      } finally {
+        setLoading(false);
+      }
+    };
+
     if (sceneId) {
       fetchData();
     }
-  }, [sceneId]);
+  }, [sceneId, getSceneData]);
 
   useEffect(() => {
     const checkForItem = async () => {
@@ -114,12 +133,14 @@ const Scene = () => {
       try {
         setIsTransitioning(true);
 
-        // Increment scene transitions and update withdrawal every 2 scenes
+        // Get and ensure next scene data and image are fully loaded before proceeding
+        const { scene: nextSceneData } = await getSceneData(locationId.toString());
+
+        // Handle withdrawal logic
         const newTransitions = sceneTransitions + 1;
         setSceneTransitions(newTransitions);
         
         if (newTransitions % 2 === 0) {
-          // Update withdrawal every 2 scenes
           const response = await fetch(`${API_URL}/api/Players/update-withdrawal`, {
             method: 'POST',
             headers: {
@@ -132,20 +153,9 @@ const Scene = () => {
           if (!response.ok) {
             console.error('Failed to update withdrawal');
           } else {
-            // Immediately fetch updated player stats after withdrawal change
             await getPlayerStats();
           }
         }
-
-        const [{ scene: nextSceneData }] = await Promise.all([
-          getSceneData(locationId.toString()),
-          new Promise((resolve, reject) => {
-            const img = new Image();
-            img.onload = resolve;
-            img.onerror = reject;
-            img.src = nextSceneData.backgroundImageUrl;
-          })
-        ]);
 
         setCurrentSceneBuffer(sceneData);
         setNextSceneBuffer(nextSceneData);
@@ -219,7 +229,7 @@ const Scene = () => {
 
   const handlePlayRPS = async (minigameId: string, choice: string) => {
     const result = await playRPS(minigameId, choice);
-    if (result.isCompleted) {
+    if (result.isCompleted && minigame) {
       const targetLocationId = result.playerScore >= 3 ? minigame.winLocationID : minigame.loseLocationID;
       navigate(`/scene/${targetLocationId}`);
     }
@@ -228,6 +238,7 @@ const Scene = () => {
 
   const handlePlayNumberGuess = async (numbers: { number1: string; number2: string }) => {
     try {
+      if (!minigame) return;
       const response = await fetch(`${API_URL}/api/Minigames/${minigame.minigameID}/play-numbers`, {
         method: 'POST',
         headers: {

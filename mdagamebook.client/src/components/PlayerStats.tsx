@@ -17,6 +17,8 @@ const PlayerStats = () => {
     useEffect(() => {
         const loadStats = async () => {
             try {
+                // Keep the old stats while loading new ones
+                setIsLoading(true);
                 const playerStats = await getPlayerStats();
                 setStats(playerStats);
             } catch (err) {
@@ -29,12 +31,11 @@ const PlayerStats = () => {
         loadStats();
     }, [getPlayerStats, playerStatsVersion]);
 
-    // Add a loading state that maintains the same dimensions
+    // Show previous stats while loading instead of null
     if (isLoading && !stats) {
         return (
             <div className={styles.statsContainer}>
                 <div className={`${styles.statBar} ${styles.loading}`}>
-                    {/* Skeleton loading state that matches the layout */}
                     <div className={styles.stat}>
                         <div className={styles.statIcon}>❤️</div>
                         <div className={styles.statValue}>
@@ -43,14 +44,13 @@ const PlayerStats = () => {
                             </div>
                         </div>
                     </div>
-                    {/* Repeat for other stats... */}
+                    {/* Repeat for other stats */}
                 </div>
             </div>
         );
     }
 
-    if (!stats) return null;
-
+    // Keep showing old stats while loading new ones
     return (
         <div className={styles.statsContainer}>
             <div className={styles.statBar}>
@@ -59,11 +59,11 @@ const PlayerStats = () => {
                     <div className={styles.statValue}>
                         <div className={styles.progressBar}>
                             <div
-                                className={`${styles.progress} ${styles.healthBar}`}
-                                style={{ width: `${stats.health}%` }}
+                                className={`${styles.progress} ${styles.healthBar} ${isLoading ? styles.loading : ''}`}
+                                style={{ width: `${stats?.health ?? 0}%` }}
                             />
                         </div>
-                        <span>{stats.health}</span>
+                        <span>{stats?.health ?? 0}</span>
                     </div>
                 </div>
                 <div className={styles.stat}>
@@ -71,11 +71,11 @@ const PlayerStats = () => {
                     <div className={styles.statValue}>
                         <div className={styles.progressBar}>
                             <div
-                                className={`${styles.progress} ${styles.withdrawalBar}`}
-                                style={{ width: `${stats.withdrawal}%` }}
+                                className={`${styles.progress} ${styles.withdrawalBar} ${isLoading ? styles.loading : ''}`}
+                                style={{ width: `${stats?.withdrawal ?? 0}%` }}
                             />
                         </div>
-                        <span>{stats.withdrawal}</span>
+                        <span>{stats?.withdrawal ?? 0}</span>
                     </div>
                 </div>
                 <div className={styles.stat}>
@@ -83,16 +83,16 @@ const PlayerStats = () => {
                     <div className={styles.statValue}>
                         <div className={styles.progressBar}>
                             <div
-                                className={`${styles.progress} ${styles.staminaBar}`}
-                                style={{ width: `${stats.stamina}%` }}
+                                className={`${styles.progress} ${styles.staminaBar} ${isLoading ? styles.loading : ''}`}
+                                style={{ width: `${stats?.stamina ?? 0}%` }}
                             />
                         </div>
-                        <span>{stats.stamina}</span>
+                        <span>{stats?.stamina ?? 0}</span>
                     </div>
                 </div>
                 <div className={`${styles.stat} ${styles.coins}`}>
                     <div className={styles.statIcon}>💰</div>
-                    <span>{stats.coins}</span>
+                    <span>{stats?.coins ?? 0}</span>
                 </div>
             </div>
         </div>
