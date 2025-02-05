@@ -89,14 +89,14 @@ namespace MDAGameBook.Server.Controllers
             if (userPlayer == null)
             {
                 // Create new player if doesn't exist
-                var player = new GameBookASP.GameModels.Player
+                var player = new Player
                 {
                     PlayerID = Guid.NewGuid(),
                     Health = 100,
                     Withdrawal = 0,
                     Stamina = 100,
                     Coins = 0,
-                    LastLocationID = id,
+                    LastLocationID = id,  // Set initial location
                     Inventory = new List<Item>()
                 };
 
@@ -107,15 +107,14 @@ namespace MDAGameBook.Server.Controllers
                 };
 
                 _context.UserPlayers!.Add(userPlayer);
-                await _context.SaveChangesAsync();
             }
             else
             {
                 // Update the player's last location
                 userPlayer.Player.LastLocationID = id;
-                await _context.SaveChangesAsync();
             }
 
+            await _context.SaveChangesAsync();
             return location;
         }
 
@@ -271,12 +270,17 @@ namespace MDAGameBook.Server.Controllers
                 .Include(up => up.Player)
                 .FirstOrDefaultAsync(up => up.UserId == userId);
 
-            if (userPlayer == null)
+            if (userPlayer == null || userPlayer.Player.LastLocationID == -1)
             {
-                return BadRequest("Player not found");
+                return NotFound("No last location found");
             }
 
-            var location = await _context.Locations!.FindAsync(userPlayer.Player.LastLocationID - 1);
+            var location = await _context.Locations!
+                .Include(l => l.Shop)
+                    .ThenInclude(s => s!.ShopItems)
+                        .ThenInclude(si => si.Item)
+                .FirstOrDefaultAsync(l => l.LocationID == userPlayer.Player.LastLocationID);
+
             if (location == null)
             {
                 return NotFound("Last location not found");
