@@ -85,6 +85,11 @@ interface SceneContextType {
     playRPS: (minigameId: string, playerChoice: string) => Promise<RPSResult>;
     getPlayerStats: () => Promise<PlayerStats>;
     playerStatsVersion: number;
+    refreshPlayerStats: () => Promise<void>;
+    currentScene: { scene: SceneData; links: Link[] } | null;
+    preloadedScenes: Map<string, { scene: SceneData; links: Link[] }>;
+    switchToScene: (sceneId: string) => void;
+    loadInitialScene: (sceneId: string) => Promise<void>;
 }
 
 const SceneContext = createContext<SceneContextType | null>(null);
@@ -96,6 +101,8 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const [shopCache, setShopCache] = useState<{ [key: string]: Shop }>({});
     const [playerStatsCache, setPlayerStatsCache] = useState<PlayerStats | null>(null);
     const [playerStatsVersion, setPlayerStatsVersion] = useState(0);
+    const [currentScene, setCurrentScene] = useState<{ scene: SceneData; links: Link[] } | null>(null);
+    const [preloadedScenes] = useState<Map<string, { scene: SceneData; links: Link[] }>>(new Map());
     const { token } = useAuth();
 
     const fetchSceneData = async (sceneId: string) => {
@@ -136,11 +143,118 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         return { scene, links };
     }, [token, sceneCache]);
 
+    const preloadScene = useCallback(async (sceneId: string) => {
+        if (preloadedScenes.has(sceneId)) return;
+
+        try {
+            const [sceneResponse, linksResponse] = await Promise.all([
+                fetch(`${API_URL}/api/Locations/${sceneId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                }),
+                fetch(`${API_URL}/api/Links/from/${sceneId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                })
+            ]);
+
+            if (!sceneResponse.ok || !linksResponse.ok) {
+                throw new Error('Failed to preload scene');
+            }
+
+            const [scene, links] = await Promise.all([
+                sceneResponse.json(),
+                linksResponse.json()
+            ]);
+
+            // Preload the image
+            await new Promise((resolve, reject) => {
+                const img = new Image();
+                img.onload = resolve;
+                img.onerror = reject;
+                img.src = scene.backgroundImageUrl;
+            });
+
+            preloadedScenes.set(sceneId, { scene, links });
+        } catch (error) {
+            console.error('Failed to preload scene:', error);
+        }
+    }, [token, preloadedScenes]);
+
+    const switchToScene = useCallback((sceneId: string) => {
+        const nextScene = preloadedScenes.get(sceneId);
+        if (nextScene) {
+            setCurrentScene(nextScene);
+            // Start preloading the next possible scenes
+            nextScene.links.forEach(link => {
+                preloadScene(link.toLocation.locationID.toString());
+            });
+        }
+    }, [preloadedScenes, preloadScene]);
+
+    const loadInitialScene = useCallback(async (sceneId: string) => {
+        try {
+            // First fetch the scene data directly
+            const [sceneResponse, linksResponse] = await Promise.all([
+                fetch(`${API_URL}/api/Locations/${sceneId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                }),
+                fetch(`${API_URL}/api/Links/from/${sceneId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                })
+            ]);
+
+            if (!sceneResponse.ok || !linksResponse.ok) {
+                throw new Error(`Failed to load scene: ${sceneResponse.statusText}`);
+            }
+
+            // Check if responses have content
+            const sceneText = await sceneResponse.text();
+            const linksText = await linksResponse.text();
+
+            if (!sceneText || !linksText) {
+                throw new Error('Empty response from server');
+            }
+
+            const scene = JSON.parse(sceneText);
+            const links = JSON.parse(linksText);
+
+            // Set as current scene immediately
+            setCurrentScene({ scene, links });
+
+            // Then preload the image and linked scenes in the background
+            const img = new Image();
+            img.src = scene.backgroundImageUrl;
+            
+            // Store in preloaded scenes
+            preloadedScenes.set(sceneId, { scene, links });
+
+            // Start preloading linked scenes
+            links.forEach(link => {
+                preloadScene(link.toLocation.locationID.toString());
+            });
+        } catch (error) {
+            console.error('Failed to load initial scene:', error);
+            throw error;
+        }
+    }, [token, preloadedScenes, preloadScene]);
+
     const preloadNextScenes = useCallback(async (links: Link[]) => {
-        const preloadPromises = links.map(link =>
-            getSceneData(link.toLocation.locationID.toString())
-        );
-        await Promise.all(preloadPromises);
+        const preloadPromises = links.map(async (link) => {
+            const { scene } = await getSceneData(link.toLocation.locationID.toString());
+            
+            // Preload the image
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.onload = resolve;
+                img.onerror = reject;
+                img.src = scene.backgroundImageUrl;
+            });
+        });
+        
+        try {
+            await Promise.all(preloadPromises);
+        } catch (error) {
+            console.error('Failed to preload some scenes:', error);
+        }
     }, [getSceneData]);
 
     const clearCache = useCallback(() => {
@@ -226,6 +340,10 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }, [token]);
 
     const getPlayerStats = useCallback(async () => {
+        if (playerStatsCache) {
+            return playerStatsCache;
+        }
+
         try {
             const response = await fetch(`${API_URL}/api/Players/current`, {
                 headers: {
@@ -235,10 +353,32 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
             if (response.ok) {
                 const stats = await response.json();
+                setPlayerStatsCache(stats);
                 setPlayerStatsVersion(v => v + 1);
                 return stats;
             }
             throw new Error('Failed to fetch player stats');
+        } catch (error) {
+            console.error('Failed to fetch player stats:', error);
+            throw error;
+        }
+    }, [token, playerStatsCache]);
+
+    const refreshPlayerStats = useCallback(async () => {
+        try {
+            const response = await fetch(`${API_URL}/api/Players/current`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                const stats = await response.json();
+                setPlayerStatsCache(stats);
+                setPlayerStatsVersion(v => v + 1);
+            } else {
+                throw new Error('Failed to fetch player stats');
+            }
         } catch (error) {
             console.error('Failed to fetch player stats:', error);
             throw error;
@@ -256,6 +396,11 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             playRPS,
             getPlayerStats,
             playerStatsVersion,
+            refreshPlayerStats,
+            currentScene,
+            preloadedScenes,
+            switchToScene,
+            loadInitialScene,
         }}>
             {children}
         </SceneContext.Provider>

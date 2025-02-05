@@ -4,8 +4,20 @@
   height: 100vh;
   overflow: hidden;
   background: #1a1a1a;
-  opacity: 1;
-  transition: background 0.5s ease-in-out;
+}
+
+.backgroundLayers {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: #1a1a1a;
+}
+
+.mainBackground {
+  z-index: 1;
 }
 
 .transitionOut {

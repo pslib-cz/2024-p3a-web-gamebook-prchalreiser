@@ -52,37 +52,21 @@ const SceneTemplate: React.FC<SceneTemplateProps> = ({
 
             <SceneBackground
                 imageUrl={sceneData.backgroundImageUrl}
-                isActive={!isTransitioning}
                 isTransitioning={isTransitioning}
             />
 
-            {isTransitioning && (
-                <>
-                    <SceneBackground
-                        imageUrl={currentSceneBuffer?.backgroundImageUrl}
-                        isActive={false}
-                        className={styles.transitionOut}
-                    />
-                    <SceneBackground
-                        imageUrl={nextSceneBuffer?.backgroundImageUrl}
-                        isActive={true}
-                        className={styles.transitionIn}
-                    />
-                </>
-            )}
+            <SceneContent
+                description={sceneData.description}
+                links={links}
+                onNavigate={onNavigate}
+                hasRequiredItem={sceneData.hasRequiredItem}
+                hasItem={hasItem}
+                onCollectItem={onCollectItem}
+                isPortrait={isPortrait}
+            />
 
             {shop ? (
                 <Shop items={shop.shopItems} onPurchase={onPurchase} />
-            ) : sceneData.description ? (
-                <SceneContent
-                    description={sceneData.description}
-                    links={links}
-                    onNavigate={onNavigate}
-                    hasRequiredItem={sceneData.hasRequiredItem}
-                    hasItem={hasItem}
-                    onCollectItem={onCollectItem}
-                    isPortrait={isPortrait}
-                />
             ) : null}
 
             {minigame && (
