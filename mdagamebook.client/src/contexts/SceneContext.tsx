@@ -228,7 +228,7 @@ export const SceneProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             preloadedScenes.set(sceneId, { scene, links });
 
             // Start preloading linked scenes
-            links.forEach(link => {
+            links.forEach((link: Link) => {
                 preloadScene(link.toLocation.locationID.toString());
             });
         } catch (error) {

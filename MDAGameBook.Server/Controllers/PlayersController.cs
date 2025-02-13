@@ -219,5 +219,51 @@ namespace MDAGameBook.Server.Controllers
             public int Increase { get; set; }
         }
 
+        [HttpPost("update-stats")]
+        public async Task<ActionResult> UpdateStats([FromBody] UpdateStatsRequest request)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var userPlayer = await _context.UserPlayers!
+                .Include(up => up.Player)
+                .FirstOrDefaultAsync(up => up.UserId == userId);
+
+            if (userPlayer?.Player == null)
+            {
+                return NotFound("Player not found");
+            }
+
+            // Update withdrawal if specified
+            if (request.WithdrawalChange.HasValue)
+            {
+                userPlayer.Player.Withdrawal = Math.Min(100, Math.Max(0, 
+                    userPlayer.Player.Withdrawal + request.WithdrawalChange.Value));
+            }
+
+            // Update stamina if specified
+            if (request.StaminaChange.HasValue)
+            {
+                userPlayer.Player.Stamina = Math.Min(100, Math.Max(0, 
+                    userPlayer.Player.Stamina + request.StaminaChange.Value));
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new { 
+                withdrawal = userPlayer.Player.Withdrawal,
+                stamina = userPlayer.Player.Stamina
+            });
+        }
+
+        public class UpdateStatsRequest
+        {
+            public int? WithdrawalChange { get; set; }
+            public int? StaminaChange { get; set; }
+        }
+
     }
 }

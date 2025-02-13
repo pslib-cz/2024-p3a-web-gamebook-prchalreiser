@@ -104,13 +104,32 @@ const Scene = () => {
   }, [sceneId, currentScene, getMinigameData]);
 
   const handleNavigation = useCallback(async (locationId: number) => {
-    setIsTransitioning(true);
-    setShop(null);
-    switchToScene(locationId.toString());
-    navigate(`/scene/${locationId}`, { replace: true });
-    await new Promise(resolve => setTimeout(resolve, 300));
-    setIsTransitioning(false);
-  }, [navigate, switchToScene]);
+    try {
+      // Increase withdrawal by 1 when moving to a new scene
+      await fetch(`${API_URL}/api/Players/update-stats`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          withdrawalChange: 1
+        })
+      });
+
+      setIsTransitioning(true);
+      setShop(null);
+      switchToScene(locationId.toString());
+      navigate(`/scene/${locationId}`, { replace: true });
+      await Promise.all([
+        new Promise(resolve => setTimeout(resolve, 300)),
+        refreshPlayerStats() // Refresh stats to show new withdrawal value
+      ]);
+      setIsTransitioning(false);
+    } catch (error) {
+      console.error('Failed to update withdrawal:', error);
+    }
+  }, [navigate, switchToScene, token, refreshPlayerStats]);
 
   const handleCollectItem = async () => {
     try {
@@ -171,7 +190,6 @@ const Scene = () => {
 
   const handlePlayRPS = async (minigameId: string, choice: string) => {
     const result = await playRPS(minigameId, choice);
-    // Update the minigame state with new scores
     setMinigame(prevMinigame => ({
         ...prevMinigame!,
         playerScore: result.playerScore,
@@ -180,6 +198,19 @@ const Scene = () => {
     }));
     
     if (result.isCompleted) {
+        // Decrease stamina by 20 when minigame is completed
+        await fetch(`${API_URL}/api/Players/update-stats`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                staminaChange: -20
+            })
+        });
+        
+        await refreshPlayerStats(); // Refresh stats to show new stamina value
         const targetLocationId = result.playerScore >= 3 ? minigame.winLocationID : minigame.loseLocationID;
         navigate(`/scene/${targetLocationId}`);
     }
@@ -201,6 +232,20 @@ const Scene = () => {
       });
 
       const result = await response.json();
+
+      // Decrease stamina by 20 after playing number guess game
+      await fetch(`${API_URL}/api/Players/update-stats`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          staminaChange: -20
+        })
+      });
+
+      await refreshPlayerStats(); // Refresh stats to show new stamina value
       const targetLocationId = result.isCorrect ? minigame.winLocationID : minigame.loseLocationID;
       navigate(`/scene/${targetLocationId}`);
     } catch (error) {
