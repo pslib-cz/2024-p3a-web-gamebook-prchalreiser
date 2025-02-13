@@ -171,9 +171,17 @@ const Scene = () => {
 
   const handlePlayRPS = async (minigameId: string, choice: string) => {
     const result = await playRPS(minigameId, choice);
+    // Update the minigame state with new scores
+    setMinigame(prevMinigame => ({
+        ...prevMinigame!,
+        playerScore: result.playerScore,
+        computerScore: result.computerScore,
+        isCompleted: result.isCompleted
+    }));
+    
     if (result.isCompleted) {
-      const targetLocationId = result.playerScore >= 3 ? minigame.winLocationID : minigame.loseLocationID;
-      navigate(`/scene/${targetLocationId}`);
+        const targetLocationId = result.playerScore >= 3 ? minigame.winLocationID : minigame.loseLocationID;
+        navigate(`/scene/${targetLocationId}`);
     }
     return result;
   };
