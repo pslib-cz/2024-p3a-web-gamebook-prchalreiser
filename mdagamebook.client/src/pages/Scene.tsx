@@ -105,6 +105,7 @@ const Scene = () => {
 
   const handleNavigation = useCallback(async (locationId: number) => {
     setIsTransitioning(true);
+    setShop(null);
     switchToScene(locationId.toString());
     navigate(`/scene/${locationId}`, { replace: true });
     await new Promise(resolve => setTimeout(resolve, 300));
