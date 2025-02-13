@@ -1,44 +1,31 @@
 import React from 'react';
-import ShopItem from '../../molecules/ShopItem/ShopItem';
 import styles from './Shop.module.css';
-
-interface ShopItemType {
-  shopItemID: number;
-  itemID: number;
-  price: number;
-  quantity: number;
-  item: {
-    name: string;
-    description: string;
-  };
-}
+import { ShopItem } from '../../../types';
 
 interface ShopProps {
-  items: ShopItemType[];
-  onPurchase: (itemId: number) => void;
+    items: ShopItem[];
+    onPurchase: (itemId: number) => void;
 }
 
 const Shop: React.FC<ShopProps> = ({ items, onPurchase }) => {
-  return (
-    <div className={styles.shopWrapper}>
-      <div className={styles.shopContainer}>
-        <h2 className={styles.shopTitle}>Shop</h2>
-        <div className={styles.shopItems}>
-          {items.map((item) => (
-            <ShopItem
-              key={item.shopItemID}
-              id={item.shopItemID}
-              name={item.item.name}
-              description={item.item.description}
-              price={item.price}
-              quantity={item.quantity}
-              onPurchase={onPurchase}
-            />
-          ))}
+    return (
+        <div className={styles.shopGrid}>
+            {items.map((item) => (
+                <div key={item.shopItemID} className={styles.shopItem}>
+                    <div className={styles.itemName}>{item.item.name}</div>
+                    <div className={styles.itemDescription}>{item.item.description}</div>
+                    <div className={styles.itemPrice}>{item.price} coins</div>
+                    <button
+                        className={styles.buyButton}
+                        onClick={() => onPurchase(item.shopItemID)}
+                        disabled={item.quantity === 0}
+                    >
+                        {item.quantity === 0 ? 'Sold Out' : 'Buy'}
+                    </button>
+                </div>
+            ))}
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Shop; 

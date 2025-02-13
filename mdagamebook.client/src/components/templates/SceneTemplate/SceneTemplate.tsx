@@ -65,9 +65,12 @@ const SceneTemplate: React.FC<SceneTemplateProps> = ({
                 isPortrait={isPortrait}
             />
 
-            {shop ? (
-                <Shop items={shop.shopItems} onPurchase={onPurchase} />
-            ) : null}
+            {shop && (
+                <div className={styles.shopContainer}>
+                    <div className={styles.shopTitle}>Shop</div>
+                    <Shop items={shop.shopItems} onPurchase={onPurchase} />
+                </div>
+            )}
 
             {minigame && (
                 minigame.type === "RPS" ? (
