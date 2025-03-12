@@ -87,7 +87,7 @@ const StartingPage = () => {
                     <Link href="#" onClick={() => { handlePlayClick() }}>
                         {loading ? "Načítání..." : "Hrát"}
                     </Link>
-                    <Link href="/leaderboard">Žebříčky</Link>
+                    <Link href="/login">Správa účtu</Link>
                 </div>
                 <div className={styles.spiralWrapper}>
                     <RainbowSpiral />
