@@ -11,6 +11,8 @@ interface Minigame {
     opponentName: string;
     winLocationID: number;
     loseLocationID: number;
+    number1?: string;
+    number2?: string;
 }
 
 interface Location {
@@ -161,9 +163,14 @@ const LocationsManager = () => {
                 throw new Error(`Failed to ${editingLocation ? 'update' : 'create'} location`);
             }
 
+            // Get the location data from the response
+            const locationResult = editingLocation ?
+                { locationID: editingLocation.locationID } :
+                await response.json();
+
             if (formData.hasMinigame) {
                 const minigameResponse = await fetch(
-                    `${API_URL}/api/Minigames/${editingLocation?.locationID || locationResult.locationID}`,
+                    `${API_URL}/api/Minigames/${locationResult.locationID}`,
                     {
                         method: 'POST',
                         headers: {
@@ -172,7 +179,7 @@ const LocationsManager = () => {
                         },
                         body: JSON.stringify({
                             ...minigameData,
-                            locationID: editingLocation?.locationID || locationResult.locationID,
+                            locationID: locationResult.locationID,
                             type: minigameData.type,
                             number1: minigameData.number1,
                             number2: minigameData.number2
