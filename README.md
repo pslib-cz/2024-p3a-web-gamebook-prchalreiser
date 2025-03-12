@@ -9,9 +9,17 @@
 
 </div>
 
-## 📜 Krátké shnrutí příběhu
+📖 O hře
 
-Kdysi dávno ti tvůj starý kamarád přivezl záhadnou láhev od neznámého obchodníka. Šlo o tajemný nápoj, který vypadal jako směs čehosi fialového a duhového hvězdného prachu. Už první doušek tě katapultoval do neznámých dimenzí. Euforie, kterou vyvolával, byla nepopsatelná: cítil ses, jako bys mohl létat mezi hvězdami, procházet zdmi a rozmlouvat s dávno zapomenutými bohy. Tvůj život se najednou zdál být plný barev, melodií a nekonečných možností.
+Multidimenzionální absťák je interaktivní gamebook, který tě zavede na psychotropní cestu napříč dimenzemi. Tvým cílem je získat zpět tajemný nápoj, který tě kdysi obdařil schopnostmi přesahujícími lidské chápání. Každé rozhodnutí tě zavede na jinou cestu – jen ty rozhoduješ, jak příběh skončí.
+
+🔹 Žánr: Sci-fi, psychedelické dobrodružství🔹 Herní mechanismus: Interaktivní gamebook s RPG prvky🔹 Technologie: .NET Web API, React frontend, perzistentní databáze
+
+🌌 Krátké shrnutí příběhu
+
+Kdysi dávno ti tvůj starý kamarád přivezl záhadnou láhev od neznámého obchodníka. Šlo o tajemný nápoj, který vypadal jako směs čehosi fialového a duhového hvězdného prachu. Už první doušek tě katapultoval do neznámých dimenzí.
+
+Euforie, kterou vyvolával, byla nepopsatelná: cítil ses, jako bys mohl létat mezi hvězdami, procházet zdmi a rozmlouvat s dávno zapomenutými bohy. Tvůj život se najednou zdál být plný barev, melodií a nekonečných možností.
 
 Jenže pak… nápoj došel.
 
@@ -19,47 +27,16 @@ S každým dnem bez něj ses cítil prázdnější. A co hůř, tvůj kamarád, 
 
 Rozhodl ses: najdeš ten nápoj, i kdybys měl procestovat celý vesmír.
 
-## Vytvořte:
+🎮 Herní mechanismy
 
-vlastní implementaci aplikace realizující Gamebook tak, aby celá hra šla hrát, aby vypadala jako gamebook stylu odpovídají tématu gamebooku a aby byla RPG - tedy, aby v ní hráč měl možnost volby, vývoj postavy, změnu stavu herního světa.
+🔸 Nelineární vyprávění – Každé rozhodnutí má dopad na průběh příběhu.🔸 RPG prvky – Inventář, bojové minihry, interakce s postavami.🔸 Dynamická prostředí – Každá dimenze má vlastní pravidla a atmosféru.
 
-### Návrh hry
+🛠️ Technologie
 
--   [x] Vytvoření vlastního příběhu
--   [ ] Návrh mechanik, herní logiky a herních systémů
--   [ ] Vytvoření a příprava grafiky (DALL-E, Flux, SD)
--   [x] Návrh UI (ReadingUI, DecidingUI)
+Tento gamebook je postaven na moderních webových technologiích:
 
-### Backend API pro ukládání info o hře - ASP.NET API
+Backend: .NET Web API s perzistentní databází pro ukládání herních stavů.
 
--   [x] Návrh databáze
--   [x] Připojení databáze do aplikace ASP.NET
--   [x] Návrh struktury API - tedy controllery a REST endpointy
--   [x] Přihlašování uživatelů do aplikace
--   [x] Nahrávání, zpracování a získávání souborů (= obrázků)
+Frontend: React s dynamickými komponentami.
 
-### Frontend (hráč) - React
-
--   [x] Založení aplikace
--   [x] Architektura aplikace
--   [x] Zpracování dat z formuláře
--   [x] Ukládání dat do localStorage
--   [x] Získávání dat z REST API
--   [x] Manipulace s URL pomocí routeru
--   [ ] Centralizace akcí a dat pomocí Contextu a Reduceru
-
-### krmení API daty - součástí herního klienta
-
--   [x] Přihlašovací formulář pro správce - login / identity
--   [x] Správa databáze (CRUD)
-    -   [x] Vytváření nových lokací
-    -   [x] Editace existujících lokací
-    -   [x] Mazání lokací
--   [ ] Správa obrázků
-    -   [x] Nahrávání obrázků na server (upload)
-    -   [ ] Mazání obrázků
-    -   [x] Přiřazování obrázků k lokacím
--   [ ] Správa herních mechanik (?????)
-    -   [ ] Vytváření předmětů
-    -   [ ] Vytváření nepřátel
-    -   [ ] Nastavení obtížnosti
+Databáze: Modely pro hráče, lokace, předměty a minihry.
