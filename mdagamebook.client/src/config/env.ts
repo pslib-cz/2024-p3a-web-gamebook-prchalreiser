@@ -1,5 +1,5 @@
 const DEFAULT_PROTOCOL = "https";
-const DEFAULT_PORT = "51014";
+const DEFAULT_PORT = "443";
 const DEFAULT_HOST = "localhost";
 
 export const API_PROTOCOL =
