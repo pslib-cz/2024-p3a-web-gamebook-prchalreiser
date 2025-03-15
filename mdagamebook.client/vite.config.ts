@@ -40,11 +40,12 @@ if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
     }
 }
 
-const target = env.ASPNETCORE_HTTPS_PORT
-    ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}`
-    : env.ASPNETCORE_URLS
-    ? env.ASPNETCORE_URLS.split(";")[0]
-    : "https://localhost:7260";
+const target =
+    env.REACT_APP_API_URL || env.ASPNETCORE_HTTPS_PORT
+        ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}`
+        : env.ASPNETCORE_URLS
+        ? env.ASPNETCORE_URLS.split(";")[0]
+        : "https://localhost:7260";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -60,6 +61,7 @@ export default defineConfig({
                 target,
                 changeOrigin: true,
                 secure: false,
+                rewrite: (path) => path.replace(/^\/api/, "/api"),
             },
             "/swagger": {
                 target,
