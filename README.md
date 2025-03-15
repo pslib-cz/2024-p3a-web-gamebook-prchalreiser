@@ -9,13 +9,15 @@
 
 </div>
 
-📖 O hře
+## 📖 O hře
 
 Multidimenzionální absťák je interaktivní gamebook, který tě zavede na psychotropní cestu napříč dimenzemi. Tvým cílem je získat zpět tajemný nápoj, který tě kdysi obdařil schopnostmi přesahujícími lidské chápání. Každé rozhodnutí tě zavede na jinou cestu – jen ty rozhoduješ, jak příběh skončí.
 
-🔹 Žánr: Sci-fi, psychedelické dobrodružství🔹 Herní mechanismus: Interaktivní gamebook s RPG prvky🔹 Technologie: .NET Web API, React frontend, perzistentní databáze
+**Žánr**: Sci-fi, psychedelické dobrodružství  
+**Herní mechanismus**: Interaktivní gamebook s RPG prvky  
+**Technologie**: .NET Web API, React frontend, perzistentní databáze  
 
-🌌 Krátké shrnutí příběhu
+## 🌌 Krátké shrnutí příběhu
 
 Kdysi dávno ti tvůj starý kamarád přivezl záhadnou láhev od neznámého obchodníka. Šlo o tajemný nápoj, který vypadal jako směs čehosi fialového a duhového hvězdného prachu. Už první doušek tě katapultoval do neznámých dimenzí.
 
@@ -27,16 +29,16 @@ S každým dnem bez něj ses cítil prázdnější. A co hůř, tvůj kamarád, 
 
 Rozhodl ses: najdeš ten nápoj, i kdybys měl procestovat celý vesmír.
 
-🎮 Herní mechanismy
+## 🎮 Herní mechanismy
 
-🔸 Nelineární vyprávění – Každé rozhodnutí má dopad na průběh příběhu.🔸 RPG prvky – Inventář, bojové minihry, interakce s postavami.🔸 Dynamická prostředí – Každá dimenze má vlastní pravidla a atmosféru.
+🔸 **Nelineární vyprávění** – Každé rozhodnutí má dopad na průběh příběhu.  
+🔸 **RPG prvky** – Inventář, bojové minihry, interakce s postavami.  
+🔸 **Dynamická prostředí** – Každá dimenze má vlastní pravidla a atmosféru  
 
-🛠️ Technologie
+## 🛠️ Technologie
 
 Tento gamebook je postaven na moderních webových technologiích:
 
-Backend: .NET Web API s perzistentní databází pro ukládání herních stavů.
-
-Frontend: React s dynamickými komponentami.
-
-Databáze: Modely pro hráče, lokace, předměty a minihry.
+**Backend**: .NET Web API s perzistentní databází pro ukládání herních stavů.  
+**Frontend**: React s dynamickými komponentami.   
+**Databáze**: Modely pro hráče, lokace, předměty a minihry.  
