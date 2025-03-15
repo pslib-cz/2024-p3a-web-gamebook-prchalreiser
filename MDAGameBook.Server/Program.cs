@@ -73,4 +73,7 @@ app.UseAuthorization();
 app.MapGroup("/api/user").MapIdentityApi<User>();
 app.MapControllers();
 
+// Add SPA fallback routing to handle client-side routing
+app.MapFallbackToFile("index.html");
+
 app.Run();

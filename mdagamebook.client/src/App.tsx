@@ -43,7 +43,9 @@ const router = createBrowserRouter(routes.map(route => ({
       </SceneProvider>
     </AuthProvider>
   )
-})));
+})), {
+  basename: import.meta.env.BASE_URL || '/'
+});
 
 const App = () => {
   return <RouterProvider router={router} />;
