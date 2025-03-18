@@ -28,10 +28,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await fetch(`${API_URL}/api/user/login`, {
+      const response = await fetch(`https://id-45.pslib.cloud/api/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Host": "id-45.pslib.cloud",
+          "Accept": "*/*",
+          "Accept-Encoding": "gzip, deflate, br"
         },
         body: JSON.stringify({ email, password }),
         credentials: "include",
