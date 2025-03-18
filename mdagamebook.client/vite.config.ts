@@ -68,7 +68,7 @@ export default defineConfig({
                     });
                     proxy.on("proxyReq", (proxyReq, req, _res) => {
                         console.log(
-                            "Sending Request to the Target:",
+                            "Sending Request to the Target: " + proxyReq.method,
                             req.method,
                             req.url
                         );
