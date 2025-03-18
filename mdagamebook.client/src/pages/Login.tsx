@@ -32,8 +32,8 @@ const SignInPage = () => {
                 await login(email, password);
             }
         } catch (error) {
-            setError(new Error(isRegistering ? 
-                "Registrace se nezdařila! " + error : 
+            setError(new Error(isRegistering ?
+                "Registrace se nezdařila! " + error :
                 "Nesprávné přihlašovací údaje! " + error
             ));
         } finally {

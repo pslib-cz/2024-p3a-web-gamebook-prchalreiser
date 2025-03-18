@@ -34,6 +34,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
+        credentials: "include",
       });
 
       if (!response.ok) {
@@ -108,6 +109,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           password,
           secured: "abcXYZ", // This is required by the backend
         }),
+        credentials: "include",
       });
 
       if (!registerResponse.ok) {
@@ -133,6 +135,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           coins: 0,
           inventory: [],
         }),
+        credentials: "include",
       });
 
       if (!createPlayerResponse.ok) {
@@ -165,6 +168,7 @@ async function createPlayer(token: string) {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      credentials: "include",
     });
 
     // Only create a new player if one doesn't exist
@@ -182,6 +186,7 @@ async function verifyToken(token: string) {
     headers: {
       Authorization: `Bearer ${token}`,
     },
+    credentials: "include",
   });
 
   if (!response.ok) {

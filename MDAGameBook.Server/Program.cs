@@ -48,13 +48,16 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.SetIsOriginAllowed(origin => new Uri(origin).IsLoopback);
+        builder
+            .AllowAnyOrigin()  // More permissive for development
+            .AllowAnyHeader()
+            .AllowAnyMethod();
     });
 });
 
 var app = builder.Build();
 
-app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed(origin => new Uri(origin).IsLoopback));
+app.UseCors();
 
 if (app.Environment.IsDevelopment())
 {
