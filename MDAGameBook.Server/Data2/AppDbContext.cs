@@ -25,6 +25,43 @@ namespace GameBookASP.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            // Configure Identity tables with correct names
+            builder.Entity<Models.User>(entity =>
+            {
+                entity.ToTable("AspNetUsers");
+            });
+
+            builder.Entity<Models.Role>(entity =>
+            {
+                entity.ToTable("AspNetRoles");
+            });
+
+            builder.Entity<IdentityUserRole<string>>(entity =>
+            {
+                entity.ToTable("AspNetUserRoles");
+            });
+
+            builder.Entity<IdentityUserClaim<string>>(entity =>
+            {
+                entity.ToTable("AspNetUserClaims");
+            });
+
+            builder.Entity<IdentityUserLogin<string>>(entity =>
+            {
+                entity.ToTable("AspNetUserLogins");
+            });
+
+            builder.Entity<IdentityRoleClaim<string>>(entity =>
+            {
+                entity.ToTable("AspNetRoleClaims");
+            });
+
+            builder.Entity<IdentityUserToken<string>>(entity =>
+            {
+                entity.ToTable("AspNetUserTokens");
+            });
+
             var adminRoleId = Guid.NewGuid().ToString();
             builder.Entity<Models.Role>(options =>
             {
